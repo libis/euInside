@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="profile.xsd" useForConfiguration="1" base="base" infoUrl="http://providence.collectiveaccess.org/wiki/DefaultProfile">
-	<profileName>LIDO profiel</profileName>
+	<profileName>LIDO profile</profileName>
 	<profileDescription>Based on LIDO v1.0 standard - www.lido-schema.org/schema/v1.0/lido-v1.0-specification.pdf</profileDescription>
 	<locales>
 	<locale lang="en" country="US">English</locale>
