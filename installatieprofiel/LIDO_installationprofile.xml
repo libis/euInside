@@ -1,0 +1,4709 @@
+<?xml version="1.0" encoding="utf-8"?>
+<profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="profile.xsd" useForConfiguration="1" base="base" infoUrl="http://providence.collectiveaccess.org/wiki/DefaultProfile">
+	<profileName>LIDO profiel</profileName>
+	<profileDescription>Based on LIDO v1.0 standard - www.lido-schema.org/schema/v1.0/lido-v1.0-specification.pdf</profileDescription>
+	<locales>
+	<locale lang="en" country="US">English</locale>
+	</locales>
+	<lists>
+		<list code="objectWorkType_lijst" hierarchical="1" system="0" vocabulary="1">
+			<labels>
+				<label locale="en_US">
+					<name>Object names</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank3" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>			
+				<item idno="MusicalInstrument" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Musical instrument</name_singular>
+							<name_plural>Musical Instruments</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+		<list code="storage_location_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Storage location types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="internal" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Internal depot</name_singular>
+							<name_plural>Internal depot</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="externalDepot" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>External depot</name_singular>
+							<name_plural>External depot</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>
+		</list>
+		<list code="collection_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Collection types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="inHouseCollection" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>In-house collection</name_singular>
+							<name_plural>In-house collections</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="externalCollection" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>External collection</name_singular>
+							<name_plural>External collection</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>
+		</list>		
+		<list code="europeanaType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Europeana type</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank1" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="EuropeanaIMAGE" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>IMAGE</name_singular>
+							<name_plural>IMAGE</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="EuropeanaText" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>TEXT</name_singular>
+							<name_plural>TEXT</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="EuropeanaVIDEO" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>VIDEO</name_singular>
+							<name_plural>VIDEO</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="EuropeanaSOUND" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>SOUND</name_singular>
+							<name_plural>SOUND</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Europeana3D" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>3D</name_singular>
+							<name_plural>3D</name_plural>
+						</label>
+					</labels>
+				</item>							
+			</items>	
+		</list>
+		<list code="language_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Language codes</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank2" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="English" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>en</name_singular>
+							<name_plural>en</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="French" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>fr</name_singular>
+							<name_plural>fr</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Dutch" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>nl</name_singular>
+							<name_plural>nl</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="German" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>de</name_singular>
+							<name_plural>de</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>	
+		</list>
+		<list code="classificationForm_lijst" hierarchical="1" system="0" vocabulary="1">
+			<labels>
+				<label locale="en_US">
+					<name>Classification-Form</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank4" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="PearShaped" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Pear shaped</name_singular>
+							<name_plural>Pear shaped</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="RoundShaped" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Round shaped</name_singular>
+							<name_plural>Round shaped</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+		<list code="classificationFunction_lijst" hierarchical="1" system="0" vocabulary="1">
+			<labels>
+				<label locale="en_US">
+					<name>Classification-Function</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank5" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="religiousObject" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Religious object</name_singular>
+							<name_plural>Religious objects</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+		<list code="classificationStylisticPeriod_lijst" hierarchical="1" system="0" vocabulary="1">
+			<labels>
+				<label locale="en_US">
+					<name>Classification-Stylistic period</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank6" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="EmpireStyle" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Empire style</name_singular>
+							<name_plural>Empire style</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+		<list code="workIDAltType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Identifier types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank7" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>			
+				<item idno="InventoryNumber" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Old number</name_singular>
+							<name_plural>Old numbers</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="archivalNumber" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Archival number</name_singular>
+							<name_plural>Achival numbers</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="otherNumber" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Other number</name_singular>
+							<name_plural>Other numbers</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>	
+		</list>
+		<list code="descriptionType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Description types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank8" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="shortDescription" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Short description</name_singular>
+							<name_plural>Short descriptions</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="scientificDescription" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Scientific description</name_singular>
+							<name_plural>Scientific descriptions</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="conditionState" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Condition description</name_singular>
+							<name_plural>Condition descriptions</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="publicationDescription" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Publication description</name_singular>
+							<name_plural>Publication descriptions</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+		<list code="stateType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>State types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank9" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="originalState" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Original</name_singular>
+							<name_plural>Originals</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="copyState" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Copy</name_singular>
+							<name_plural>Copies</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+		<list code="object_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Object types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="LIDOobject" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Object</name_singular>
+							<name_plural>Objects</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>
+		</list>
+		<list code="occurrence_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Occurrence types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="occurenceEvent" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Event</name_singular>
+							<name_plural>Events</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>
+		</list>
+		<list code="place_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Place types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank10" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="continent" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>continent</name_singular>
+							<name_plural>continents</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="country" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>country</name_singular>
+							<name_plural>countries</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="state" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>area</name_singular>
+							<name_plural>area</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="region" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>region</name_singular>
+							<name_plural>regions</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="city" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>city</name_singular>
+							<name_plural>cities</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="neighborhood" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>province</name_singular>
+							<name_plural>provinces</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>
+		</list>
+		<list code="place_hierarchies" hierarchical="1" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Place hierarchies</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="places" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Place Authority</name_singular>
+							<name_plural>Place Authority</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>
+		</list>		
+		<list code="entity_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Entity types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="person" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Person</name_singular>
+							<name_plural>Persons</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="organisationCorporation" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Organisation / Corporation</name_singular>
+							<name_plural>Organisations / Corporations</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="family" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Family</name_singular>
+							<name_plural>Family</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="group" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Group</name_singular>
+							<name_plural>Group</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="culture" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Culture</name_singular>
+							<name_plural>Culture</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>
+		</list>
+		<list code="entity_label_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Entity label types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank26" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Acronym" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Acronym</name_singular>
+							<name_plural>Acronyms</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="UseFor" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Use for</name_singular>
+							<name_plural>Use for</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Alternative" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Alternative</name_singular>
+							<name_plural>Alternative</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>
+		</list>
+		<list code="object_label_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Object label types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank33" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="UseFor" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Use for</name_singular>
+							<name_plural>Use for</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Alternative" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Alternative</name_singular>
+							<name_plural>Alternative</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>
+		</list>		
+		<list code="collection_label_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Collection label types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank26" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="UseFor" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Use for</name_singular>
+							<name_plural>Use for</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Alternative" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Alternative</name_singular>
+							<name_plural>Alternative</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>
+		</list>
+		<list code="storage_location_types" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Storage location types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank32" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="UseFor" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Use for</name_singular>
+							<name_plural>Use for</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Alternative" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Alternative</name_singular>
+							<name_plural>Alternative</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>
+		</list>		
+		<list code="objectPublishedIDType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Published ID type</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank30" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="publID_local" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>local</name_singular>
+							<name_plural>local</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="publID_Inside" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>euinside</name_singular>
+							<name_plural>euinside</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>
+		</list>
+		<list code="recIDType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Record ID type</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank31" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="recID_local" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>local</name_singular>
+							<name_plural>local</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>
+		</list>	
+		<list code="nationalityActor_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Nationality</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank11" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="nat_Belgian" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Belgian</name_singular>
+							<name_plural>Belgians</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="nat_German" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>German</name_singular>
+							<name_plural>Germans</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="nat_English" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>English</name_singular>
+							<name_plural>English</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>	
+		</list>
+		<list code="resourcePublication_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Resource publication settings</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank25" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="resourcePublPreferred" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Yes, preferred</name_singular>
+							<name_plural>Yes, preferred</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="resourcePublAlternative" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Yes, alternative</name_singular>
+							<name_plural>Yes, alternative</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="resourcePublNo" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>No</name_singular>
+							<name_plural>No</name_plural>
+						</label>
+					</labels>
+				</item>			
+			</items>	
+		</list>		
+		<list code="genderActor_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Gender list</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank12" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="gender_female" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Female</name_singular>
+							<name_plural>Females</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="gender_male" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Male</name_singular>
+							<name_plural>Males</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="gender_unknown" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Unknown</name_singular>
+							<name_plural>Unknown</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>	
+		</list>
+		<list code="subjectConcept_lijst" hierarchical="1" system="0" vocabulary="1">
+			<labels>
+				<label locale="en_US">
+					<name>Subject concept list</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank13" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Allegory" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Allegory</name_singular>
+							<name_plural>Allegories</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+		<list code="occurrencesEventType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>occurrences type list</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank14" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="exhibitionEvent" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Exhibition</name_singular>
+							<name_plural>Exhibitions</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="historicEvent" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Historic event</name_singular>
+							<name_plural>Historic events</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>
+		</list>
+		<list code="occurrencesRoleActor_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>occurrences actor roles</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank15" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="exhibitionCurator" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Exhibition curator</name_singular>
+							<name_plural>Exhibition curators</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="masterOfCeremonies" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Master of ceremonies</name_singular>
+							<name_plural>Master of ceremonies</name_plural>
+						</label>
+					</labels>
+				</item>	
+				<item idno="participant" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Participant</name_singular>
+							<name_plural>Participants</name_plural>
+						</label>
+					</labels>
+				</item>					
+			</items>	
+		</list>
+		<list code="relatedWorkType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Related work types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank16" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="partOf" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>part of</name_singular>
+							<name_plural>parts of</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="studyOf" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Study of</name_singular>
+							<name_plural>Studies of</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="modelOf" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Model of</name_singular>
+							<name_plural>Models of</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="copyOf" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Copy of</name_singular>
+							<name_plural>Copy of</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="relatedTo" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Related to</name_singular>
+							<name_plural>Related to</name_plural>
+						</label>
+					</labels>
+				</item>							
+			</items>	
+		</list>
+		<list code="eventType_lijst" hierarchical="1" system="0" vocabulary="1">
+			<labels>
+				<label locale="en_US">
+					<name>Event types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank17" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventProduction" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Production</name_singular>
+							<name_plural>Production</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventCreation" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Creation</name_singular>
+							<name_plural>Creation</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventAcquisition" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Acquisition</name_singular>
+							<name_plural>Acquisition</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventCollecting" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Collecting</name_singular>
+							<name_plural>Collecting</name_plural>
+						</label>
+					</labels>
+				</item>							
+				<item idno="eventFinding" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Finding</name_singular>
+							<name_plural>Finding</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventEvent" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Event</name_singular>
+							<name_plural>Event</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventActivity" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Activity</name_singular>
+							<name_plural>Activity</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventPartAddition" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Part addition</name_singular>
+							<name_plural>Part addition</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventLoss" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Loss</name_singular>
+							<name_plural>Loss</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventUse" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Use</name_singular>
+							<name_plural>Use</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventTypeCreation" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Type creation</name_singular>
+							<name_plural>Type creation</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventPartRemoval" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Part removal</name_singular>
+							<name_plural>Part removal</name_plural>
+						</label>
+					</labels>
+				</item>	
+				<item idno="eventPartialDestruction" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Partial destruction</name_singular>
+							<name_plural>Partial destruction</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventTypeAssignment" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Type assignment</name_singular>
+							<name_plural>Type assignment</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventDestruction" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Destruction</name_singular>
+							<name_plural>Destruction</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventCompletion" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Completion</name_singular>
+							<name_plural>Completion</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventAttributeAssignment" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Attribute assignment</name_singular>
+							<name_plural>Attribute assignment</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventEndOfExistence" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>End of Existence</name_singular>
+							<name_plural>End of Existence</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventBeginningOfExistence" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Beginning of Existence</name_singular>
+							<name_plural>Beginning of Existence</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventTransformation" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Transformation</name_singular>
+							<name_plural>Transformation</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventPerformance" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Performance</name_singular>
+							<name_plural>Performance</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventExecution" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Execution</name_singular>
+							<name_plural>Execution</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventPlanning" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Planning</name_singular>
+							<name_plural>Planing</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventExcavation" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Excavation</name_singular>
+							<name_plural>Excavation</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventRestoration" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Restoration</name_singular>
+							<name_plural>Restoration</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventMove" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Move</name_singular>
+							<name_plural>Move</name_plural>
+						</label>
+					</labels>
+				</item>	
+				<item idno="eventDesigning" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Designing</name_singular>
+							<name_plural>Designing</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventExhibition" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Exhibition</name_singular>
+							<name_plural>Exhibition</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="eventCommissioning" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Commissioning</name_singular>
+							<name_plural>Commissioning</name_plural>
+						</label>
+					</labels>
+				</item>
+			<item idno="eventProvenance" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Provenance</name_singular>
+							<name_plural>Provenance</name_plural>
+						</label>
+					</labels>
+				</item>
+			<item idno="eventPublication" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Publication</name_singular>
+							<name_plural>Publication</name_plural>
+						</label>
+					</labels>
+				</item>
+			<item idno="eventMarketing" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Marketing</name_singular>
+							<name_plural>Marketing</name_plural>
+						</label>
+					</labels>
+				</item>					
+			</items>	
+		</list>
+		<list code="eventActorRole_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Actor roles</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank18" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="actorRoleArtist" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Artist</name_singular>
+							<name_plural>Artists</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="actorRoleArchitect" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Architect</name_singular>
+							<name_plural>Architects</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="actorRoleSculptor" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Sculptor</name_singular>
+							<name_plural>Sculptors</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="actorRoleWriter" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Writer</name_singular>
+							<name_plural>Writers</name_plural>
+						</label>
+					</labels>
+				</item>								
+			</items>	
+		</list>	
+		<list code="materials_lijst" hierarchical="1" system="0" vocabulary="1">
+			<labels>
+				<label locale="en_US">
+					<name>Material</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank19" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="materialStone" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Stone</name_singular>
+							<name_plural>Stone</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="materialPaper" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Paper</name_singular>
+							<name_plural>Paper</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="materialBone" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Bone</name_singular>
+							<name_plural>Bone</name_plural>
+						</label>
+					</labels>
+				</item>				
+				<item idno="materialMetal" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Metal</name_singular>
+							<name_plural>Metal</name_plural>
+						</label>
+					</labels>
+				</item>								
+			</items>	
+		</list>
+		<list code="techniques_lijst" hierarchical="1" system="0" vocabulary="1">
+			<labels>
+				<label locale="en_US">
+					<name>Technique</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank20" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="techniqueCast" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Cast</name_singular>
+							<name_plural>Cast</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="techniqueCarved" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Carved</name_singular>
+							<name_plural>Carved</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="actorEngraved" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Engraved</name_singular>
+							<name_plural>Engraved</name_plural>
+						</label>
+					</labels>
+				</item>											
+			</items>	
+		</list>
+		<list code="rightsType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Rights type</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank21" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="rightsCopyright" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Copyright</name_singular>
+							<name_plural>Copyright</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="rightsPublicationRight" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Publication right</name_singular>
+							<name_plural>Publication right</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="rightsDataProtectionRight" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Data protection right</name_singular>
+							<name_plural>Data protection right</name_plural>
+						</label>
+					</labels>
+				</item>	
+				<item idno="rightsTrademark" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Trademark</name_singular>
+							<name_plural>Trademark</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>	
+		</list>
+		<list code="recordType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Record types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank22" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="recordItem" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Item</name_singular>
+							<name_plural>Item</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="recordGroup" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Group</name_singular>
+							<name_plural>Group</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="recordCollection" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Collection</name_singular>
+							<name_plural>Collection</name_plural>
+						</label>
+					</labels>
+				</item>	
+				<item idno="recordVolume" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Volume</name_singular>
+							<name_plural>Volume</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="recordfonds" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Fonds</name_singular>
+							<name_plural>Fonds</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="recordSeries" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Series</name_singular>
+							<name_plural>Series</name_plural>
+						</label>
+					</labels>
+				</item>				
+			</items>	
+		</list>
+		<list code="resourceType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Resource types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank23" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>			
+				<item idno="resourceDigitalImage" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Digital image</name_singular>
+							<name_plural>Digital image</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="resourceVideo" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Video</name_singular>
+							<name_plural>Video</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="resourceSound" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Sound</name_singular>
+							<name_plural>Sound</name_plural>
+						</label>
+					</labels>
+				</item>	
+				<item idno="resourceText" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Document</name_singular>
+							<name_plural>Document</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="resource3D" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>3D</name_singular>
+							<name_plural>3D</name_plural>
+						</label>
+					</labels>
+				</item>								
+			</items>	
+		</list>
+		<list code="type_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>PrefAlt Types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank24" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>		
+				<item idno="preferredType" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Preferred</name_singular>
+							<name_plural>Preferred</name_plural>
+						</label>
+					</labels>
+				</item>
+				<item idno="Alternative" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Alternative</name_singular>
+							<name_plural>Alternative</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+		<list code="resourceRightsType_lijst" hierarchical="0" system="0" vocabulary="0">
+			<labels>
+				<label locale="en_US">
+					<name>Resource rights types</name>
+				</label>
+			</labels>
+			<items>
+				<item idno="blank24" enabled="1" default="1">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>-</name_singular>
+							<name_plural>-</name_plural>
+						</label>
+					</labels>
+				</item>			
+				<item idno="Copyright_freeAccess" enabled="1" default="0">
+					<labels>
+						<label locale="en_US" preferred="1">
+							<name_singular>Copyright - Free access</name_singular>
+							<name_plural>Copyright - free access</name_plural>
+						</label>
+					</labels>
+				</item>
+			</items>	
+		</list>
+	</lists>
+	<elementSets>
+		<metadataElement code="objectWorkType" datatype="List" list="objectWorkType_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Object name</name>
+					<description>lido:objectWorkType lido:type="object name"</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">1</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">1</setting>
+						<setting name="requireValue">1</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="europeanaClassification" datatype="List" list="europeanaType_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Europeana type</name>
+					<description>lido:classification lido:type="europeana:type" lido:term lido:addedSearchTerm="no" (to be mapped to eu:type)</description>
+				</label>
+			</labels>
+			<settings>
+				<setting name="fieldWidth">40</setting>
+				<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">1</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">1</setting>
+						<setting name="requireValue">1</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="europeanaLanguage" datatype="List" list="language_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Resource language</name>
+					<description>lido:classification lido:type="europeana:language" (language of the resource is mandatory when "europeana:type"=TEXT)</description>
+				</label>
+			</labels>
+			<settings>
+				<setting name="fieldWidth">40</setting>
+				<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>	
+		<metadataElement code="classificationForm" datatype="List" list="classificationForm_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Classification on form</name>
+					<description>lido:classification lido:type="classification-Form"</description>
+				</label>
+			</labels>
+			<settings>
+				<setting name="fieldWidth">90</setting>
+				<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="classificationFunction" datatype="List" list="classificationFunction_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Classification on function</name>
+					<description>lido:classification lido:type="classification-Function"</description>
+				</label>
+			</labels>
+			<settings>
+				<setting name="fieldWidth">90</setting>
+				<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="classificationStyle" datatype="List" list="classificationStylisticPeriod_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Classification on stylistic period</name>
+					<description>lido:classification lido:type="classification-StylisticPeriod"</description>
+				</label>
+			</labels>
+			<settings>
+				<setting name="fieldWidth">90</setting>
+				<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>		
+		<metadataElement code="workIDAlt" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Alternative identification number</name>
+					<description>lido:workID lido:pref="Alternative" lido:type="xx"</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="workIDAlt_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Alternative identification number</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="workIDAltType" datatype="List" list="workIDAltType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Identifier type</name>
+									<description>Contains the workID type for lido:workID lido:type="xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="workAltID" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Identifier number</name>
+									<description>lido:workID lido:pref="Alternative" lido:type="xx" (lido:type comes from value in "workIDType")</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>	
+					</elements>
+				</metadataElement>	
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>		
+		<metadataElement code="descriptionSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Description</name>
+					<description> lido:objectDescriptionSet lido:descriptiveNoteValue lido:type="xx"</description>
+				</label>
+			</labels>
+			<settings />
+			<elements>
+				<metadataElement code="description_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Description type</name>
+							<description>Contains the description type for lido:descriptiveNoteValue lido:type="xx"</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="descriptionType" datatype="List" list="descriptionType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Description type</name>
+									<description>Contains the description type for lido:descriptiveNoteValue lido:type="xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="description_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Description</name>
+							<description>lido:objectDescriptionSet lido:descriptiveNoteValue lido:type="xx" (lido:type comes from value in "descriptionType")</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="description" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Description</name>
+									<description>lido:objectDescriptionSet lido:descriptiveNoteValue lido:type="xx" (lido:type comes from value in "descriptionType")</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">6</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="transcriptionSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Inscriptions</name>
+					<description>lido:inscriptions</description>
+				</label>
+			</labels>
+			<settings />
+			<elements>
+				<metadataElement code="inscriptions_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Inscription transcription</name>
+							<description>lido:inscriptionTransscription</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="inscriptionTranscription" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Inscription transcription</name>
+									<description>lido:inscriptionTransscription</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">4</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="inscriptions_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Inscription description</name>
+							<description>lido:inscriptionDescription</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="inscriptionDescription" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Inscription description</name>
+									<description>lido:inscriptionDescription</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">4</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>	
+		<metadataElement code="numberOfObjects" datatype="Integer">
+			<labels>
+				<label locale="en_US">
+					<name>Number of objects</name>
+					<description>lido:measurementsSet lido:measurementType "number-of-objects" lido:measurementUnit:"count" lido:measurementValue:"xx"</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">40</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="measurementsSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Measurements</name>
+					<description>lido:measurementsSet lido:measurementType "number-of-objects", lido:measurementUnit "count" lido:measurementValue "xx"</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="measurements_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Measurements</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="MeasurementsExtent" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Extent measurement</name>
+									<description>lido:extentMeasurements</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+								<setting name="suggestExistingValues">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="measurements_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Measurements</name>
+							<description>lido:measurementType "xx", lido:measurementUnit "xx" lido:measurementValue "xx"</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="measurements_height" datatype="Length">
+							<labels>
+								<label locale="en_US">
+									<name>Height</name>
+									<description>lido:measurementType "Height", lido:measurementUnit "xx" lido:measurementValue "xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">10</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="measurements_width" datatype="Length">
+							<labels>
+								<label locale="en_US">
+									<name>Width</name>
+									<description>lido:measurementType "Width", lido:measurementUnit "xx" lido:measurementValue "xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">10</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="measurements_depth" datatype="Length">
+							<labels>
+								<label locale="en_US">
+									<name>Depth</name>
+									<description>lido:measurementType "Depth", lido:measurementUnit "xx" lido:measurementValue "xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">10</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="measurements_length" datatype="Length">
+							<labels>
+								<label locale="en_US">
+									<name>Lenght</name>
+									<description>lido:measurementType "Lenght", lido:measurementUnit "xx" lido:measurementValue "xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">10</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="measurements_line3" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Measurements</name>
+							<description>lido:measurementType "xx", lido:measurementUnit "xx" lido:measurementValue "xx"</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="measurements_diameter" datatype="Length">
+							<labels>
+								<label locale="en_US">
+									<name>Diameter</name>
+									<description>lido:measurementType "Diameter", lido:measurementUnit "xx" lido:measurementValue "xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">10</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="measurements_weight" datatype="Weight">
+							<labels>
+								<label locale="en_US">
+									<name>Weight</name>
+									<description>lido:measurementType "Weight", lido:measurementUnit "xx" lido:measurementValue "xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">10</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="measurements_line4" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Measurements remark</name>
+							<description>No separate LIDO element. Can go with other measurement values into lido:displayObjectMeasurements</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="measurements_remark" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Measurement remark</name>
+									<description>No separate LIDO element. Can go with other measurement values into lido:displayObjectMeasurements</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">3</setting>
+								<setting name="minChars">0</setting>
+								<setting name="maxChars">255</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">255</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="displayStateEditionSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>State edition information</name>
+					<description>lido:displayStateEdition (to be used for prints and multiples)</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="displayStateEdition_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>State information</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="displayStateType" datatype="List" list="stateType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>State type</name>
+									<description>Contains the state type for lido:stateEdition lido:type="xx" (to be used for prints and multiples)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="displayStateValue" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>State</name>
+									<description>lido:displayState lido:type="xx" (lido:type comes from value in "displayStateType", to be used for prints and multiples)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">50</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>	
+					</elements>
+				</metadataElement>
+				<metadataElement code="displayStateEdition_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Edition information</name>
+							<description>lido:displayEdition</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="displayEdition" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Edition</name>
+									<description>lido:displayEdition</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="vitalDatesActor" datatype="DateRange">
+			<labels>
+				<label locale="en_US">
+					<name>Earliest date - Latest date</name>
+					<description>lido:vitalDatesActor</description>
+				</label>
+			</labels>
+			<settings>
+				<setting name="fieldWidth">90</setting>
+				<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_entities</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<!--<metadataElement code="shortName" datatype="Text">
+			<labels>
+				<label locale="en_US">
+					<name>Acronym</name>
+					<description>lido:instituteID</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">50</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_entities</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>-->		
+		<metadataElement code="nationalityActor" datatype="List" list="nationalityActor_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Nationality</name>
+					<description>lido:nationalityActor</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_entities</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="genderActor" datatype="List" list="genderActor_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Gender</name>
+					<description>lido:genderActor</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_entities</table>
+					<type>person</type>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="addressSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Address</name>
+					<description>Address (no lido element)</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="addressSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Building</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="Building" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Building</name>
+									<description>Address (no lido element)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+								<setting name="minChars">0</setting>
+								<setting name="maxChars">65535</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>			
+				<metadataElement code="addressSet_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Streetname and number</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="Street" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Streetname and number</name>
+									<description>Address (no lido element)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+								<setting name="minChars">0</setting>
+								<setting name="maxChars">65535</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="addressSet_line3" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Postal code and place</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="AddressPostCode" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Postal code</name>
+									<description>Address(no lido element)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+								<setting name="suggestExistingValues">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="AddressPlace" datatype="Place">
+							<labels>
+								<label locale="en_US">
+									<name>Place</name>
+									<description>Address(no lido element)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>					
+				</metadataElement>
+				<metadataElement code="addressSet_line4" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Country</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="AddressCountry" datatype="Place">
+							<labels>
+								<label locale="en_US">
+									<name>Country</name>
+									<description>Address (no lido element)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>					
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_entities</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+				<restriction code="r2">
+					<table>ca_storage_locations</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>				
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="legalBodyWeblink" datatype="Url">
+			<labels>
+				<label locale="en_US">
+					<name>Website</name>
+					<description>lido:legalBodyWeblink lido:pref="Preferred"</description>
+				</label>
+			</labels>
+			<settings>
+				<setting name="fieldWidth">90</setting>
+				<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_entities</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>			
+		<metadataElement code="collectionDescription" datatype="Text">
+			<labels>
+				<label locale="en_US">
+					<name>Collection description</name>
+					<description>lido:objectDescriptionSet lido:descriptiveNoteValue lido:type="collection description"</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">6</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_collections</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="subjectSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Subject description set</name>
+					<description>lido:subject</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="subjectSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Extent subject</name>
+							<description>lido:extentSubject</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="subjectExtent" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Extent subject</name>
+									<description>lido:extentSubject</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">3</setting>
+							</settings>
+						</metadataElement>	
+					</elements>
+				</metadataElement>
+				<metadataElement code="subjectSet_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Subject concept</name>
+							<description>lido:subjectConcept</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="subjectConcept" datatype="List" list="subjectConcept_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Subject concept</name>
+									<description>lido:subjectConcept</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="subjectSet_line3" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Subject actor</name>
+							<description>lido:subjectActor</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="subjectActor" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Subject actor</name>
+									<description>lido:subjectActor</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="subjectSet_line4" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Subject date</name>
+							<description>lido:subjectDate</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="subjectActorDate" datatype="DateRange">
+							<labels>
+								<label locale="en_US">
+									<name>Subject date</name>
+									<description>lido:subjectDate</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="subjectSet_line5" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Subject event</name>
+							<description>lido:subjectEvent</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="subjectEvent" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Subject event</name>
+									<description>lido:subjectEvent</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="subjectSet_line6" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Subject place</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="subjectPlace" datatype="Place">
+							<labels>
+								<label locale="en_US">
+									<name>Subject place</name>
+									<description>lido:subjectPlace</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+								<setting name="render">select</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="subjectSet_line7" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Subject object</name>
+							<description>lido:subjectObject</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="subjectObject" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Subject object</name>
+									<description>lido:subjectObject</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+								<setting name="suggestExistingValues">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>				
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="occurrencesEventType" datatype="List" list="occurrencesEventType_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Type of event</name>
+					<description>Contains the type of subjectEvent - lido:subjectEvent lido:type="xxx" </description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">50</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_occurrences</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="requireValue">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="occurrencesEventDate" datatype="DateRange">
+			<labels>
+				<label locale="en_US">
+					<name>Date of event</name>
+					<description>additional event information (no lido type)</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_occurrences</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="occurrencesEventPlace" datatype="Place">
+			<labels>
+				<label locale="en_US">
+					<name>Place of event</name>
+					<description>additional event information (no lido type)</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_occurrences</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="occurrencesActorSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Actor involved in event</name>
+					<description>additional event information (no lido type)</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="occurrencesActorSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Actor involved in event</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="occurrencesRoleActor" datatype="List" list="occurrencesRoleActor_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Role of the actor</name>
+									<description>additional event information (no lido type)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">45</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="occurrencesActor" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Actor name</name>
+									<description>additional event information (no lido type)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">45</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>	
+					</elements>
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_occurrences</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>				
+		<metadataElement code="occurrencesEventDescription" datatype="Text">
+			<labels>
+				<label locale="en_US">
+					<name>Description of event</name>
+					<description>additional event information (no lido type)</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">6</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_occurrences</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="relatedWorkSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Related work (not in collection)</name>
+					<description>lido:relatedWorkSet</description>
+				</label>
+			</labels>
+			<settings />
+			<elements>
+				<metadataElement code="relatedWorkSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Related work type</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="relatedWorkType" datatype="List" list="relatedWorkType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Related work type</name>
+									<description>lido:relatedWorkRelType</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="relatedWorkSet_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Related work</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="relatedWork" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Related work</name>
+									<description>lido:relatedWork</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">2</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="relatedWorkSet_line3" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Related work identifier</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="relatedWorkIdentifier" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Related work identifier</name>
+									<description>lido:relatedWork lido:object lido:objectID</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="relatedWorkSet_line4" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Related work web resource</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="relatedWorkWebResource" datatype="Url">
+							<labels>
+								<label locale="en_US">
+									<name>Related work</name>
+									<description>lido:relatedWork lido:object lido:objectWebResource</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>				
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="eventSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Event set</name>
+					<description>lido:eventSet</description>
+				</label>
+			</labels>
+			<settings />
+			<elements>
+				<metadataElement code="eventSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Event type</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="eventType" datatype="List" list="eventType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Event type</name>
+									<description>lido:eventType</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">50</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="eventSet_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Event actor</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="eventActor" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Event actor</name>
+									<description>lido:eventActor</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">50</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="eventActorRole" datatype="List" list="eventActorRole_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Event actor role</name>
+									<description>lido:roleActor</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="eventSet_line3" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Event date</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="eventDate" datatype="DateRange">
+							<labels>
+								<label locale="en_US">
+									<name>Event date</name>
+									<description>lido:eventDate</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="eventSet_line4" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Event period</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="eventPeriod" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Event period</name>
+									<description>lido:periodName</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>				
+				<metadataElement code="eventSet_line5" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Event place</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="eventPlace" datatype="Place">
+							<labels>
+								<label locale="en_US">
+									<name>Event place</name>
+									<description>lido:eventPlace</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="eventSet_line6" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Event material</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="eventMaterial" datatype="List" list="materials_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Event material</name>
+									<description>lido:eventMaterialsTech lido:type="material"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="eventSet_line7" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Event technique</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="eventTechnique" datatype="List" list="techniques_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Event technique</name>
+									<description>lido:eventMaterialsTech lido:type="technique"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="eventSet_line8" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Event description</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="eventDescription" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Event description</name>
+									<description>lido:eventDescriptionSet lido:descriptiveNoteValue</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">6</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>				
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">500</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="rightsWorkCreditLine" datatype="Text">
+			<labels>
+				<label locale="en_US">
+					<name>Credit line</name>
+					<description>lido:creditLine</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+					<setting name="sugestExistingValues">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="rightsWorkType" datatype="List" list="rightsType_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Rights work type</name>
+					<description>lido:rightsType</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="recordLanguageSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Record language</name>
+					<description>lido:descriptiveMetadata @xml:lang="xx" and lido:administrativeMetadata @xml:lang="xx"</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="recordLanguageSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Descriptive metadata language</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="descriptiveMetadataLanguage" datatype="List" list="language_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Descriptive metadata language</name>
+									<description>Contains the language label for lido:descriptiveMetadata @xml:lang="xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="administrativeMetadataLanguage" datatype="List" list="language_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Administrative metadata language</name>
+									<description>Contains the language label for lido:administrativeMetadata @xml:lang="xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">40</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>	
+					</elements>
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">1</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="objectPublishedIDSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Object published ID</name>
+					<description>lido:objectPublishedID</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="objectPublishedIDSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Object published ID</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="objectPublishedIDType" datatype="List" list="objectPublishedIDType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Type</name>
+									<description>Contains the attribute type for lido:objectPublsihedID lido:type="xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">30</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="objectPublishedID" datatype="Url">
+							<labels>
+								<label locale="en_US">
+									<name>Published ID</name>
+									<description>lido:objectPublishedID lido:type="xx" (type to be taken from objectPublishedIDType)</description>
+								</label>
+							</labels>
+						<settings>
+						<setting name="fieldWidth">60</setting>
+						<setting name="fieldHeight">1</setting>
+						</settings>
+					</metadataElement>				
+					</elements>
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">1</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="recIDSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Metadata Record ID</name>
+					<description>lido:lidoRecID</description>
+				</label>
+			</labels>
+			<settings/>
+			<elements>
+				<metadataElement code="recIDSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Metadata record ID</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="recIDType" datatype="List" list="recIDType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Type</name>
+									<description>Contains the attribute type for lido:lidoRecID lido:type="xx"</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">30</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="recID" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Metadata Record ID</name>
+									<description>lido:lidoRecID lido:type="xx" (type to be taken from recIDType)</description>
+								</label>
+							</labels>
+						<settings>
+						<setting name="fieldWidth">60</setting>
+						<setting name="fieldHeight">1</setting>
+						</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">1</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>		
+		<metadataElement code="lidoRecID" datatype="Text">
+			<labels>
+				<label locale="en_US">
+					<name>LIDO metadata Record ID</name>
+					<description>lido:lidoRecID</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">60</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>		
+		<metadataElement code="recordType" datatype="List" list="recordType_lijst">
+			<labels>
+				<label locale="en_US">
+					<name>Record type</name>
+					<description>lido:recordType</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">40</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">1</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">1</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="recordSourceEuropeana" datatype="Text">
+			<labels>
+				<label locale="en_US">
+					<name>Display source name</name>
+					<description>lido:recordSource type="europeana:dataProvider" - for Europeana "View item at"</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">1</setting>
+						<setting name="minimumAttributeBundlesToDisplay">1</setting>
+						<setting name="suggestExistingValues">1</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>		
+		<metadataElement code="recordSourceCatalogueWeblink" datatype="Url">
+			<labels>
+				<label locale="en_US">
+					<name>Online catalogue weblink</name>
+					<description>lido:legalBodyWeblink lido:pref="Alternative"</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="recordInfoLink" datatype="Url">
+			<labels>
+				<label locale="en_US">
+					<name>Permalink to published record</name>
+					<description>lido:recordInfoLink - goes to Europeana "isShownAt"</description>
+				</label>
+			</labels>
+			<settings>
+					<setting name="fieldWidth">90</setting>
+					<setting name="fieldHeight">1</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">1</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>			
+		</metadataElement>
+		<metadataElement code="resourceSet" datatype="Container">
+			<labels>
+				<label locale="en_US">
+					<name>Resource set</name>
+					<description>lido:resourceSet</description>
+				</label>
+			</labels>
+			<settings />
+			<elements>
+				<metadataElement code="resourceSet_line1" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Resource identifier</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="resourceID" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Resource identifier</name>
+									<description>lido:resourceID</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">45</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+						<metadataElement code="resourceType" datatype="List" list="resourceType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Resource type</name>
+									<description>lido:resourceType</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">45</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>		
+				<metadataElement code="resourceSet_line2" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Image master URL</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="linkResourceMaster" datatype="Url">
+							<labels>
+								<label locale="en_US">
+									<name>Image master URL</name>
+									<description>lido:resourceRepresentation type="image_master" lido:linkResource</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="resourceSet_line3" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Image thumbnail URL</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="linkResourceThumbnail" datatype="Url">
+							<labels>
+								<label locale="en_US">
+									<name>Image thumbnail URL</name>
+									<description>lido:resourceRepresentation type="thumb" - lido:linkResource</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>				
+				<metadataElement code="resourceSet_line4" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Resource description</name>
+							<description>lido:resourceDescription</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="resourceDescription" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Resource description</name>
+									<description>lido:resourceDescription</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">3</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="resourceSet_line5" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Resource source</name>
+							<description>lido:resourceSource</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="resourceSource" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Resource source</name>
+									<description>lido:resourceSource</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="resourceSet_line6" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Resource rights holder</name>
+							<description>lido:resourceSet lido:rightsResource lido:RightsHolder lido:legalBodyName lido:appellationValue</description>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="resourceRightsHolder" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Resource rights holder</name>
+									<description>lido:resourceSet lido:rightsResource lido:RightsHolder lido:legalBodyName lido:appellationValue</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="resourceSet_line7" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Credit line</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="rightsResourceCreditLine" datatype="Text">
+							<labels>
+								<label locale="en_US">
+									<name>Credit line</name>
+									<description>lido:rightsResource lido:creditLine</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">90</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>				
+				<metadataElement code="resourceSet_line8" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Resource rights type</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="resourceRightsType" datatype="List" list="resourceRightsType_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Resource rights type</name>
+									<description>lido:rightsResource lido:rightsType pref="alternative" ; contains own rights statement</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">60</setting>
+								<setting name="fieldHeight">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="resourceSet_line9" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Resource rights type (Europeana)</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="resourceRightsTypeEuropeana" datatype="Url">
+							<labels>
+								<label locale="en_US">
+									<name>Resource rights type (Europeana)</name>
+									<description>lido:rightsResource lido:rightsType pref="preferred" type="URL"; should contain value from Europeana Rights Guidelines (http://pro.europeana.eu/documents/900548/0d423921-23e0-45fa-82a4-2ac72b3e6f38)</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">60</setting>
+								<setting name="fieldHeight">1</setting>
+								<setting name="suggestExistingValues">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>
+				<metadataElement code="resourceSet_line10" datatype="Container">
+					<labels>
+						<label locale="en_US">
+							<name>Resource publication setting</name>
+						</label>
+					</labels>
+					<settings/>
+					<elements>
+						<metadataElement code="resourceForPublication" datatype="List" list="resourcePublication_lijst">
+							<labels>
+								<label locale="en_US">
+									<name>Resource publication setting</name>
+									<description>lido:resourceRepresentation - if value is Yes, preferred THEN lido:pref="preferred" ; if value is Yes, alternative THEN lido:pref="alternative" ; when value is no, then resource not for publication</description>
+								</label>
+							</labels>
+							<settings>
+								<setting name="fieldWidth">60</setting>
+								<setting name="fieldHeight">1</setting>
+								<setting name="suggestExistingValues">1</setting>
+							</settings>
+						</metadataElement>
+					</elements>
+				</metadataElement>					
+			</elements>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_objects</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">500</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>
+		<metadataElement code="placeType" datatype="List" list="place_types">
+			<labels>
+				<label locale="en_US">
+					<name>Place type</name>
+					<description></description>
+				</label>
+			</labels>
+			<settings>
+				<setting name="fieldWidth">90</setting>
+				<setting name="fieldHeight">1</setting>
+				<setting name="minChars">0</setting>
+				<setting name="maxChars">65535</setting>
+			</settings>
+			<typeRestrictions>
+				<restriction code="r1">
+					<table>ca_places</table>
+					<settings>
+						<setting name="minAttributesPerRow">0</setting>
+						<setting name="maxAttributesPerRow">100</setting>
+						<setting name="minimumAttributeBundlesToDisplay">0</setting>
+					</settings>
+				</restriction>
+			</typeRestrictions>
+		</metadataElement>		
+	</elementSets>
+	<userInterfaces>
+		<userInterface code="objects_ui" type="ca_objects">
+			<labels>
+				<label locale="en_US">
+					<name>Standard object editor</name>
+				</label>
+			</labels>
+			<screens>
+				<screen idno="objectIdentification" default="1">
+					<labels>
+						<label locale="en_US">
+							<name>Object identification</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="idno">
+							<bundle>idno</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Inventory number</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_workIDAlt">
+							<bundle>ca_attribute_workIDAlt</bundle>
+						</placement>						
+						<placement code="preferred_labels">
+							<bundle>preferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Title</setting>
+							</settings>
+						</placement>
+						<placement code="nonpreferred_labels">
+							<bundle>nonpreferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Alternative title</setting>
+								<setting name="add_label" locale="en_US">Add alternative title</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_descriptionSet">
+							<bundle>ca_attribute_descriptionSet</bundle>
+						</placement>
+						<placement code="ca_attribute_transcriptionSet">
+							<bundle>ca_attribute_transcriptionSet</bundle>
+						</placement>
+						<placement code="ca_attribute_numberOfObjects">
+							<bundle>ca_attribute_numberOfObjects</bundle>
+						</placement>
+						<placement code="ca_attribute_measurementsSet">
+							<bundle>ca_attribute_measurementsSet</bundle>
+						</placement>						
+						<placement code="ca_attribute_displayStateEditionSet">
+							<bundle>ca_attribute_displayStateEditionSet</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Repository name - In deposit at</setting>
+								<setting name="restrict_to_relationship_types">inDepositAt</setting>
+								<setting name="restrict_to_relationship_types">inDepositWith</setting>
+							</settings>
+						</placement>						
+						<placement code="ca_storage_locations">
+							<bundle>ca_storage_locations</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Repository location</setting>
+								<setting name="restrict_to_relationship_types">repositoryLocationRelation</setting>
+							</settings>
+						</placement>						
+					</bundlePlacements>
+				</screen>
+				<screen idno="objectClassification" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Object classification</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_attribute_objectWorkType">
+							<bundle>ca_attribute_objectWorkType</bundle>
+						</placement>
+						<placement code="ca_attribute_europeanaClassification">
+							<bundle>ca_attribute_europeanaClassification</bundle>
+						</placement>
+						<placement code="ca_attribute_europeanaLanguage">
+							<bundle>ca_attribute_europeanaLanguage</bundle>
+						</placement>
+						<placement code="ca_collections">
+							<bundle>ca_collections</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Collection name</setting>
+								<setting name="restrict_to_relationship_types">collectionName</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_classificationForm">
+							<bundle>ca_attribute_classificationForm</bundle>
+						</placement>
+						<placement code="ca_attribute_classificationFunction">
+							<bundle>ca_attribute_classificationFunction</bundle>
+						</placement>
+						<placement code="ca_attribute_classificationStyle">
+							<bundle>ca_attribute_classificationStyle</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>	
+				<screen idno="objectRelation" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Object relation</name>
+						</label>
+					</labels>
+					<bundlePlacements>							
+						<placement code="ca_attribute_subjectSet">
+							<bundle>ca_attribute_subjectSet</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Subject actor</setting>
+								<setting name="restrict_to_relationship_types">hasDepiction</setting>
+								<setting name="restrict_to_relationship_types">hasSubject</setting>								
+							</settings>
+						</placement>
+						<placement code="ca_occurrences">
+							<bundle>ca_occurrences</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Subject event</setting>
+								<setting name="restrict_to_relationship_types">subjectEventRelation</setting>
+							</settings>
+						</placement>
+						<placement code="ca_objectsSubject">
+							<bundle>ca_objects</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Subject object (in collection)</setting>
+								<setting name="restrict_to_relationship_types">isDepictedOn</setting>
+							</settings>
+						</placement>						
+						<placement code="ca_objects">
+							<bundle>ca_objects</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Related work (in collection)</setting>
+								<setting name="restrict_to_relationship_types">isPartOf</setting>
+								<setting name="restrict_to_relationship_types">isStudyOf</setting>
+								<setting name="restrict_to_relationship_types">isModelOf</setting>
+								<setting name="restrict_to_relationship_types">isCopyOf</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_relatedWorkSet">
+							<bundle>ca_attribute_relatedWorkSet</bundle>
+						</placement>					
+					</bundlePlacements>
+				</screen>
+				<screen idno="Event" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Event</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_attribute_eventSet">
+							<bundle>ca_attribute_eventSet</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Event actor</setting>
+								<setting name="restrict_to_relationship_types">eventActorRelation</setting>
+							</settings>
+						</placement>
+					</bundlePlacements>
+				</screen>
+				<screen idno="rightsWork" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Rights work</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_attribute_rightsWorkCreditLine">
+							<bundle>ca_attribute_rightsWorkCreditLine</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Rights Holder</setting>
+								<setting name="restrict_to_relationship_types">rightsHolderRelation</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_rightsWorkType">
+							<bundle>ca_attribute_rightsWorkType</bundle>
+						</placement>					
+					</bundlePlacements>
+				</screen>
+				<screen idno="record" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Record</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="object_id">
+							<bundle>object_id</bundle>
+						</placement>
+						<placement code="ca_attribute_recordSourceEuropeana">
+							<bundle>ca_attribute_recordSourceEuropeana</bundle>
+						</placement>
+						<placement code="ca_attribute_recordSourceCatalogueWeblink">
+							<bundle>ca_attribute_recordSourceCatalogueWeblink</bundle>
+						</placement>						
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Record source</setting>
+								<setting name="restrict_to_relationship_types">recordSourceRelation</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_recordInfoLink">
+							<bundle>ca_attribute_recordInfoLink</bundle>
+						</placement>					
+					</bundlePlacements>
+				</screen>
+				<screen idno="resource" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Resource</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_attribute_resourceSet">
+							<bundle>ca_attribute_resourceSet</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Resource source</setting>
+								<setting name="restrict_to_relationship_types">resourceSourceRelation</setting>
+							</settings>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Resource rights holder</setting>
+								<setting name="restrict_to_relationship_types">resourceRightsHolderRelation</setting>
+							</settings>
+						</placement>						
+					</bundlePlacements>
+				</screen>
+				<screen idno="recordWrapperInfo" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Record wrapper info</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_attribute_recIDSet">
+							<bundle>ca_attribute_recIDSet</bundle>
+						</placement>
+						<placement code="ca_attribute_objectPublishedIDSet">
+							<bundle>ca_attribute_objectPublishedIDSet</bundle>
+						</placement>
+						<placement code="ca_attribute_recordLanguageSet">
+							<bundle>ca_attribute_recordLanguageSet</bundle>
+						</placement>										
+					</bundlePlacements>
+				</screen>
+				<screen idno="europeanaInfoSummary" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Europeana info summary</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_attribute_europeanaClassification">
+							<bundle>ca_attribute_europeanaClassification</bundle>
+						</placement>					
+						<placement code="ca_attribute_europeanaLanguage">
+							<bundle>ca_attribute_europeanaLanguage</bundle>
+						</placement>
+						<placement code="ca_attribute_recordSourceEuropeana">
+							<bundle>ca_attribute_recordSourceEuropeana</bundle>
+						</placement>
+						<placement code="ca_attribute_recordInfoLink">
+							<bundle>ca_attribute_recordInfoLink</bundle>
+						</placement>
+						<placement code="ca_attribute_resourceSet">
+							<bundle>ca_attribute_resourceSet</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>				
+				<screen idno="relationships" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Relationships</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_objects">
+							<bundle>ca_objects</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+						</placement>
+						<placement code="ca_places">
+							<bundle>ca_places</bundle>
+						</placement>
+						<placement code="ca_occurrences">
+							<bundle>ca_occurrences</bundle>
+						</placement>
+						<placement code="ca_collections">
+							<bundle>ca_collections</bundle>
+						</placement>
+						<placement code="ca_storage_locations">
+							<bundle>ca_storage_locations</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>				
+			</screens>
+		</userInterface>
+		<userInterface code="occurrences_ui" type="ca_occurrences">
+			<labels>
+				<label locale="en_US">
+					<name>Standard occurrences editor</name>
+				</label>
+			</labels>
+			<screens>
+				<screen idno="basicInfooccurrences" default="1">
+					<labels>
+						<label locale="en_US">
+							<name>Basic info</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="idno">
+							<bundle>idno</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Event identification number</setting>
+							</settings>
+						</placement>					
+						<placement code="preferred_labels">
+							<bundle>preferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Event title</setting>
+							</settings>
+						</placement>
+						<placement code="nonpreferred_labels">
+							<bundle>nonpreferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Alternative event title</setting>
+								<setting name="add_label" locale="en_US">Add alternative event title</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_occurrencesEventType">
+							<bundle>ca_attribute_occurrencesEventType</bundle>
+						</placement>
+						<placement code="ca_attribute_occurrencesEventDate">
+							<bundle>ca_attribute_occurrencesEventDate</bundle>
+						</placement>
+						<placement code="ca_attribute_occurrencesEventPlace">
+							<bundle>ca_attribute_occurrencesEventPlace</bundle>
+						</placement>
+						<placement code="ca_attribute_occurrencesActorSet">
+							<bundle>ca_attribute_occurrencesActorSet</bundle>
+						</placement>						
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Actor involved in event</setting>
+								<setting name="restrict_to_relationship_types">occurrencesActorRelation</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_occurrencesEventDescription">
+							<bundle>ca_attribute_occurrencesEventDescription</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>
+				<screen idno="relationships" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Relationships</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_objects">
+							<bundle>ca_objects</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+						</placement>	
+					</bundlePlacements>
+				</screen>				
+			</screens>
+		</userInterface>				
+		<userInterface code="entities_ui" type="ca_entities">
+			<labels>
+				<label locale="en_US">
+					<name>Standard entities editor</name>
+				</label>
+			</labels>
+			<screens>
+				<screen idno="BasicInfoPerson" default="1">
+					<labels>
+						<label locale="en_US">
+							<name>Basic info</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="entity_id">
+							<bundle>entity_id</bundle>
+						</placement>
+						<placement code="preferred_labels">
+							<bundle>preferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Actor name</setting>
+							</settings>
+						</placement>
+						<placement code="nonpreferred_labels">
+							<bundle>nonpreferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Alternative name</setting>
+								<setting name="add_label" locale="en_US">Add alternative name</setting>
+							</settings>
+						</placement>
+						<!--<placement code="ca_attribute_shortName">
+							<bundle>ca_attribute_shortName</bundle>
+						</placement>-->					
+						<placement code="ca_attribute_vitalDatesActor">
+							<bundle>ca_attribute_vitalDatesActor</bundle>
+						</placement>
+						<placement code="ca_attribute_nationalityActor">
+							<bundle>ca_attribute_nationalityActor</bundle>
+						</placement>
+						<placement code="ca_attribute_genderActor">
+							<bundle>ca_attribute_genderActor</bundle>
+						</placement>
+						<placement code="ca_entities_x_entities">
+							<bundle>ca_entities_x_entities</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>
+				<screen idno="contactDetailsActor" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Contact details</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_attribute_addressSet">
+							<bundle>ca_attribute_addressSet</bundle>
+						</placement>
+						<placement code="ca_attribute_legalBodyWeblink">
+							<bundle>ca_attribute_legalBodyWeblink</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>
+				<screen idno="relationships" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Relationships</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_objects">
+							<bundle>ca_objects</bundle>
+						</placement>
+						<placement code="ca_collections">
+							<bundle>ca_collections</bundle>
+						</placement>
+						<placement code="ca_occurrences">
+							<bundle>ca_occurrences</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>				
+			</screens>
+		</userInterface>
+		<userInterface code="storage_locations_ui" type="ca_storage_locations">
+			<labels>
+				<label locale="en_US">
+					<name>Storage locations editor</name>
+				</label>
+			</labels>
+			<screens>
+				<screen idno="BasicInfoStorage" default="1">
+					<labels>
+						<label locale="en_US">
+							<name>Basic info</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="location_id">
+							<bundle>location_id</bundle>
+						</placement>
+						<placement code="hierarchy_navigation">
+							<bundle>hierarchy_navigation</bundle>
+						</placement>
+						<placement code="preferred_labels">
+							<bundle>preferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Repository name</setting>
+							</settings>
+						</placement>
+						<placement code="nonpreferred_labels">
+							<bundle>nonpreferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Alternative repository names</setting>
+								<setting name="add_label" locale="en_US">Add alternative repository name</setting>
+							</settings>
+						</placement>						
+						<placement code="ca_attribute_addressSet">
+							<bundle>ca_attribute_addressSet</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="restrict_to_relationship_types">repositoryHolderRelation</setting>
+								<setting name="label" locale="en_US">Repository holder</setting>
+								<setting name="add_label" locale="en_US">Add repository holder</setting>
+							</settings>
+						</placement>
+					</bundlePlacements>
+				</screen>
+				<screen idno="relationships" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Relationships</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_objects">
+							<bundle>ca_objects</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+						</placement>
+					</bundlePlacements>
+				</screen>				
+			</screens>	
+		</userInterface>
+		<userInterface code="collections_ui" type="ca_collections">
+			<labels>
+				<label locale="en_US">
+					<name>Standard collection editor</name>
+				</label>
+			</labels>
+			<screens>
+				<screen idno="BasicInfoCollection" default="1">
+					<labels>
+						<label locale="en_US">
+							<name>Basic info</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="idno">
+							<bundle>idno</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Collection identifier</setting>
+							</settings>
+						</placement>
+						<placement code="preferred_labels">
+							<bundle>preferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Collection name</setting>
+							</settings>
+						</placement>
+						<placement code="nonpreferred_labels">
+							<bundle>nonpreferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="en_US">Alternative collection name</setting>
+								<setting name="add_label" locale="en_US">Add alternative collection name</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_collectionDescription">
+							<bundle>ca_attribute_collectionDescription</bundle>						
+						</placement> 
+					</bundlePlacements>
+				</screen>
+				<screen idno="contactDetailsCollection" default="0">
+				<labels>
+					<label locale="en_US">
+						<name>Contact details</name>
+					</label>
+				</labels>
+					<bundlePlacements>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+							<settings>
+								<setting name="restrict_to_relationship_types">mainContactPerson</setting>
+								<setting name="restrict_to_relationship_types">otherContactPerson</setting>
+								<setting name="label" locale="en_US">Contact person</setting>
+								<setting name="add_label" locale="en_US">Add contact person</setting>
+							</settings>
+						</placement>
+					</bundlePlacements>
+				</screen>
+				<screen idno="relationships" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Relationships</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_objects">
+							<bundle>ca_objects</bundle>
+						</placement>
+						<placement code="ca_entities">
+							<bundle>ca_entities</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>				
+			</screens>	
+		</userInterface>
+		<userInterface code="places_ui" type="ca_places">
+			<labels>
+				<label locale="en_US">
+					<name>Standard place editor</name>
+				</label>
+			</labels>
+			<screens>
+				<screen idno="BasicInfoPlaces" default="1">
+					<labels>
+						<label locale="en_US">
+							<name>Basic info</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="place_id">
+							<bundle>place_id</bundle>
+						</placement>					
+						<placement code="hierarchy_navigation">
+							<bundle>hierarchy_navigation</bundle>
+						</placement>
+						<placement code="preferred_labels">
+							<bundle>preferred_labels</bundle>
+							<settings>
+								<setting name="label" locale="nl_NL">Place name</setting>
+								<setting name="add_label" locale="nl_NL">Add place name</setting>
+							</settings>
+						</placement>
+						<placement code="ca_attribute_placeType">
+							<bundle>ca_attribute_placeType</bundle>
+						</placement>						
+					</bundlePlacements>
+				</screen>
+				<screen idno="relationships" default="0">
+					<labels>
+						<label locale="en_US">
+							<name>Relationships</name>
+						</label>
+					</labels>
+					<bundlePlacements>
+						<placement code="ca_objects">
+							<bundle>ca_objects</bundle>
+						</placement>
+						<placement code="ca_occurrences">
+							<bundle>ca_occurrences</bundle>
+						</placement>							
+					</bundlePlacements>
+				</screen>				
+			</screens>	
+		</userInterface>		
+	</userInterfaces>
+	<relationshipTypes>
+		<relationshipTable name="ca_objects_x_collections">
+			<types>
+				<type code="collectionName" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>is part of</typename>
+							<typename_reverse>includes</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+			</types>
+		</relationshipTable>		
+		<relationshipTable name="ca_entities_x_storage_locations">
+			<types>
+				<type code="repositoryHolderRelation" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>is repository holder of</typename>
+							<typename_reverse>has repository location holder</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+			</types>
+		</relationshipTable>
+		<relationshipTable name="ca_entities_x_collections">
+			<types>
+				<type code="mainContactPerson" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>is main contact person for</typename>
+							<typename_reverse>has main contact person</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="otherContactPerson" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>is other contact person for</typename>
+							<typename_reverse> has other contact person</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+			</types>
+		</relationshipTable>
+		<relationshipTable name="ca_entities_x_entities">
+			<types>
+				<type code="isRelatedWith" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>is related to</typename>
+							<typename_reverse>has relation with</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="isMember" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>is member of</typename>
+							<typename_reverse>has member</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>			
+			</types>
+		</relationshipTable>		
+		<relationshipTable name="ca_objects_x_entities">
+			<types>
+				<type code="inDepositAt" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>is in deposit at</typename>
+							<typename_reverse>has in deposit</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="inDepositWith" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>is in deposit with</typename>
+							<typename_reverse>has in deposit</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="eventActorRelation" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>has event actor</typename>
+							<typename_reverse>has role in event</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="recordSourceRelation" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>has record source</typename>
+							<typename_reverse>is record source of</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="resourceSourceRelation" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>has source</typename>
+							<typename_reverse>is source of</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>	
+				<type code="resourceRightsHolderRelation" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>has resource rights holder</typename>
+							<typename_reverse>is resource rights holder</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="hasSubject" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>has subject</typename>
+							<typename_reverse>is subject of</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>					
+				<type code="hasDepiction" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>has depiction of</typename>
+							<typename_reverse>is depicted on</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>			
+				<type code="rightsHolderRelation" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>has rights holder</typename>
+							<typename_reverse>is rights holder of</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>					
+			</types>
+		</relationshipTable>
+		<relationshipTable name="ca_entities_x_occurrences">
+			<types>
+				<type code="occurrencesActorRelation" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>is involved in event</typename>
+							<typename_reverse>has involvement of</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+			</types>
+		</relationshipTable>
+		<relationshipTable name="ca_objects_x_storage_locations">
+			<types>
+				<type code="repositoryLocationRelation" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>has current location</typename>
+							<typename_reverse>is current location of</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+			</types>
+		</relationshipTable>		
+		<relationshipTable name="ca_objects_x_occurrences">
+			<types>
+				<type code="subjectEventRelation" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>has event subject</typename>
+							<typename_reverse>is subject in</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+			</types>
+		</relationshipTable>
+		<relationshipTable name="ca_objects_x_objects">
+			<types>
+				<type code="isPartOf" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>is part of</typename>
+							<typename_reverse>has part</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="isStudyOf" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>is study of</typename>
+							<typename_reverse>has study</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="isModelOf" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>is model of</typename>
+							<typename_reverse>has model</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="isCopyOf" default="0">
+					<labels>
+						<label locale="en_US">
+							<typename>copy of</typename>
+							<typename_reverse>is copy of</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>
+				<type code="isdepictedOn" default="1">
+					<labels>
+						<label locale="en_US">
+							<typename>is depicted on</typename>
+							<typename_reverse>depicts</typename_reverse>
+						</label>
+					</labels>
+					<subTypeLeft></subTypeLeft>
+					<subTypeRight></subTypeRight>
+				</type>					
+			</types>			
+		</relationshipTable>	
+	</relationshipTypes>	
+</profile>
