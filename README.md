@@ -1,1 +1,1 @@
-https://travis-ci.org/libis/euInside.png
+[![Build Status](https://travis-ci.org/libis/euInside.png)](https://travis-ci.org/libis/euInside)
