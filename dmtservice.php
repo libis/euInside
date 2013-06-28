@@ -1,8 +1,6 @@
 <?php
 	require_once("/util/dmtdatafiles.php");
-?>
 
-<?php
 	class service{
 		public $MINIMUM_PATH_ITEMS = 4;
 		
@@ -95,8 +93,8 @@
 
 		//create directory(millisecond name)
 		//create file
-		function dmtDirectory($fileContent, $fileName, $fileType){		
-			$filePath = dirname(__FILE__)."/files/".round(microtime(true) * 1000);
+		function dmtDirectory($fileContent, $fileName, $fileType, $title){
+			$filePath = dirname(__FILE__)."/files/".strtoupper($title).round(microtime(true) * 1000);
 			if (!file_exists($filePath)) {
 				mkdir($filePath);
 			}
@@ -114,15 +112,17 @@
 				$iFile->fileType = "application/zip"; 
 			}else 			
 				$iFile->fileType = $fileType; 
-			
-			$this->inputDataFile = $iFile; 
+
+            return $iFile;
 			
 		}
 		
 		function dmtTransformer($dataFile, $rulesFile){
 
 			$oFile = new DataFile();
-			$oFile->fileName = "Transformed_".$dataFile -> fileName; //"Transformed.html"; 
+			//$oFile->fileName = "Transformed_".$dataFile -> fileName; //"Transformed.html"; 
+			$oFile->fileName = $dataFile -> fileName."_Transformed.html"; 
+			//$oFile->fileName = "Transformed.html"; 
 			$oFile->filePath = $dataFile -> filePath;  
 			$oFile->fileType = $dataFile -> fileType;  			
 
@@ -150,18 +150,13 @@
 			return $oFile;
 		}
 		
-		function dmtCore($fileContent, $fileName, $fileType, $sourceFormat, $targetFormat){
-			$this -> dmtDirectory($fileContent, $fileName, $fileType);
-			
-			//currently only one xslt, an appropriate xslt mapping rule file should be selected
-			//based on source and target format choice
-			$rulesFile = new DataFile();
-			#$rulesFile->fileName = "marc21ToOaiDc.xsl"; 
-			$rulesFile->fileName = "collectionrules.xsl"; 
-			$rulesFile->filePath = dirname(__FILE__)."/transformationrules";  
-			$rulesFile->fileType = 'xslt'; 
-			
-			if($this -> inputDataFile -> fileType == "application/zip"){				
+		//function dmtCore($fileContent, $fileName, $fileType, $recordFile, $mappingFile){
+        function dmtCore($recordFile, $mappingFile){
+            //$mappingFile->fileName = "collectionrules.xsl";
+            //$mappingFile->fileName = "marc21ToOaiDc.xsl";
+            $this->inputDataFile =$recordFile;
+
+            if($this -> inputDataFile -> fileType == "application/zip"){
 				//read zip file, for each file call tranformer				
 				$inputFile = $this->inputDataFile -> filePath ."/". $this->inputDataFile -> fileName;
 				//extract each file, transform it and remove it
@@ -179,7 +174,7 @@
 						$tempFile->filePath = $transformationPath;  
 						$tempFile->fileType = "application/xml"; 
 														   
-						$this -> dmtTransformer($tempFile, $rulesFile);
+						$this -> dmtTransformer($tempFile, $mappingFile);
 						unlink($tempFile->filePath ."/". $tempFile->fileName);
 					}								   
 					$zip->close();								  
@@ -202,29 +197,187 @@
 				
 			}else
 			{			
-				$this -> outputDataFile = $this -> dmtTransformer($this->inputDataFile, $rulesFile);					
+				$this -> outputDataFile = $this -> dmtTransformer($this->inputDataFile, $mappingFile);
 			}
-								
-			return $this -> outputDataFile;
+            //file_put_contents($this-> outputDataFile->filePath."/status.txt", '1');
+            return $this -> outputDataFile;
 			 
 		}
-		
-		function removeDirectory($dirPath) { 
-	
-			if (is_dir($dirPath)) { 
-				$objects = scandir($dirPath); 
-				foreach ($objects as $object) { 
-					if ($object != "." && $object != "..") { 
-						if (filetype($dirPath."/".$object) == "dir"){
-							 removeDirectory($dirPath."/".$object);
-						}else{
-							 unlink($dirPath."/".$object);
-						} 
-					} 
-					reset($objects); 
-					rmdir($dirPath); 
-				} 
-			}		
+
+        function generateMappingFile($rulesFileContent, $rulesFileName, $recordFile, $sourceFormat, $targetFormat){
+
+            $mappingFile = new DataFile();
+
+            $mappingPath = $recordFile->filePath."/mapping";
+            if (!file_exists($mappingPath)) {
+                mkdir($mappingPath);
+            }
+            $rulesFile = $mappingPath."/".$rulesFileName;
+            file_put_contents($rulesFile, $rulesFileContent);
+
+            $sourceFile = $recordFile;
+            $sourceFilePath = $sourceFile->filePath."/".$sourceFile->fileName;
+
+            $fileName = explode(".", $rulesFileName);
+            $newXMLFile = $mappingPath."/".$fileName[0].".xml";
+            $this->initEDMXML($newXMLFile);
+
+            $row = 1;
+            if (($handle = fopen($rulesFile, "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    $xsltData = "";
+                    switch($data[0]){
+                        case 'COPY':
+                            $xsltData = $this->copyRule($data[1], $data[2]);
+                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            $this->addXMLElement($newXMLFile, $data[2],null,$existingValues );
+                            break;
+
+                        case 'APPEND':
+                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            break;
+
+                        case 'SPLIT':
+                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            break;
+
+                        case 'COMBINE':
+                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            break;
+
+                        case 'LIMIT':
+                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            break;
+
+                        case 'PUT':
+                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            break;
+
+                        case 'SKIP':
+                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            break;
+
+                        case 'CONDITION':
+                            break;
+
+                        default:
+                            break;
+                    }
+                    $row++;
+                }
+                fclose($handle);
+
+            }
+
+
+
+
+
+            //Tempoary Default transformation file
+            $mappingFile->filePath = dirname(__FILE__)."/transformationrules";
+            $mappingFile->fileType = 'xslt';
+            $mappingFile->fileName = "collectionrules.xsl";
+
+            return $mappingFile;
+        }
+
+        function getExistingRecordValue($existingXML, $attribute){
+            $returnValue = array();
+            $xml=simplexml_load_file($existingXML);
+
+            $tag = substr($attribute,4,3);
+            $ident1 = substr($attribute,7,1);
+            if($ident1 == "#") $ident1 =" ";
+            $ident2 = substr($attribute,8,1);
+            if($ident2 == "#") $ident2 =" ";
+            $code = substr($attribute,10,1);
+
+            $xPathQuery = ' /collection/record/datafield[@tag="%s" and @ind1="%s" and @ind2="%s"] ';
+            $xPathQuery = sprintf($xPathQuery, $tag, $ident1, $ident2);
+
+            $query = $xml->xpath($xPathQuery);
+            if(isset($query[0]))
+            {
+                $children =$query[0]->children();
+
+                if(isset($code)){
+                    foreach($children as $child){
+                        if($code == $child['code']){
+                            $returnValue = $child;
+                            break;
+                        }
+                    }
+                }
+                else
+                    $returnValue = $children[0];
+            }
+            else
+
+            return $returnValue;
+        }
+
+        function writeNewRecordValue($newXML, $field){
+
+        }
+
+        function copyRule($fromField, $toField){
+
+            return $fromField."\t". $toField;
+        }
+
+        function initEDMXML($xmlFile){
+            $domDoc = new DOMDocument('1.0', 'UTF-8');
+            $rootElt = $domDoc->createElementNS(' ','rdf:RDF');
+            $att = $domDoc->createAttribute('xsi:schemaLocation');
+            $attTex = $domDoc->createTextNode('"http://www.w3.org/1999/02/22-rdf-syntax-ns# EDM.xsd"');
+            $att->appendChild($attTex);
+            $rootElt->appendChild($att);
+            $domDoc->appendChild($rootElt);
+            $domDoc->save($xmlFile);
+
+            return $xmlFile;
+        }
+        function addXMLElement($xmlFile, $appendElement, $appendToElement, $value){
+
+            $addToElement = "";
+            $domDoc = new DOMDocument();
+            $domDoc->load($xmlFile);
+            $root=$domDoc->documentElement; // Root node
+            if(!isset($appendToElement))
+                $addToElement = $domDoc->documentElement; // Root node
+            else
+                $addToElement = $appendToElement;
+
+
+            //$childNode = $domDoc->appendChild($addToElement);
+
+            $childNode = $domDoc->createElementNS('nm', $appendElement);
+            $nodeValue = $domDoc->createTextNode($value);
+//            $test = $childNode->appendChild($nodeValue);
+            $addToElement->appendChild($childNode);
+
+            $domDoc->save($xmlFile);
+        }
+
+		function removeDirectory($dir) {
+
+            $dir_content = scandir($dir);
+            if($dir_content !== FALSE){
+                foreach ($dir_content as $entry)
+                {
+                    if(!in_array($entry, array('.','..'))){
+                        $entry = $dir . '/' . $entry;
+                        if(!is_dir($entry)){
+                            unlink($entry);
+                        }
+                        else{
+                            rmdir_recursive($entry);
+                        }
+                    }
+                }
+            }
+            rmdir($dir);
+
 		}
 	}
 ?>
