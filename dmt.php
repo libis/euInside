@@ -60,9 +60,13 @@
 
                     if (isset($_FILES['mappingRulesFile'])){
                         $rulesContent = file_get_contents($_FILES['mappingRulesFile']['tmp_name']);
-                        if($_FILES['mappingRulesFile']['type'] == 'text/csv')
+                        if($_FILES['mappingRulesFile']['type'] == 'text/csv'){
                             $mappingFile = $dmtservice -> generateMappingFile($rulesContent,$_FILES['mappingRulesFile']['name'],
                                 $recordFile, $sourceFormat, $targetFormat);
+                            //TEMPORARY
+                            $dmtservice -> mappRecord($rulesContent,$_FILES['mappingRulesFile']['name'],
+                                $recordFile, $sourceFormat, $targetFormat);
+                        }
                         else{
                             http_response_code(422);
                             $arrResponse = "Input mapping rules file is not a CSV file";

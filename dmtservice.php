@@ -1,5 +1,6 @@
 <?php
 	require_once("/util/dmtdatafiles.php");
+    require_once("lidoMapping.php");
 
 	class service{
 		public $MINIMUM_PATH_ITEMS = 4;
@@ -23,9 +24,9 @@
 							
                             case 'outputDataFile':  
                               $this->outputDataFile = $value;  
-                            break;							
-							
-                            default:  
+                            break;
+
+                            default:
                               throw new Exception("Attempt to set a non-existing property: $name");  
                             break;  
                      }  
@@ -204,9 +205,49 @@
 			 
 		}
 
+        function mappRecord($rulesFileContent, $rulesFileName, $recordFile, $sourceFormat, $targetFormat){
+            if($sourceFormat == 'LIDO' && $targetFormat == 'EDM')
+                $this->generateLIDOEDM($rulesFileContent, $rulesFileName, $recordFile);
+
+//            if($sourceFormat == 'MARC' && $targetFormat == 'EDM')
+//                $this->generateMARCEDM();
+//
+//            if($sourceFormat == 'EAD' && $targetFormat == 'EDM')
+//                $this->generateEADEDM();
+
+            }
+
+        function generateLIDOEDM($rulesFileContent, $rulesFileName, $recordFile){
+
+            $lidoMapping =  new lidoMapping();
+
+            $mappingPath = $recordFile->filePath."/mapping";
+            if (!file_exists($mappingPath)) {
+                mkdir($mappingPath);
+            }
+            $rulesFile = $mappingPath."/".$rulesFileName;
+            file_put_contents($rulesFile, $rulesFileContent);
+
+            $sourceFile = $recordFile;
+            $sourceFilePath = $sourceFile->filePath."/".$sourceFile->fileName;
+
+            $fileName = explode(".", $rulesFileName);
+            $newXMLFile = $mappingPath."/".$fileName[0]."test.xml";
+            $this->initEDMXML($newXMLFile);
+
+//            $xml=simplexml_load_file($sourceFilePath);
+
+        }
+
+
+
+
+
         function generateMappingFile($rulesFileContent, $rulesFileName, $recordFile, $sourceFormat, $targetFormat){
 
             $mappingFile = new DataFile();
+
+            $lidoMapping =  new lidoMapping();
 
             $mappingPath = $recordFile->filePath."/mapping";
             if (!file_exists($mappingPath)) {
@@ -220,7 +261,9 @@
 
             $fileName = explode(".", $rulesFileName);
             $newXMLFile = $mappingPath."/".$fileName[0].".xml";
-            $this->initEDMXML($newXMLFile);
+//            $this->initEDMXML($newXMLFile);
+            $lidoMapping->initEDMXML($newXMLFile);
+            $edmRecordIds = $lidoMapping->initEDMRecord($sourceFilePath, $newXMLFile);
 
             $row = 1;
             if (($handle = fopen($rulesFile, "r")) !== FALSE) {
@@ -228,33 +271,87 @@
                     $xsltData = "";
                     switch($data[0]){
                         case 'COPY':
-                            $xsltData = $this->copyRule($data[1], $data[2]);
-                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
-                            $this->addXMLElement($newXMLFile, $data[2],null,$existingValues );
+                              // for marc
+//                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+//                            $this->addXMLElement($newXMLFile, $data[2],null,$existingValues );
+
+                             // for lido
+                            $lidoMapping->copyMapping($sourceFilePath, $data[1], $data[2], $newXMLFile, $edmRecordIds);
+                            $toCopy = $lidoMapping->getExistingRecordValue($sourceFilePath,$data[1]);
+                            $lidoMapping->addXMLElement($newXMLFile, $data[2],null,$toCopy );
                             break;
 
-                        case 'APPEND':
-                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                        case 'APPEND':          //append to value of an existing record and assign to a new record
+                            // for marc
+                            //$existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            //$lidoMapping->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+
+                            // for lido
+                            $lidoMapping->appendMapping($sourceFilePath, $data[1], $data[3], $newXMLFile, $edmRecordIds, $data[2]);
+                            $toAppend = $lidoMapping->getExistingRecordValue($sourceFilePath,$data[1]);
+                            $appendedValue = $toAppend.' '.$data[2];
+                            $lidoMapping->addXMLElement($newXMLFile, $data[3],null,$appendedValue);
                             break;
 
                         case 'SPLIT':
-                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            // for marc
+                            //$existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+
+                            // for lido
+                            $toSplit = $lidoMapping->getExistingRecordValue($sourceFilePath,$data[1]);
+                            if($data[2] == '')
+                                $data[2] = ' ';
+                            $splitData = explode($data[2], $toSplit);
+                            $elements = explode(';', (trim($data[3], '()')));
+
+                            for($i = 0; $i<sizeof($elements); $i++){
+                                $node = str_replace(' ','',$elements[$i]);
+                                if(isset($splitData[$i]))
+                                    $nodeValue = $splitData[$i];
+                                else
+                                    $nodeValue = '';
+                                $lidoMapping->addXMLElement($newXMLFile, $node, null,$nodeValue );
+                        }
+
                             break;
 
                         case 'COMBINE':
-                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            // for marc
+//                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+
+                            $combine = $lidoMapping->getExistingRecordValue($sourceFilePath,$data[1]).
+                                ' '.$lidoMapping->getExistingRecordValue($sourceFilePath,$data[2]);
+                            $lidoMapping->addXMLElement($newXMLFile, $data[3],null,$combine );
+
                             break;
 
                         case 'LIMIT':
-                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            // for marc
+//                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+
+                            $toLimit = $lidoMapping->getExistingRecordValue($sourceFilePath,$data[1]);
+                            $limited = substr($toLimit, 0,$data[2]);
+                            $lidoMapping->addXMLElement($newXMLFile, $data[3],null,$limited );
+//                            file_put_contents('C:/xampp/htdocs/euInside/files/dmtlog.txt','Limit: '.$limited."\n",FILE_APPEND);
                             break;
 
                         case 'PUT':
-                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                            //for marc
+//                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+
+                            //for lido
+                            $lidoMapping->putMapping($sourceFilePath, $data[2], $newXMLFile, $edmRecordIds, $data[1]);
+                            $lidoMapping->addXMLElement($newXMLFile, $data[2],null,$data[1]);
                             break;
 
-                        case 'SKIP':
-                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
+                        case 'REPLACE':             //replace value of an existing record and assign to a new record
+                            $toReplace = $lidoMapping->getExistingRecordValue($sourceFilePath,$data[1]);
+                            $replacedValue = str_replace($data[2], $data[3], $toReplace);
+                            $lidoMapping->addXMLElement($newXMLFile, $data[4],null,$replacedValue );
+                            break;
+
+                        case 'SKIP':        //do not add against skip
+//                            $existingValues = $this->getExistingRecordValue($sourceFilePath,$data[1] , 1);
                             break;
 
                         case 'CONDITION':
@@ -269,11 +366,7 @@
 
             }
 
-
-
-
-
-            //Tempoary Default transformation file
+        //Tempoary Default transformation file
             $mappingFile->filePath = dirname(__FILE__)."/transformationrules";
             $mappingFile->fileType = 'xslt';
             $mappingFile->fileName = "collectionrules.xsl";
@@ -281,6 +374,7 @@
             return $mappingFile;
         }
 
+        //Working for Marc
         function getExistingRecordValue($existingXML, $attribute){
             $returnValue = array();
             $xml=simplexml_load_file($existingXML);
@@ -320,18 +414,17 @@
 
         }
 
-        function copyRule($fromField, $toField){
-
-            return $fromField."\t". $toField;
+        function mappingCopy(){
+            //$lidoMapping->addXMLElement($newXMLFile, $data[2],null,$toCopy );
         }
 
         function initEDMXML($xmlFile){
             $domDoc = new DOMDocument('1.0', 'UTF-8');
             $rootElt = $domDoc->createElementNS(' ','rdf:RDF');
-            $att = $domDoc->createAttribute('xsi:schemaLocation');
-            $attTex = $domDoc->createTextNode('"http://www.w3.org/1999/02/22-rdf-syntax-ns# EDM.xsd"');
-            $att->appendChild($attTex);
-            $rootElt->appendChild($att);
+//            $att = $domDoc->createAttribute('xsi:schemaLocation');
+//            $attTex = $domDoc->createTextNode('"http://www.w3.org/1999/02/22-rdf-syntax-ns# EDM.xsd"');
+//            $att->appendChild($attTex);
+//            $rootElt->appendChild($att);
             $domDoc->appendChild($rootElt);
             $domDoc->save($xmlFile);
 
