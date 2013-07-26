@@ -7,9 +7,7 @@
 	$requestmethod = $_SERVER['REQUEST_METHOD'];
 	$requestPath = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 	$requestParameters = $_SERVER['QUERY_STRING'];
-	
-	//echo $requestmethod;
-	//echo "<br>";
+
 	$arrResponse = "";
 	switch ($requestmethod) {
 	
@@ -56,16 +54,13 @@
                 $recordFile = $dmtservice -> dmtDirectory($contentRecord, $nameRecord, $typeRecord, $requestPath[2]);
                 if (isset($recordFile))
                 {
-                    file_put_contents($recordFile->filePath."/status.txt", '0');
 
                     if (isset($_FILES['mappingRulesFile'])){
                         $rulesContent = file_get_contents($_FILES['mappingRulesFile']['tmp_name']);
                         if($_FILES['mappingRulesFile']['type'] == 'text/csv'){
-                            $mappingFile = $dmtservice -> generateMappingFile($rulesContent,$_FILES['mappingRulesFile']['name'],
+                            $arrResponse = $dmtservice -> recordMapping($rulesContent,$_FILES['mappingRulesFile']['name'],
                                 $recordFile, $sourceFormat, $targetFormat);
-                            //TEMPORARY
-                            $dmtservice -> mappRecord($rulesContent,$_FILES['mappingRulesFile']['name'],
-                                $recordFile, $sourceFormat, $targetFormat);
+                            exit(json_encode (array('request_id' => $arrResponse)));
                         }
                         else{
                             http_response_code(422);
@@ -75,7 +70,8 @@
                         }
 
                     }
-                    else{
+                    else
+                    {
                         $mappingFile->filePath = dirname(__FILE__)."/transformationrules";
                         $mappingFile->fileType = 'xslt';
 
@@ -95,27 +91,10 @@
                                 $dmtservice -> removeDirectory($recordFile->filePath);
                                 exit(json_encode ($arrResponse));
                         }
-
+                        $arrResponse = $dmtservice -> recordTransformation($recordFile, $mappingFile);
+                        exit(json_encode (array('request_id' => $arrResponse)));
                     }
 
-                    $responseFile = $dmtservice -> dmtCore($recordFile, $mappingFile);
-
-                    $file = $responseFile -> filePath."/".$responseFile -> fileName;
-                    if (file_exists($file)) {
-                        header('Content-Description: File Transfer');
-                        header('Content-Type: '. $responseFile -> fileType);
-                        header('Content-Disposition: attachment; filename='.basename($file));
-                        header('Content-Transfer-Encoding: binary');
-                        header('Expires: 0');
-                        header('Cache-Control: must-revalidate');
-                        header('Pragma: public');
-                        header('Content-Length: ' . filesize($file));
-                        ob_clean();
-                        flush();
-                        readfile($file);
-                        //$dmtservice -> removeDirectory($responseFile -> filePath);
-                        exit;
-                    }
                 }else{
                     http_response_code(404);
                     $arrResponse = "Error in storing record file(s).";
@@ -138,7 +117,56 @@
 		break;
 		
 	  case 'GET':
-		$arrResponse = $dmtservice -> getRequest($requestPath , $requestParameters);  
+          if($dmtservice -> validRequest($requestPath)){
+
+              switch(strtoupper($requestPath[3])){
+                  case 'STATUS':
+                      if(isset($_GET['request_id']))
+                          $arrResponse = array('status_code' => $dmtservice->getStatus($_GET['request_id']));
+                      else{
+                          $arrResponse = 'request_id is needed for '.strtoupper($requestPath[3]).' actions.';
+                          http_response_code(422);
+                      }
+                      break;
+
+                  case 'FETCH':
+                      if(isset($_GET['request_id']))
+                          $resultFile = $dmtservice->getResult($_GET['request_id']);
+                          if(isset($resultFile)){
+                              $file = $resultFile -> filePath."/".$resultFile -> fileName;
+                              if (file_exists($file)) {
+                                  header('Content-Description: File Transfer');
+                                  header('Content-Type: '. $resultFile -> fileType);
+                                  header('Content-Disposition: attachment; filename='.basename($file));
+                                  header('Content-Transfer-Encoding: binary');
+                                  header('Expires: 0');
+                                  header('Cache-Control: must-revalidate');
+                                  header('Pragma: public');
+                                  header('Content-Length: ' . filesize($file));
+                                  ob_clean();
+                                  flush();
+                                  readfile($file);
+                                  exit;
+                              }
+                          }
+
+                      else{
+                          $arrResponse = 'a valid request_id is needed for '.strtoupper($requestPath[3]).' actions.';
+                          http_response_code(422);
+                      }
+                      break;
+
+                  case 'LIST':
+                      $arrResponse =  $dmtservice->getSupportedFormatList();
+                      exit(json_encode ($arrResponse));
+                      break;
+              }
+
+          }else
+          {
+              http_response_code(422);
+              $arrResponse = "Invalid URL. <br> Please provide url in '/DataMapping/provider/batch/action?parameters' format.";
+          }
 		break;
 		
 	  case 'DELETE':
