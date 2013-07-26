@@ -1,6 +1,6 @@
 <?php
 	require_once("dmtservice.php");
-	require_once("/util/dmtdatafiles.php");	
+	require_once("util/dmtdatafiles.php");
 
 	$dmtservice = new service;
 	

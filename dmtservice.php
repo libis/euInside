@@ -1,5 +1,5 @@
 <?php
-	require_once("/util/dmtdatafiles.php");
+	require_once("util/dmtdatafiles.php");
     require_once("lidoMapping.php");
 
 	class service{
