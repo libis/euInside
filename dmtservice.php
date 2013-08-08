@@ -142,14 +142,15 @@
             return $iFile;
 			
 		}
-		
-		function dmtTransformer($dataFile, $rulesFile){
 
+		function dmtTransformer($dataFile, $rulesFile){
 			$oFile = new DataFile();
             //temporary, output format will be based on the xslt used
 			$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.html';
+//			$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
 			$oFile->filePath = $dataFile -> filePath;
-			$oFile->fileType = $dataFile -> fileType;  			
+			$oFile->fileType = $dataFile -> fileType;
+
 
 			if(false !== ($f = @fopen($oFile->filePath."/".$oFile->fileName, 'w'))) 
 			{ 
@@ -166,6 +167,7 @@
 
 				$proc = new XSLTProcessor;
 				@$proc->importStyleSheet($xsl); // attach the xsl rules
+
 
 				//$proc->transformToXML($transformedxml);
 				file_put_contents($oFile->filePath."/".$oFile->fileName, $proc->transformToXML($xml));
@@ -238,6 +240,24 @@
             return $receipt;
         }
 
+
+        function normalizeRules($rulesFile){
+
+            $rulesFileContent = file_get_contents($rulesFile);
+            preg_match_all('/"[^"]+"/', $rulesFileContent, $matches, PREG_SET_ORDER);
+            $changed = "";
+            foreach ($matches as $val) {
+                foreach($val as $v)
+                {
+                    $replaced = str_replace(',', '||', $v);
+                    $rulesFileContent = file_get_contents($rulesFile);
+                    $changed = str_replace($v, $replaced, $rulesFileContent);
+                    file_put_contents($rulesFile,$changed);
+                }
+            }
+
+        }
+
         function recordMapping($rulesFileContent, $rulesFileName, $recordFile, $sourceFormat, $targetFormat){
 
             $targetFile = new DataFile();
@@ -246,6 +266,8 @@
 
             $rulesFile = $recordFile->filePath."/".$rulesFileName;
             file_put_contents($rulesFile, $rulesFileContent);
+
+            $this->normalizeRules($rulesFile);
 
             $sourceFilePath = $recordFile->filePath."/".$recordFile->fileName;
 
@@ -324,9 +346,12 @@
             $lidoMapping->initEDMXML($newXMLFile);
             $edmRecordIds = $lidoMapping->initEDMRecord($sourceFilePath, $newXMLFile);
 
+            $this->normalizeRules($rulesFile);
+
             $row = 1;
             if (($handle = fopen($rulesFile, "r")) !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+
                     $this->mappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
                     $row++;
                 }
@@ -334,6 +359,7 @@
             }
             return true;
         }
+
 
         function mappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle){
 
@@ -402,6 +428,7 @@
             $ifDoPart = explode(',', str_replace(array( '(', ')' ), '', $ifData[1]));
 
             $result = $this->conditionIF($sourceFilePath, $ifConditionPart);
+
             if($result == 1){ //condition positive
                 return $ifDoPart;
             }
@@ -427,6 +454,7 @@
 
             $conditionType = strtoupper($ifData[1]); //e.g EQUAL
             $conditionValue =  $ifData[2];
+            $conditionValue =  trim(str_replace('||', ',', $conditionValue),'"');
 
             $foundNodeValues = $lidoMapping->nodeValue($sourceFilePath, $ifData[0]);
 

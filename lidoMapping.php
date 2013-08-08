@@ -56,10 +56,12 @@ class lidoMapping {
         $dom->load($existingXML);
 
         $params = $dom->getElementsByTagName('lido');
+        $changedValueToPut = str_replace('||', ',', $valueToPut);
 
         $i = 0;
         foreach ($params as $param) {       //iterates for each record
-            $this->addXMLNode($xmlEDM, $edmElement,  $edmRecordIds[$i], $valueToPut);
+//            $this->addXMLNode($xmlEDM, $edmElement,  $edmRecordIds[$i], $valueToPut);
+            $this->addXMLNode($xmlEDM, $edmElement,  $edmRecordIds[$i], $changedValueToPut);
             $i++;
         }
     }
@@ -183,24 +185,6 @@ class lidoMapping {
         }
     }
 
-//    function xPathQuery($elementPath){
-//        $prefix = 'lido:';
-//        $attribute = "";
-//
-//        $strPath = explode('@', $elementPath);
-//
-//        //element path
-//        $strElement = str_replace('/', '/'.$prefix, $strPath[0]);
-//
-//        //attribute
-//        if( isset($strPath[1])){
-//            $strAttribute = explode('=', $strPath[1]);
-//            $attributeName = $prefix.$strAttribute[0];
-//            $attributeValue = $strAttribute[1];
-//            $attribute = '[@'.$attributeName.'="'.$attributeValue.'"]';
-//        }
-//        return $strElement.$attribute;
-//    }
 
     function pathQuery($elementPath){
         $prefix = 'lido:';
@@ -237,7 +221,6 @@ class lidoMapping {
             }
 
         }
-        file_put_contents('C:/xampp/htdocs/euInside/files/dmttestdummy.txt',$strElementQueryPath."\n",FILE_APPEND);
 
         return $strElementQueryPath;
 
@@ -319,12 +302,37 @@ class lidoMapping {
 
         $params = $domDoc->getElementsByTagName('ProvidedCHO');
         foreach ($params as $param) {
+
             if($edmRecordId == $param->getAttribute('rdf:about')){
-                $child = $param->appendChild($childNode);            //add newley created node to root or the given node
-                $child->appendChild($nodeValue);                            //assign value to the newly created node element
+
+                if($appendElement == 'edm:object'){
+                    //1. add web resource
+                    $this->addWebResource($domDoc, $value);
+                }
+                else{
+                    $child = $param->appendChild($childNode);            //add newley created node to root or the given node
+                    $child->appendChild($nodeValue);                            //assign value to the newly created node element
+                }
             }
         }
         $domDoc->save($xmlFile);
+    }
+
+
+    function addWebResource($domDoc, $value){
+
+        $rootNode = $domDoc->documentElement;
+        $resourceNode = $domDoc->createElementNS(' ', 'edm:WebResource'); //create resource element
+        $attResource = $domDoc->createAttribute('rdf:about');            //create resource attribute
+        $attResource->value = $value;                                    //assigne value to resource
+        $resourceNode->appendChild($attResource);                        //add attribute to resource element
+
+        $resourceEDMRights = $domDoc->createElementNS(' ', 'edm:rights'); //create resource element
+        $resourceNode->appendChild($resourceEDMRights);
+        $resourceDCRights = $domDoc->createElementNS(' ', 'dc:rights'); //create resource element
+        $resourceNode->appendChild($resourceDCRights);
+
+        $rootNode->appendChild($resourceNode);                           //add resource element to root
     }
 
     function initEDMRecord($existingXML, $xmlEDM){
@@ -344,17 +352,38 @@ class lidoMapping {
             $edmRecordID[] = $this->edmRecordId();
 
             $rootNode = $domDoc->documentElement;
-            $childNode = $domDoc->createElementNS(' ', 'edm:ProvidedCHO'); //create node element
 
+            //create empty edm record
+            $childNode = $domDoc->createElementNS(' ', 'edm:ProvidedCHO'); //create node element
             $attAbout = $domDoc->createAttribute('rdf:about');
             $attAboutText = $domDoc->createTextNode($edmRecordID[$i]);
             $attAbout->appendChild($attAboutText);
             $childNode->appendChild($attAbout);
+            $rootNode->appendChild($childNode); //append edm record to root element
 
-            $rootNode->appendChild($childNode);
+            //create aggregation node with edm:aggregatedCHO element
+            $this->createAggregationNode($domDoc, $rootNode, $edmRecordID[$i]);
+
             $domDoc->save($xmlEDM);
         }
         return $edmRecordID;
+    }
+
+    function createAggregationNode($domDoc, $rootNode, $edmRecordID){
+        $aggrigationNode = $domDoc->createElementNS(' ', 'ore:Aggregation'); //create Aggregation element
+        $attAggAbout = $domDoc->createAttribute('rdf:about');
+        $attAggAboutText = $domDoc->createTextNode($edmRecordID.'-aggregation');
+        $attAggAbout->appendChild($attAggAboutText);
+        $aggrigationNode->appendChild($attAggAbout);
+
+        $aggCHONode = $domDoc->createElement('edm:aggregatedCHO'); //create aggregatedCHO element
+        $attAggCHO = $domDoc->createAttribute('rdf:about');            //create aggregatedCHO attribute
+        $attAggCHO->value = $edmRecordID;                                    //assigne value to attribute
+        $aggCHONode->appendChild($attAggCHO);                        //add attribute to aggregatedCHO element
+        $aggrigationNode->appendChild($aggCHONode);
+
+        $rootNode->appendChild($aggrigationNode); //append aggrigation node to root element
+
     }
 
     function edmRecordId(){
