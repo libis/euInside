@@ -308,6 +308,18 @@ class lidoMapping {
                 if($appendElement == 'edm:object'){
                     //1. add web resource
                     $this->addWebResource($domDoc, $value);
+                    //2. add web resource in ore:Aggregation element
+                    $aggregators = $domDoc->getElementsByTagName('Aggregation');
+                    foreach($aggregators as $aggregator){
+                        if($aggregator->getAttribute('rdf:about') == $edmRecordId.'-aggregation')
+                        {
+                            $aggNode = $domDoc->createElementNS(' ', 'edm:hasView');
+                            $attAggNode = $domDoc->createAttribute('rdf:resource');
+                            $attAggNode->value = $value;
+                            $aggNode->appendChild($attAggNode);
+                            $aggregator->appendChild($aggNode);
+                        }
+                    }
                 }
                 else{
                     $child = $param->appendChild($childNode);            //add newley created node to root or the given node
