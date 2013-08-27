@@ -364,7 +364,7 @@
         function mappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle){
 
             $lidoMapping =  new lidoMapping();
-            switch($data[0]){
+            switch(strtoupper($data[0])){
                 case 'COPY':
                     $lidoMapping->copyMapping($sourceFilePath, $data[1], $data[2], $newXMLFile, $edmRecordIds);
                     break;

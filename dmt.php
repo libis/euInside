@@ -3,6 +3,9 @@
 	require_once("util/dmtdatafiles.php");
 
 	$dmtservice = new service;
+
+    ob_start();
+    header('Content-Type: text/plain');
 	
 	$requestmethod = $_SERVER['REQUEST_METHOD'];
 	$requestPath = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
@@ -40,13 +43,15 @@
                     $nameRecord = $_FILES['record']['name'];
                     $typeRecord = $_FILES['record']['type'];
                 }else{
-                    http_response_code(422);
+                    //http_response_code(422);
+                    header("Status: 422 Unprocessable Entity");
                     $arrResponse = "Record(s) is not provided";
                     exit(json_encode ($arrResponse));
                 }
                 if (isset($_FILES['record']) && isset($_FILES['records']))
                 {
-                    http_response_code(404);
+                    //http_response_code(404);
+                    header("Status: 404 Not Found");
                     $arrResponse = "record and records parameters cannot be handled together in one request.";
                     exit(json_encode ($arrResponse));
                 }
@@ -60,10 +65,12 @@
                         if($_FILES['mappingRulesFile']['type'] == 'text/csv'){
                             $arrResponse = $dmtservice -> recordMapping($rulesContent,$_FILES['mappingRulesFile']['name'],
                                 $recordFile, $sourceFormat, $targetFormat);
+                            header('Content-Type: application/json');
                             exit(json_encode (array('request_id' => $arrResponse)));
                         }
                         else{
-                            http_response_code(422);
+                            //http_response_code(422);
+                            header("Status: 422 Unprocessable Entity");
                             $arrResponse = "Input mapping rules file is not a CSV file";
                             $dmtservice -> removeDirectory($recordFile->filePath);
                             exit(json_encode ($arrResponse));
@@ -86,17 +93,20 @@
                                 $mappingFile->fileName = "eadtoedm.xsl";
                                 break;
                             default:
-                                http_response_code(422);
+                                //http_response_code(422);
+                                header("Status: 422 Unprocessable Entity");
                                 $arrResponse = 'Unsupported source format.';
                                 $dmtservice -> removeDirectory($recordFile->filePath);
                                 exit(json_encode ($arrResponse));
                         }
                         $arrResponse = $dmtservice -> recordTransformation($recordFile, $mappingFile);
+                        header('Content-Type: application/json');
                         exit(json_encode (array('request_id' => $arrResponse)));
                     }
 
                 }else{
-                    http_response_code(404);
+                    //http_response_code(404);
+                    header("Status: 404 Not Found");
                     $arrResponse = "Error in storing record file(s).";
                     exit(json_encode ($arrResponse));
                 }
@@ -104,13 +114,15 @@
 
 			}
 			else{
-                http_response_code(404);
+                //http_response_code(404);
+                header("Status: 404 Not Found");
 				$arrResponse = "Please provide both source and target formats";
 			}
 
 		}else
         {
-            http_response_code(422);
+            //http_response_code(422);
+            header("Status: 422 Unprocessable Entity");
 			$arrResponse = "Invalid URL. <br> Please provide url in '/DataMapping/provider/batch/action?parameters' format.";
         }
 
@@ -121,11 +133,14 @@
 
               switch(strtoupper($requestPath[3])){
                   case 'STATUS':
-                      if(isset($_GET['request_id']))
+                      if(isset($_GET['request_id'])){
+                          header('Content-Type: application/json');
                           $arrResponse = array('status_code' => $dmtservice->getStatus($_GET['request_id']));
+                      }
                       else{
                           $arrResponse = 'request_id is needed for '.strtoupper($requestPath[3]).' actions.';
-                          http_response_code(422);
+                          //http_response_code(422);
+                          header("Status: 422 Unprocessable Entity");
                       }
                       break;
 
@@ -152,20 +167,30 @@
 
                       else{
                           $arrResponse = 'a valid request_id is needed for '.strtoupper($requestPath[3]).' actions.';
-                          http_response_code(422);
+                          //http_response_code(422);
+                          header("Status: 422 Unprocessable Entity");
                       }
                       break;
 
                   case 'LIST':
+                      header('Content-Type: application/json');
                       $arrResponse =  $dmtservice->getSupportedFormatList();
                       exit(json_encode ($arrResponse));
                       break;
+
+                  default:
+                      $arrResponse = 'Request '.strtoupper($requestPath[3]).' is not supported.';
+                      //http_response_code(404);
+                      header("Status: 404 Not Found");
+                      //exit();
               }
 
           }else
           {
-              http_response_code(422);
+              //http_response_code(422);
+              header("Status: 422 Unprocessable Entity");
               $arrResponse = "Invalid URL. <br> Please provide url in '/DataMapping/provider/batch/action?parameters' format.";
+              //exit();
           }
 		break;
 		
@@ -176,5 +201,5 @@
 	}
 
 	echo json_encode ($arrResponse);
-	
+    ob_flush();
 ?>
