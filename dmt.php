@@ -217,6 +217,15 @@
                       exit(json_encode ($arrResponse));
                       break;
 
+                  case 'STATISTICS':
+                      $arrResponse =  $dmtservice->getStatistics();
+
+                      $log->logInfo($requestLogId.'->Service Statistics',$arrResponse);
+
+                      header('Content-Type: application/json');
+                      exit(json_encode ($arrResponse));
+                      break;
+
                   default:
                       $arrResponse = 'Request '.strtoupper($requestPath[3]).' is not supported.';
                       $log->logError($requestLogId.'->'.$arrResponse);

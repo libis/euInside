@@ -86,6 +86,18 @@
             return $supportedFormats;
         }
 
+        function getStatistics(){
+            $statistics = array('Statistics'=>
+            array(
+                array('Item Processed'      => 10,
+                      'Duration (sec)'      => 1,
+                      'Successful Items'    => 8,
+                      'Unsuccessful Items'  => 2,
+                )
+            ));
+            return $statistics;
+        }
+
         function getResult($requestId){
             $resultFile = new DataFile();
 
