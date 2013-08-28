@@ -51,7 +51,6 @@
                     $nameRecord = $_FILES['record']['name'];
                     $typeRecord = $_FILES['record']['type'];
                 }else{
-                    //http_response_code(422);
                     header("Status: 422 Unprocessable Entity");
                     $arrResponse = "Record(s) is not provided";
 
@@ -61,7 +60,6 @@
                 }
                 if (isset($_FILES['record']) && isset($_FILES['records']))
                 {
-                    //http_response_code(404);
                     header("Status: 404 Not Found");
                     $arrResponse = "record and records parameters cannot be handled together in one request.";
                     $log->logError($requestLogId.'->'.$arrResponse);
@@ -87,7 +85,6 @@
                             exit(json_encode (array('request_id' => $arrResponse)));
                         }
                         else{
-                            //http_response_code(422);
                             header("Status: 422 Unprocessable Entity");
                             $arrResponse = "Input mapping rules file is not a CSV file";
 
@@ -132,7 +129,6 @@
                     }
 
                 }else{
-                    //http_response_code(404);
                     header("Status: 404 Not Found");
                     $arrResponse = "Error in storing record file(s).";
 
@@ -144,7 +140,6 @@
 
 			}
 			else{
-                //http_response_code(404);
                 header("Status: 404 Not Found");
 				$arrResponse = "Please provide both source and target formats";
 
@@ -153,7 +148,6 @@
 
 		}else
         {
-            //http_response_code(422);
             header("Status: 422 Unprocessable Entity");
 			$arrResponse = "Invalid URL. <br> Please provide url in '/DataMapping/provider/batch/action?parameters' format.";
             $log->logError($requestLogId.'->'.$arrResponse);
@@ -176,7 +170,6 @@
                       }
                       else{
                           $arrResponse = 'request_id is needed for '.strtoupper($requestPath[3]).' actions.';
-                          //http_response_code(422);
 
                           $log->logError($requestLogId.'->'.$arrResponse);
 
@@ -209,7 +202,6 @@
 
                       else{
                           $arrResponse = 'a valid request_id is needed for '.strtoupper($requestPath[3]).' actions.';
-                          //http_response_code(422);
                           $log->logError($requestLogId.'->'.$arrResponse);
 
                           header("Status: 422 Unprocessable Entity");
@@ -217,30 +209,26 @@
                       break;
 
                   case 'LIST':
-                      header('Content-Type: application/json');
                       $arrResponse =  $dmtservice->getSupportedFormatList();
 
                       $log->logInfo($requestLogId.'->List of supported formats',$arrResponse);
 
+                      header('Content-Type: application/json');
                       exit(json_encode ($arrResponse));
                       break;
 
                   default:
                       $arrResponse = 'Request '.strtoupper($requestPath[3]).' is not supported.';
-                      //http_response_code(404);
                       $log->logError($requestLogId.'->'.$arrResponse);
 
                       header("Status: 404 Not Found");
-                      //exit();
               }
 
           }else
           {
-              //http_response_code(422);
               header("Status: 422 Unprocessable Entity");
               $arrResponse = "Invalid URL. <br> Please provide url in '/DataMapping/provider/batch/action?parameters' format.";
               $log->logError($requestLogId.'->'.$arrResponse);
-              //exit();
           }
 		break;
 		

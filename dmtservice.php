@@ -76,7 +76,14 @@
         }
 
         function getSupportedFormatList(){
-            return array('1' => 'EDM', '2' => 'LIDO');
+            $supportedFormats = array('Supported Formats'=>
+                        array(
+                            array('Source' => 'LIDO',
+                                  'target' => 'EDM'),
+                            array('Source' => 'LIDO',
+                                  'target' => 'EDM')
+                        ));
+            return $supportedFormats;
         }
 
         function getResult($requestId){
