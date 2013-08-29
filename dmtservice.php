@@ -80,7 +80,7 @@
                         array(
                             array('Source' => 'LIDO',
                                   'target' => 'EDM'),
-                            array('Source' => 'LIDO',
+                            array('Source' => 'MARC',
                                   'target' => 'EDM')
                         ));
             return $supportedFormats;
@@ -166,13 +166,13 @@
 			$oFile = new DataFile();
             //temporary, output format will be based on the xslt used
 			$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.html';
-//			$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
+			//$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
 			$oFile->filePath = $dataFile -> filePath;
 			$oFile->fileType = $dataFile -> fileType;
 
 
 			if(false !== ($f = @fopen($oFile->filePath."/".$oFile->fileName, 'w'))) 
-			{ 
+			{
 
 				$xml = new DOMDocument;
 				@$xml->load($dataFile->filePath."/".$dataFile->fileName);
@@ -279,7 +279,6 @@
 
         function recordMapping($rulesFileContent, $rulesFileName, $recordFile, $sourceFormat, $targetFormat){
 
-            $targetFile = new DataFile();
             $success = false;
             $resultFile = "";
 

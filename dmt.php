@@ -6,7 +6,6 @@
     $log = KLogger::instance('logging/', KLogger::DEBUG);
 	$dmtservice = new service;
 
-    ob_start();
     header('Content-Type: text/plain');
 	
 	$requestmethod = $_SERVER['REQUEST_METHOD'];
@@ -195,7 +194,8 @@
                                   header('Content-Length: ' . filesize($file));
                                   ob_clean();
                                   flush();
-                                  readfile($file);
+                                  $readSize = readfile($file);
+                                  $log->logInfo($requestLogId.'->File size:'.$readSize);
                                   exit;
                               }
                           }
@@ -249,5 +249,4 @@
 	}
 
 	echo json_encode ($arrResponse);
-    ob_flush();
 ?>

@@ -10,7 +10,6 @@ class lidoMapping {
         $xpath = new DOMXPath($dom);
 
         $params = $dom->getElementsByTagName('lido');
-//        $query = $this->xPathQuery($existingElementPath);
         $xPathQuery = $this->pathQuery($existingElementPath);
 
         $i = 0;
@@ -34,7 +33,6 @@ class lidoMapping {
         $xpath = new DOMXPath($dom);
 
         $params = $dom->getElementsByTagName('lido');
-//        $query = $this->xPathQuery($existingElementPath);
         $xPathQuery = $this->pathQuery($existingElementPath);
 
         $i = 0;
@@ -74,7 +72,6 @@ class lidoMapping {
         $xpath = new DOMXPath($dom);
 
         $params = $dom->getElementsByTagName('lido');
-//        $query = $this->xPathQuery($existingElementPath);
         $xPathQuery = $this->pathQuery($existingElementPath);
 
         $i = 0;
@@ -98,7 +95,6 @@ class lidoMapping {
         $xpath = new DOMXPath($dom);
 
         $params = $dom->getElementsByTagName('lido');
-//        $query = $this->xPathQuery($existingElementPath);
         $xPathQuery = $this->pathQuery($existingElementPath);
 
         $i = 0;
@@ -130,7 +126,6 @@ class lidoMapping {
             $combinedValue = "";
 
             for($j = 0; $j<sizeof($elements); $j++){
-//                $query = $this->xPathQuery($elements[$j]);
                 $xPathQuery = $this->pathQuery($elements[$j]);
                 $entries = $xpath->query($param->getNodePath().$xPathQuery);
                 foreach ($entries as $entry) {
@@ -232,7 +227,7 @@ class lidoMapping {
 
         $domDoc = new DOMDocument('1.0', 'UTF-8');
 
-        $rootElt = $domDoc->createElementNS(' ','rdf:RDF');
+        $rootElt = $domDoc->createElementNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','rdf:RDF');
 
         $attDc = $domDoc->createAttribute('xmlns:dc');
         $attDc->value = 'http://purl.org/dc/elements/1.1/';
@@ -285,7 +280,6 @@ class lidoMapping {
 
     function addXMLNode($xmlFile, $appendElement, $edmRecordId, $value){
 
-        $addToElement = "";
         $domDoc = new DOMDocument();
 
         $domDoc->formatOutput = true;
@@ -296,7 +290,8 @@ class lidoMapping {
 
         $appendElement = str_replace(array("\r","\n"), '', $appendElement); //remove any empty line at the end of the element name
 
-        $childNode = $domDoc->createElementNS(' ', $appendElement); //create node element
+//        $childNode = $domDoc->createElementNS(' ', $appendElement); //create node element
+        $childNode = $domDoc->createElement($appendElement); //create node element
         $nodeValue = $domDoc->createTextNode($value);               //create value item
 
 
@@ -313,7 +308,8 @@ class lidoMapping {
                     foreach($aggregators as $aggregator){
                         if($aggregator->getAttribute('rdf:about') == $edmRecordId.'-aggregation')
                         {
-                            $aggNode = $domDoc->createElementNS(' ', 'edm:hasView');
+//                            $aggNode = $domDoc->createElementNS(' ', 'edm:hasView');
+                            $aggNode = $domDoc->createElement('edm:hasView');
                             $attAggNode = $domDoc->createAttribute('rdf:resource');
                             $attAggNode->value = $value;
                             $aggNode->appendChild($attAggNode);
@@ -334,14 +330,17 @@ class lidoMapping {
     function addWebResource($domDoc, $value){
 
         $rootNode = $domDoc->documentElement;
-        $resourceNode = $domDoc->createElementNS(' ', 'edm:WebResource'); //create resource element
+        //$resourceNode = $domDoc->createElementNS(' ', 'edm:WebResource'); //create resource element
+        $resourceNode = $domDoc->createElement('edm:WebResource'); //create resource element
         $attResource = $domDoc->createAttribute('rdf:about');            //create resource attribute
         $attResource->value = $value;                                    //assigne value to resource
         $resourceNode->appendChild($attResource);                        //add attribute to resource element
 
-        $resourceEDMRights = $domDoc->createElementNS(' ', 'edm:rights'); //create resource element
+//        $resourceEDMRights = $domDoc->createElementNS(' ', 'edm:rights'); //create resource element
+        $resourceEDMRights = $domDoc->createElement('edm:rights'); //create resource element
         $resourceNode->appendChild($resourceEDMRights);
-        $resourceDCRights = $domDoc->createElementNS(' ', 'dc:rights'); //create resource element
+//        $resourceDCRights = $domDoc->createElementNS(' ', 'dc:rights'); //create resource element
+        $resourceDCRights = $domDoc->createElement('dc:rights'); //create resource element
         $resourceNode->appendChild($resourceDCRights);
 
         $rootNode->appendChild($resourceNode);                           //add resource element to root
@@ -366,7 +365,8 @@ class lidoMapping {
             $rootNode = $domDoc->documentElement;
 
             //create empty edm record
-            $childNode = $domDoc->createElementNS(' ', 'edm:ProvidedCHO'); //create node element
+//            $childNode = $domDoc->createElementNS(' ', 'edm:ProvidedCHO'); //create node element
+            $childNode = $domDoc->createElement('edm:ProvidedCHO'); //create node element
             $attAbout = $domDoc->createAttribute('rdf:about');
             $attAboutText = $domDoc->createTextNode($edmRecordID[$i]);
             $attAbout->appendChild($attAboutText);
@@ -382,7 +382,8 @@ class lidoMapping {
     }
 
     function createAggregationNode($domDoc, $rootNode, $edmRecordID){
-        $aggrigationNode = $domDoc->createElementNS(' ', 'ore:Aggregation'); //create Aggregation element
+//        $aggrigationNode = $domDoc->createElementNS(' ', 'ore:Aggregation'); //create Aggregation element
+        $aggrigationNode = $domDoc->createElement('ore:Aggregation'); //create Aggregation element
         $attAggAbout = $domDoc->createAttribute('rdf:about');
         $attAggAboutText = $domDoc->createTextNode($edmRecordID.'-aggregation');
         $attAggAbout->appendChild($attAggAboutText);
@@ -409,7 +410,6 @@ class lidoMapping {
         $xpath = new DOMXPath($dom);
 
         $params = $dom->getElementsByTagName('lido');
-//        $query = $this->xPathQuery($existingElementPath);
         $xPathQuery = $this->pathQuery($existingElementPath);
 
         $foundValues = array();
