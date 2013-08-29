@@ -286,7 +286,6 @@ class lidoMapping {
         $domDoc->preserveWhiteSpace = false;
 
         $domDoc->load($xmlFile);
-        $xpath = new DOMXPath($domDoc);
 
         $appendElement = str_replace(array("\r","\n"), '', $appendElement); //remove any empty line at the end of the element name
 
