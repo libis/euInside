@@ -165,8 +165,8 @@
 		function dmtTransformer($dataFile, $rulesFile){
 			$oFile = new DataFile();
             //temporary, output format will be based on the xslt used
-			$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.html';
-			//$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
+			//$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.html';
+			$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
 			$oFile->filePath = $dataFile -> filePath;
 			$oFile->fileType = $dataFile -> fileType;
 
@@ -174,6 +174,17 @@
 			if(false !== ($f = @fopen($oFile->filePath."/".$oFile->fileName, 'w'))) 
 			{
 
+/*                $cSourceXML = $dataFile->filePath."/".$dataFile->fileName;
+                $cSourceXSLT = $rulesFile->filePath."/".$rulesFile->fileName;
+                $cOutputXML = $oFile->filePath."/New_".$oFile->fileName;
+                $saxonJar = dirname(__FILE__).'/util/saxon9he.jar';
+
+                $command = 'java -jar '.$saxonJar.' -s:'.$cSourceXML.' -xsl:'.$cSourceXSLT.' -o:'.$cOutputXML;
+                $javaDirectory ='C:\\PrOgRaM fIlEs\\Java\\jdk1.7.0_17\\bin';
+
+                chdir($javaDirectory);
+                exec($command);
+*/
 				$xml = new DOMDocument;
 				@$xml->load($dataFile->filePath."/".$dataFile->fileName);
 
