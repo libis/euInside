@@ -177,9 +177,10 @@
                 $saxonJar = dirname(__FILE__).'/util/saxon9he.jar';
 
                 $command = 'java -jar '.$saxonJar.' -s:'.$cSourceXML.' -xsl:'.$cSourceXSLT.' -o:'.$cOutputXML;
-                $javaDirectory ='C:\\PrOgRaM fIlEs\\Java\\jdk1.7.0_17\\bin';
 
-                chdir($javaDirectory);
+//                $javaDirectory ='C:\\PrOgRaM fIlEs\\Java\\jdk1.7.0_17\\bin';
+//                chdir($javaDirectory);
+
                 exec($command);
 			}
             return $transformedFile;
