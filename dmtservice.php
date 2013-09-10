@@ -163,20 +163,17 @@
 		}
 
 		function dmtTransformer($dataFile, $rulesFile){
-			$oFile = new DataFile();
-            //temporary, output format will be based on the xslt used
-			//$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.html';
-			$oFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
-			$oFile->filePath = $dataFile -> filePath;
-			$oFile->fileType = $dataFile -> fileType;
+            $transformedFile = new DataFile();
 
+            $transformedFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
+            $transformedFile->filePath = $dataFile -> filePath;
+            $transformedFile->fileType = $dataFile -> fileType;
 
-			if(false !== ($f = @fopen($oFile->filePath."/".$oFile->fileName, 'w'))) 
+            if(false !== ($f = @fopen($transformedFile->filePath."/".$transformedFile->fileName, 'w')))
 			{
-
-/*                $cSourceXML = $dataFile->filePath."/".$dataFile->fileName;
+                $cSourceXML = $dataFile->filePath."/".$dataFile->fileName;
                 $cSourceXSLT = $rulesFile->filePath."/".$rulesFile->fileName;
-                $cOutputXML = $oFile->filePath."/New_".$oFile->fileName;
+                $cOutputXML = $transformedFile->filePath."/".$transformedFile->fileName;
                 $saxonJar = dirname(__FILE__).'/util/saxon9he.jar';
 
                 $command = 'java -jar '.$saxonJar.' -s:'.$cSourceXML.' -xsl:'.$cSourceXSLT.' -o:'.$cOutputXML;
@@ -184,26 +181,8 @@
 
                 chdir($javaDirectory);
                 exec($command);
-*/
-				$xml = new DOMDocument;
-				@$xml->load($dataFile->filePath."/".$dataFile->fileName);
-
-				$xsl = new DOMDocument;
-				@$xsl->load($rulesFile->filePath."/".$rulesFile->fileName);
-
-					
-				$transformedxml = new DOMDocument;
-				@$transformedxml->load($oFile->filePath."/".$oFile->fileName);
-
-				$proc = new XSLTProcessor;
-				@$proc->importStyleSheet($xsl); // attach the xsl rules
-
-
-				//$proc->transformToXML($transformedxml);
-				file_put_contents($oFile->filePath."/".$oFile->fileName, $proc->transformToXML($xml));
-			}			
-					
-			return $oFile;
+			}
+            return $transformedFile;
 		}
 
         function recordTransformation($recordFile, $mappingFile){
@@ -258,6 +237,7 @@
                 $success = true; //at this moment results are ready immedietly , later this flag will be set based on the status
             }
 
+            file_put_contents('C:/xampp/htdocs/euInside/files/dmttest44.txt',$resultFile."\n",FILE_APPEND);
             $statusFile = $recordFile->filePath.'/status.txt';
             if($success === true) //change status to 2(ready to send)
             $this->changeRequestStatus($statusFile, 2);
