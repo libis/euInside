@@ -3,6 +3,8 @@
 	require_once("dmtservice.php");
 	require_once("util/dmtdatafiles.php");
 
+    $allowedSize = 1048576; //Bytes
+
     $log = KLogger::instance('logging/', KLogger::DEBUG);
 	$dmtservice = new service;
 
@@ -44,11 +46,29 @@
                     $contentRecord = file_get_contents($_FILES['records']['tmp_name']);
                     $nameRecord = $_FILES['records']['name'];
                     $typeRecord = $_FILES['records']['type'];
+                    $sizeRecords = $_FILES['records']['size'];
+                    if($sizeRecords > $allowedSize){
+                        header("Status: 422 Unprocessable Entity");
+                        $arrResponse = "Record(s) exceeds size limits. Maximum Allowed file size is ".$allowedSize." Bytes";
+
+                        $log->logError($requestLogId.'->'.$arrResponse);
+
+                        exit(json_encode ($arrResponse));
+                    }
                 }elseif
                 (isset($_FILES['record'])){
                     $contentRecord = file_get_contents($_FILES['record']['tmp_name']);
                     $nameRecord = $_FILES['record']['name'];
                     $typeRecord = $_FILES['record']['type'];
+                    $sizeRecord = $_FILES['record']['size'];
+                    if($sizeRecord > $allowedSize){
+                        header("Status: 422 Unprocessable Entity");
+                        $arrResponse = "Record(s) exceeds size limits. Maximum Allowed file size is ".$allowedSize." Bytes";
+
+                        $log->logError($requestLogId.'->'.$arrResponse);
+
+                        exit(json_encode ($arrResponse));
+                    }
                 }else{
                     header("Status: 422 Unprocessable Entity");
                     $arrResponse = "Record(s) is not provided";
@@ -205,6 +225,7 @@
                           $log->logError($requestLogId.'->'.$arrResponse);
 
                           header("Status: 422 Unprocessable Entity");
+
                       }
                       break;
 
