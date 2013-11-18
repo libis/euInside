@@ -1,0 +1,17 @@
+COPY,marc001,dc:identifier
+APPEND,marc852b,amazing1,dc:subject
+APPEND,marc8568,amazing2,dc:subject
+APPEND,marc300c,help,dc:subject
+APPEND,marc856u,test,dc:subject
+APPEND,marc245a,good,dc:subject
+PUT,"IMAGE,Camera",edm:type
+REPLACE,marc852b,kadoc,LIBIS,dcterms:spatial
+SPLIT,marc035a,?,dc:subject
+LIMIT,marc856u,24,dc:description
+COMBINE,marc8568;marc852b;marc245a,dc:title
+CONDITION,{
+IF[marc8568,EQUALS,2,DO(REPLACE,marc8568,2,3,dcterms:spatial)]
+}
+CONDITION,{
+IF[marc852b,EQUALS,kadoc,DO(COPY,marc852b,dc:spatial)]
+}
