@@ -1,53 +1,54 @@
 <?php
 	require_once("util/dmtdatafiles.php");
     require_once("lidoMapping.php");
+    require_once("marcMapping.php");
 
 	class service{
 		public $MINIMUM_PATH_ITEMS = 4;
 		
 		private	$inputDataFile;
 		private $outputDataFile;
-		
+
 		public function _construct(){			 
 			 self::__set('inputDataFile', new DataFile  ());  
 			 self::__set('outputDataFile', new DataFile  ());
 		}
 
-            # Setter  
-            public function __set($name, $value)  
-             {  
-                    switch ($name)  
-                     {  
-                            case 'inputDataFile':  
-                              $this->inputDataFile = $value;  
-                            break;
-							
-                            case 'outputDataFile':  
-                              $this->outputDataFile = $value;  
-                            break;
+        # Setter
+        public function __set($name, $value)
+         {
+                switch ($name)
+                 {
+                        case 'inputDataFile':
+                          $this->inputDataFile = $value;
+                        break;
 
-                            default:
-                              throw new Exception("Attempt to set a non-existing property: $name");  
-                            break;  
-                     }  
-             } 
-			 
-            # Getter  
-            public function __get($name)  
-             {  
-                    if (in_array($name, array('inputDataFile')))  
-                     return $this->$name;  
-					 
-                    if (in_array($name, array('outputDataFile')))  
-                     return $this->$name; 
+                        case 'outputDataFile':
+                          $this->outputDataFile = $value;
+                        break;
 
-					 switch ($name)  
-                     {  
-                            default:  
-                              throw new Exception("Attempt to get a non-existing property: $name");  
-                            break;  
-                     }  
-             }
+                        default:
+                          throw new Exception("Attempt to set a non-existing property: $name");
+                        break;
+                 }
+         }
+
+        # Getter
+        public function __get($name)
+         {
+                if (in_array($name, array('inputDataFile')))
+                 return $this->$name;
+
+                if (in_array($name, array('outputDataFile')))
+                 return $this->$name;
+
+                 switch ($name)
+                 {
+                        default:
+                          throw new Exception("Attempt to get a non-existing property: $name");
+                        break;
+                 }
+         }
 
 		function validRequest($path){
 			//There should be minimum 4 items in the GET request.
@@ -178,8 +179,8 @@
 
                 $command = 'java -jar '.$saxonJar.' -s:'.$cSourceXML.' -xsl:'.$cSourceXSLT.' -o:'.$cOutputXML;
 
-//                $javaDirectory ='C:\\PrOgRaM fIlEs\\Java\\jdk1.7.0_17\\bin';
-//                chdir($javaDirectory);
+                $javaDirectory ='C:\\PrOgRaM fIlEs\\Java\\jdk1.7.0_17\\bin';
+                chdir($javaDirectory);
 
                 exec($command);
 			}
@@ -238,7 +239,6 @@
                 $success = true; //at this moment results are ready immedietly , later this flag will be set based on the status
             }
 
-            file_put_contents('C:/xampp/htdocs/euInside/files/dmttest44.txt',$resultFile."\n",FILE_APPEND);
             $statusFile = $recordFile->filePath.'/status.txt';
             if($success === true) //change status to 2(ready to send)
             $this->changeRequestStatus($statusFile, 2);
@@ -335,6 +335,8 @@
                 if($sourceFormat == 'LIDO' && $targetFormat == 'EDM')
                     $success = $this->generateLIDOEDMFile($edmXMLFile, $sourceFilePath, $rulesFile);
 
+                if($sourceFormat == 'MARC' && $targetFormat == 'EDM')
+                    $success = $this->generateMARCEDMFile($edmXMLFile, $sourceFilePath, $rulesFile);
             }
 
             $statusFile = $recordFile->filePath.'/status.txt';
@@ -415,7 +417,10 @@
                             break;
                         $conditionData[] = $lineData;
                     }
-                    $commandData = $this->conditionParser($sourceFilePath, $conditionData);
+                    ///****
+                   // $commandData = $this->newConditionParser($sourceFilePath, $conditionData);
+                    ///***
+                    $commandData = $this->conditionParser($sourceFilePath, $conditionData, 'LIDO');
                     $this->mappingCommandParser($commandData, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
 
                     break;
@@ -425,10 +430,73 @@
             }
         }
 
-        function conditionParser($sourceFilePath, $conditionData){
+////////********
+    function newConditionParser($sourceFilePath, $conditionData){
 
+        $numberofLines = sizeof($conditionData);
+        for($i = 0; $i< $numberofLines; $i++){
+            $currentLine = $conditionData[$i];
+
+            $ifPosition = strpos($currentLine,'IF');
+            if($ifPosition !== false){
+                if($numberofLines == 1){
+//                    file_put_contents('C:/xampp/htdocs/euInside/files/dmttest45001.txt',' only if: '.$currentLine."\n",FILE_APPEND);
+                }
+                else{
+                    //one else
+                    $nextLine = $conditionData[$i+1];
+                    $elsePosition = strpos($nextLine,'ELSE');
+                    if($elsePosition !== false){
+                        if(strlen($nextLine)==4)
+                            file_put_contents('C:/xampp/htdocs/euInside/files/dmttest45001.txt',' if with one else: '.$conditionData[$i]."\n",FILE_APPEND);
+                        if(strlen($nextLine)>5)
+                            file_put_contents('C:/xampp/htdocs/euInside/files/dmttest45001.txt',' if with else and else has more: '.$conditionData[$i]."\n",FILE_APPEND);
+                    }
+                    //else has internal structure
+                }
+
+
+            }
+
+        }
+
+
+
+ /*       $ifCondition = $conditionData[0];
+
+        $ifPosition = strpos($ifCondition,'IF');
+
+        if($ifPosition === false) return; //IF condition not found
+
+        $ifData = explode('DO', str_replace(array( '[', ']' ), '', substr($ifCondition, $ifPosition+2)));
+        $ifConditionPart = explode(',', $ifData[0]);
+        $ifDoPart = explode(',', str_replace(array( '(', ')' ), '', $ifData[1]));
+
+        $result = $this->conditionIF($sourceFilePath, $ifConditionPart);
+
+        if($result == 1){ //condition positive
+            return $ifDoPart;
+        }
+        elseif($result == 2 && isset($conditionData[1])){ //condition negative
+            $elseCondition = $conditionData[1];
+
+            $elsePosition = strpos($elseCondition,'ELSE');
+            $elseData = explode('DO', str_replace(array( '[', ']' ), '', substr($elseCondition, $elsePosition+4)));
+            //here support for nested IF ELSE can be extended
+            // $elseConditionPart = explode(',', $elseData[0]);//is not neeed for single ELSE condition (non nested)
+            $elseDoPart = explode(',', str_replace(array( '(', ')' ), '', $elseData[1]));
+
+            foreach($elseData as $dd)
+
+                return $elseDoPart;
+        }
+        else{
+        }*/
+    }
+///////*********
+
+        function conditionParser($sourceFilePath, $conditionData, $format){     //for all formats
             $ifCondition = $conditionData[0];
-
             $ifPosition = strpos($ifCondition,'IF');
 
             if($ifPosition === false) return; //IF condition not found
@@ -437,29 +505,44 @@
             $ifConditionPart = explode(',', $ifData[0]);
             $ifDoPart = explode(',', str_replace(array( '(', ')' ), '', $ifData[1]));
 
-            $result = $this->conditionIF($sourceFilePath, $ifConditionPart);
+            switch($format){
+                case 'LIDO':
+                    $result = $this->conditionIFLIDO($sourceFilePath, $ifConditionPart);
+                    break;
 
-            if($result == 1){ //condition positive
-                return $ifDoPart;
+                case 'MARC':
+                    $result = $this->conditionIFMARC($sourceFilePath, $ifConditionPart);
+                    break;
+
+                default:
+                    break;
             }
-            elseif($result == 2 && isset($conditionData[1])){ //condition negative
-                $elseCondition = $conditionData[1];
 
-                $elsePosition = strpos($elseCondition,'ELSE');
-                $elseData = explode('DO', str_replace(array( '[', ']' ), '', substr($elseCondition, $elsePosition+4)));
-                //here support for nested IF ELSE can be extended
-               // $elseConditionPart = explode(',', $elseData[0]);//is not neeed for single ELSE condition (non nested)
-                $elseDoPart = explode(',', str_replace(array( '(', ')' ), '', $elseData[1]));
+            if(isset($result)){
+                if($result == 1){ //condition positive
+                    return $ifDoPart;
+                }
+                elseif($result == 2 && isset($conditionData[1])){ //condition negative
+                    $elseCondition = $conditionData[1];
 
-                foreach($elseData as $dd)
+                    $elsePosition = strpos($elseCondition,'ELSE');
+                    $elseData = explode('DO', str_replace(array( '[', ']' ), '', substr($elseCondition, $elsePosition+4)));
+                    //here support for nested IF ELSE can be extended
+                    // $elseConditionPart = explode(',', $elseData[0]);//is not neeed for single ELSE condition (non nested)
 
-                return $elseDoPart;
+                    $elseDoPart = explode(',', str_replace(array( '(', ')' ), '', $elseData[1]));
+
+                    foreach($elseData as $dd)
+
+                        return $elseDoPart;
+                }
+                else{
+                }
             }
-            else{
-            }
+
         }
 
-        function conditionIF($sourceFilePath, $ifData){
+        function conditionIFLIDO($sourceFilePath, $ifData){
             $lidoMapping =  new lidoMapping();
 
             $conditionType = strtoupper($ifData[1]); //e.g EQUAL
@@ -485,7 +568,6 @@
         }
 
 		function removeDirectory($dir) {
-
             $dir_content = scandir($dir);
             if($dir_content !== FALSE){
                 foreach ($dir_content as $entry)
@@ -508,5 +590,102 @@
             file_put_contents($filePaht, $status);
 
         }
+
+
+    /****
+     * MARC Transformation
+     */
+    function generateMARCEDMFile($newXMLFile, $sourceFilePath, $rulesFile){
+        $marcMapping =  new marcMapping();
+
+        $marcMapping->initEDMXML($newXMLFile);
+        $edmRecordIds = $marcMapping->initEDMRecord($sourceFilePath, $newXMLFile);
+
+        $this->normalizeRules($rulesFile);
+
+        $row = 1;
+        if (($handle = fopen($rulesFile, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+
+                $this->marcMappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
+                $row++;
+            }
+            fclose($handle);
+        }
+        return true;
+    }
+
+    function marcMappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle){
+        $marcMapping =  new marcMapping();
+        switch(strtoupper($data[0])){
+            case 'COPY':
+                $marcMapping->copyMapping($sourceFilePath, $data[1], $data[2], $newXMLFile, $edmRecordIds);
+                break;
+
+            case 'APPEND':
+                $marcMapping->appendMapping($sourceFilePath, $data[1], $data[3], $newXMLFile, $edmRecordIds, $data[2]);
+                break;
+
+            case 'SPLIT':
+                $marcMapping->splitMapping($sourceFilePath, $data[1], $data[3], $newXMLFile, $edmRecordIds, $data[2]);
+                break;
+
+            case 'COMBINE':
+                $marcMapping->combineMapping($sourceFilePath, $data[1], $data[2], $newXMLFile, $edmRecordIds);
+                break;
+
+            case 'LIMIT':
+                $marcMapping->limitMapping($sourceFilePath, $data[1], $data[3], $newXMLFile, $edmRecordIds, $data[2]);
+                break;
+
+            case 'PUT':
+                $marcMapping->putMapping($data[2], $newXMLFile, $edmRecordIds, $data[1]);
+                break;
+
+            case 'REPLACE':
+                $marcMapping->replaceMapping($sourceFilePath, $data[1], $data[4], $newXMLFile, $edmRecordIds, $data[2], $data[3]);
+                break;
+
+            case 'SKIP':        //do not add against skip
+                break;
+
+            case 'CONDITION':
+
+                $conditionData = array();
+                for($i=$row; $i<1000; $i++){
+                    $lineData = fgets($handle);
+                    if (strpos($lineData,"}")!== false)
+                        break;
+                    $conditionData[] = $lineData;
+                }
+                $commandData = $this->conditionParser($sourceFilePath, $conditionData, 'MARC');
+                $this->marcMappingCommandParser($commandData, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    function conditionIFMARC($sourceFilePath, $ifData){
+        $marcMapping =  new marcMapping();
+        $conditionType = strtoupper($ifData[1]); //e.g EQUAL
+        $conditionValue =  $ifData[2];
+        $conditionValue =  trim(str_replace('||', ',', $conditionValue),'"');
+        $foundNodeValues = $marcMapping->nodeValue($sourceFilePath, $ifData[0]);
+        switch($conditionType){
+            case 'EQUALS':
+                foreach ($foundNodeValues as $foundValue) {
+                    if($foundValue == $conditionValue)
+                        return 1;  //values are equal
+                }
+                return 2;//values are not equal
+                break;
+        }
+        return 0; //invalid condition type
+    }
+
+
 	}
 ?>
