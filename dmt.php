@@ -94,7 +94,7 @@
 
                     if (isset($_FILES['mappingRulesFile'])){
                         $rulesContent = file_get_contents($_FILES['mappingRulesFile']['tmp_name']);
-                        if($_FILES['mappingRulesFile']['type'] == 'text/csv'){
+//                        if($_FILES['mappingRulesFile']['type'] == 'text/csv'){
                             $arrResponse = $dmtservice -> recordMapping($rulesContent,$_FILES['mappingRulesFile']['name'],
                                 $recordFile, $sourceFormat, $targetFormat);
 
@@ -102,16 +102,16 @@
 
                             header('Content-Type: application/json');
                             exit(json_encode (array('request_id' => $arrResponse)));
-                        }
-                        else{
-                            header("Status: 422 Unprocessable Entity");
-                            $arrResponse = "Input mapping rules file is not a CSV file";
-
-                            $log->logError($requestLogId.'->'.$arrResponse);
-
-                            $dmtservice -> removeDirectory($recordFile->filePath);
-                            exit(json_encode ($arrResponse));
-                        }
+//                        }
+//                        else{
+//                            header("Status: 422 Unprocessable Entity");
+//                            $arrResponse = "Input mapping rules file is not a CSV file";
+//
+//                            $log->logError($requestLogId.'->'.$arrResponse);
+//
+//                            $dmtservice -> removeDirectory($recordFile->filePath);
+//                            exit(json_encode ($arrResponse));
+//                        }
 
                     }
                     else

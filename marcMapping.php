@@ -10,7 +10,10 @@ class marcMapping {
 
         $i = 0;
         foreach ($params as $param) {       //iterates for each record
-            $nodeValue = $this->findElementValue($param, $tagCode);
+            if ($existingElementPath === 'marc001')
+                $nodeValue = $param->nodeValue;
+            else
+                $nodeValue = $this->findElementValue($param, $tagCode);
             if(isset($nodeValue)){
 
                 $this->addXMLNode($xmlEDM, $edmElement,  $edmRecordIds[$i], $nodeValue);
