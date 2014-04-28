@@ -197,7 +197,7 @@
                       break;
 
                   case 'FETCH':
-                      if(isset($_GET['request_id']))
+                      //if(isset($_GET['request_id']))
                           $resultFile = $dmtservice->getResult($_GET['request_id']);
                           if(isset($resultFile)){
                               $file = $resultFile -> filePath."/".$resultFile -> fileName;

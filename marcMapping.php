@@ -179,9 +179,11 @@ class marcMapping {
 
         $domDoc = new DOMDocument('1.0', 'UTF-8');
 
-        $rootElt = $domDoc->createElementNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','rdf:RDF');
+//        $rootElt = $domDoc->createElementNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','rdf:RDF');
+        //$rootElt = $domDoc->createElementNS('','records');
+        $rootElt = $domDoc->createElement('list');
 
-        $attDc = $domDoc->createAttribute('xmlns:dc');
+ /*       $attDc = $domDoc->createAttribute('xmlns:dc');
         $attDc->value = 'http://purl.org/dc/elements/1.1/';
         $rootElt->appendChild($attDc);
 
@@ -223,7 +225,7 @@ class marcMapping {
 
 //        $attXsiLocation = $domDoc->createAttribute('xsi:schemaLocation');
 //        $attXsiLocation->value = 'http://www.w3.org/1999/02/22-rdf-syntax-ns# EDM.xsd';
-//        $rootElt->appendChild($attXsiLocation);
+//        $rootElt->appendChild($attXsiLocation);*/
 
         $domDoc->appendChild($rootElt);
         $domDoc->save($xmlFile);
@@ -315,15 +317,72 @@ class marcMapping {
 
             //create empty edm record
 //            $childNode = $domDoc->createElementNS(' ', 'edm:ProvidedCHO'); //create node element
+            $rdfNode = $domDoc->createElementNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','rdf:RDF');
+
+            $attDc = $domDoc->createAttribute('xmlns:dc');
+            $attDc->value = 'http://purl.org/dc/elements/1.1/';
+            $rdfNode->appendChild($attDc);
+
+            $attDcTerms = $domDoc->createAttribute('xmlns:dcterms');
+            $attDcTerms->value = 'http://purl.org/dc/terms/';
+            $rdfNode->appendChild($attDcTerms);
+
+            $attEdm = $domDoc->createAttribute('xmlns:edm');
+            $attEdm->value = 'http://www.europeana.eu/schemas/edm/';
+            $rdfNode->appendChild($attEdm);
+
+            $attEnrichment = $domDoc->createAttribute('xmlns:enrichment');
+            $attEnrichment->value = 'http://www.europeana.eu/schemas/edm/enrichment/';
+            $rdfNode->appendChild($attEnrichment);
+
+            $attOre = $domDoc->createAttribute('xmlns:ore');
+            $attOre->value = 'http://www.openarchives.org/ore/terms/';
+            $rdfNode->appendChild($attOre);
+
+            $attOwl = $domDoc->createAttribute('xmlns:owl');
+            $attOwl->value = 'http://www.w3.org/2002/07/owl#';
+            $rdfNode->appendChild($attOwl);
+
+//        $attRdf = $domDoc->createAttribute('xmlns:rdf');
+//        $attRdf->value = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+//        $rdfNode->appendChild($attRdf);
+
+            $attSkos = $domDoc->createAttribute('xmlns:skos');
+            $attSkos->value = 'http://www.w3.org/2004/02/skos/core#';
+            $rdfNode->appendChild($attSkos);
+
+            $attWgs = $domDoc->createAttribute('xmlns:wgs84');
+            $attWgs->value = 'http://www.w3.org/2003/01/geo/wgs84_pos#';
+            $rdfNode->appendChild($attWgs);
+
+            $attXsi = $domDoc->createAttribute('xmlns:xsi');
+            $attXsi->value = 'http://www.w3.org/2001/XMLSchema-instance';
+            $rdfNode->appendChild($attXsi);
+
+//        $attXsiLocation = $domDoc->createAttribute('xsi:schemaLocation');
+//        $attXsiLocation->value = 'http://www.w3.org/1999/02/22-rdf-syntax-ns# EDM.xsd';
+//        $rdfNode->appendChild($attXsiLocation);
+
+
             $childNode = $domDoc->createElement('edm:ProvidedCHO'); //create node element
             $attAbout = $domDoc->createAttribute('rdf:about');
             $attAboutText = $domDoc->createTextNode($edmRecordID[$i]);
             $attAbout->appendChild($attAboutText);
             $childNode->appendChild($attAbout);
-            $rootNode->appendChild($childNode); //append edm record to root element
+            //$rootNode->appendChild($childNode); //append edm record to root element
+
+            ///TEMP START
+            $rdfNode->appendChild($childNode);
+            $rootNode->appendChild($rdfNode); //append edm record to root element
+            ///TEMP END
+
 
             //create aggregation node with edm:aggregatedCHO element
-            $this->createAggregationNode($domDoc, $rootNode, $edmRecordID[$i]);
+//            $this->createAggregationNode($domDoc, $rootNode, $edmRecordID[$i]);
+
+            //TEMP START
+            $this->createAggregationNode($domDoc, $rdfNode, $edmRecordID[$i]);
+            //TEMP END
 
             $domDoc->save($xmlEDM);
         }
