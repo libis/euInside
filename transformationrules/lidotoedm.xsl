@@ -1110,6 +1110,7 @@
         <edm:WebResource>
             <xsl:attribute name="rdf:about">
             <xsl:for-each select="lido:resourceRepresentation/lido:linkResource[starts-with(., 'http://') or starts-with(., 'https://')]">
+                <xsl:sort select="(../lido:resourceMeasurementsSet[lido:measurementType = 'height']/lido:measurementValue) * (../lido:resourceMeasurementsSet[lido:measurementType = 'width']/lido:measurementValue)" data-type="number" order="descending"/>
                 <xsl:if test="position() = 1">
                   <xsl:value-of select="."/>
                 </xsl:if>
