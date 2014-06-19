@@ -252,17 +252,24 @@ class marcMapping {
                         if($aggregator->getAttribute('rdf:about') == $edmRecordId.'-aggregation')
                         {
 
-                            //add nodes in aggregator
-                            $aggregationNode = $aggregator->appendChild($childNode);
-                            $aggregationNode->appendChild($nodeValue);
-
                             if($appendElement == 'edm:isShownBy' || $appendElement == 'edm:isShownAt'){
-                                //add hasview for isshownby and isshownat
-                                $aggNode = $domDoc->createElement('edm:hasView');
-                                $attAggNode = $domDoc->createAttribute('rdf:resource');
-                                $attAggNode->value = $value;
-                                $aggNode->appendChild($attAggNode);
-                                $aggregator->appendChild($aggNode);
+                                //add isShownBy/isShownAt: first occurrence is only added in isShownBy/isShownAt
+                                //subsequent occurrences are put in hasView node in aggregator
+                                if($appendElement == 'edm:isShownBy'){
+                                    $aggObject = $aggregator->getElementsByTagName('isShownBy');
+                                    if($aggObject->length == 0)
+                                        $this->addAggNode($aggregator, $childNode, $nodeValue);
+                                    else
+                                        $this->addHasView($domDoc, $aggregator, $value);
+                                }
+
+                                if($appendElement == 'edm:isShownAt'){
+                                    $aggObject = $aggregator->getElementsByTagName('isShownAt');
+                                    if($aggObject->length == 0)
+                                        $this->addAggNode($aggregator, $childNode, $nodeValue);
+                                    else
+                                        $this->addHasView($domDoc, $aggregator, $value);
+                                }
 
                                 //first image to edm:object in aggregationi.e. if edm:object does not exist, add it and asign value to it
                                 $edmObject = $aggregator->getElementsByTagName('object');
@@ -290,7 +297,20 @@ class marcMapping {
         }
         $domDoc->save($xmlFile);
     }
+	
+    function addHasView($domDoc, $aggregator, $value){
+        $aggNode = $domDoc->createElement('edm:hasView');
+        $attAggNode = $domDoc->createAttribute('rdf:resource');
+        $attAggNode->value = $value;
+        $aggNode->appendChild($attAggNode);
+        $aggregator->appendChild($aggNode);
+    }
 
+    function addAggNode($aggregator, $childNode, $nodeValue){
+        $aggregationNode = $aggregator->appendChild($childNode);
+        $aggregationNode->appendChild($nodeValue);
+    }
+	
     function addWebResource($domDoc, $rdfNode, $value){
 
         $resourceNode = $domDoc->createElement('edm:WebResource');           //create resource element
