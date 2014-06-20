@@ -1110,7 +1110,7 @@
         <edm:WebResource>
             <xsl:attribute name="rdf:about">
             <xsl:for-each select="lido:resourceRepresentation/lido:linkResource[starts-with(., 'http://') or starts-with(., 'https://')]">
-                <xsl:sort select="(../lido:resourceMeasurementsSet[lido:measurementType = 'height']/lido:measurementValue) * (../lido:resourceMeasurementsSet[lido:measurementType = 'width']/lido:measurementValue)" data-type="number" order="descending"/>
+            	<xsl:sort select="(../lido:resourceMeasurementsSet[lido:measurementType = 'height']/lido:measurementValue) * (../lido:resourceMeasurementsSet[lido:measurementType = 'width']/lido:measurementValue)" data-type="number" order="descending"/>
                 <xsl:if test="position() = 1">
                   <xsl:value-of select="."/>
                 </xsl:if>
@@ -1327,10 +1327,10 @@
 		<!-- edm:hasView : lido:resourceRepresentation / @lido:type=image_master or empty -->        
         <xsl:for-each select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation[@lido:type='image_master' or not(@lido:type)]">
         <xsl:if test="position() > 1">
-		<xsl:for-each select="lido:linkResource[starts-with(., 'http://') or starts-with(., 'https://')]">
+		<xsl:for-each select="lido:linkResource[starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'http://') or starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'https://')]">
 			<edm:hasView>
 				<xsl:attribute name="rdf:resource">
-                  <xsl:value-of select="."/>
+                  <xsl:value-of select="normalize-space(replace(., '%0A|%0D|%A0|%09', ''))"/>
 				</xsl:attribute>
 			</edm:hasView>
        </xsl:for-each>
@@ -1339,12 +1339,12 @@
        <!-- edm:hasView --> 
 		
 		<!-- edm:isShownAt : lido:recordInfoLink -->
-         <xsl:if test="lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[starts-with(., 'http://') or starts-with(., 'https://')]">
-              <xsl:for-each select="lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[starts-with(., 'http://') or starts-with(., 'https://')]">
+         <xsl:if test="lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'http://') or starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'https://')]">
+              <xsl:for-each select="lido:administrativeMetadata/lido:recordWrap/lido:recordInfoSet/lido:recordInfoLink[starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'http://') or starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'https://')]">
                 <edm:isShownAt>
                     <xsl:attribute name="rdf:resource">
                 	<xsl:if test="position() = 1">
-                  		<xsl:value-of select="."/>
+                  		<xsl:value-of select="normalize-space(replace(., '%0A|%0D|%A0|%09', ''))"/>
                 	</xsl:if>
                     </xsl:attribute>
                 </edm:isShownAt>
@@ -1355,10 +1355,10 @@
 		<!-- edm:isShownBy : lido:resourceRepresentation / @lido:type=image_master or empty -->        
         <xsl:for-each select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation[@lido:type='image_master' or not(@lido:type)]">
         <xsl:if test="position() = 1">
-		<xsl:for-each select="lido:linkResource[starts-with(., 'http://') or starts-with(., 'https://')]">
+		<xsl:for-each select="lido:linkResource[starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'http://') or starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'https://')]">
 			<edm:isShownBy>
 				<xsl:attribute name="rdf:resource">
-                  <xsl:value-of select="."/>
+                  <xsl:value-of select="normalize-space(replace(., '%0A|%0D|%A0|%09', ''))"/>
 				</xsl:attribute>
 			</edm:isShownBy>
        </xsl:for-each>
@@ -1367,12 +1367,12 @@
        <!-- edm:isShownBy -->          
 
        <!-- edm:object : lido:resourceRepresentation / @lido:type=image_thumb -->    
-        <xsl:for-each select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation[not(@lido:type='image_master')]/lido:linkResource[starts-with(., 'http://') or starts-with(., 'https://')]">
+        <xsl:for-each select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation[not(@lido:type='image_master')]/lido:linkResource[starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'http://') or starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'https://')]">
 			<xsl:sort select="(../lido:resourceMeasurementsSet[lido:measurementType = 'height']/lido:measurementValue) * (../lido:resourceMeasurementsSet[lido:measurementType = 'width']/lido:measurementValue)" data-type="number" order="descending"/>
           <xsl:if test="position() = 1">
 			<edm:object>
 				<xsl:attribute name="rdf:resource">
-                  <xsl:value-of select="."/>
+                  <xsl:value-of select="normalize-space(replace(., '%0A|%0D|%A0|%09', ''))"/>
 				</xsl:attribute>
 			</edm:object>
           </xsl:if>
