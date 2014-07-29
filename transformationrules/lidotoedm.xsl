@@ -138,7 +138,7 @@
         <!-- dc:contributor : lido:eventActor with lido:eventType NOT production or creation or designing or publication -->
         <!-- dc:contributor Resource -->
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-        <xsl:if test="not((lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lido:eventType/lido:term = 'Production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lido:eventType/lido:term = 'Creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lido:eventType/lido:term = 'Designing') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lido:eventType/lido:term = 'Publication'))">
+        <xsl:if test="not((lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lower-case(lido:eventType/lido:term) = 'production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lower-case(lido:eventType/lido:term) = 'creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lower-case(lido:eventType/lido:term) = 'designing') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lower-case(lido:eventType/lido:term) = 'publication'))">
             <xsl:for-each select="lido:eventActor">
             <xsl:if test="lido:actorInRole/lido:actor/lido:actorID[starts-with(., 'http://') or starts-with(., 'https://')]">
                 <dc:contributor>
@@ -149,7 +149,8 @@
 					</xsl:if>
 					</xsl:for-each>
 					</xsl:attribute>
-				</dc:contributor>
+		<xsl:value-of select="lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue"/>
+		</dc:contributor>
 			</xsl:if>
             </xsl:for-each>
         </xsl:if>
@@ -261,7 +262,7 @@
         <!-- dc:creator : lido:eventActor with lido:eventType = production or creation or designing-->
         <!-- dc:creator Resource-->        
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lido:eventType/lido:term = 'Production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lido:eventType/lido:term = 'Creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lido:eventType/lido:term = 'Designing')">
+        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lower-case(lido:eventType/lido:term) = 'production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lower-case(lido:eventType/lido:term) = 'creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lower-case(lido:eventType/lido:term) = 'Designing')">
             <xsl:for-each select="lido:eventActor">
 			<xsl:if test="lido:actorInRole/lido:actor/lido:actorID[starts-with(., 'http://') or starts-with(., 'https://')]">
                 <dc:creator>
@@ -272,6 +273,8 @@
 					</xsl:if>
 					</xsl:for-each>
 					</xsl:attribute>
+		<xsl:value-of select="lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue"/>
+		
                 </dc:creator>
 			</xsl:if>
             </xsl:for-each>
@@ -282,7 +285,7 @@
         <!-- dc:creator : lido:eventActor with lido:eventType = production or creation or designing-->
         <!-- dc:creator Resource dereferenced to prefLabel-->        
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lido:eventType/lido:term = 'Production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lido:eventType/lido:term = 'Creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lido:eventType/lido:term = 'Designing')">
+        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lower-case(lido:eventType/lido:term) = 'production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lower-case(lido:eventType/lido:term) = 'creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lower-case(lido:eventType/lido:term) = 'designing')">
             <xsl:for-each select="lido:eventActor">
        		<xsl:if test="lido:actorInRole/lido:actor/lido:actorID[starts-with(., 'http://') or starts-with(., 'https://')]">
 				<xsl:variable name="givenID" select="lido:actorInRole/lido:actor/lido:actorID[1]/text()" />
@@ -311,7 +314,7 @@
             
 		<!-- dc:creator Literal-->        
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lido:eventType/lido:term = 'Production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lido:eventType/lido:term = 'Creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lido:eventType/lido:term = 'Designing')">
+        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lower-case(lido:eventType/lido:term) = 'production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lower-case(lido:eventType/lido:term) = 'creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lower-case(lido:eventType/lido:term) = 'designing')">
         <xsl:if test="not(lido:eventActor/lido:actorInRole/lido:actor/lido:actorID[starts-with(., 'http://') or starts-with(., 'https://')])"> <!-- FILTER ACTOR NAME -->
         <xsl:for-each select="lido:eventActor[lido:displayActorInRole or lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:pref='preferred' or not(@lido:pref)]]">
                 <dc:creator>
@@ -334,7 +337,7 @@
 	    <!-- dc:date -->
 	    <!-- dc:date : lido:eventDate with lido:eventType NOT production or creation or designing or publication -->
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-        <xsl:if test="not((lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lido:eventType/lido:term = 'Production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lido:eventType/lido:term = 'Creation') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lido:eventType/lido:term = 'Designing') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lido:eventType/lido:term = 'Publication'))">
+        <xsl:if test="not((lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lower-case(lido:eventType/lido:term) = 'production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lower-case(lido:eventType/lido:term) = 'creation') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lower-case(lido:eventType/lido:term) = 'designing') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lower-case(lido:eventType/lido:term) = 'publication'))">
         <xsl:for-each select="lido:eventDate">
         <xsl:if test="lido:date/lido:earliestDate | lido:displayDate">
         	<dc:date>
@@ -476,7 +479,7 @@
 		<!-- dc:publisher : lido:eventActor with lido:eventType = publication -->
 		<!-- dc:publisher Resource-->  
 		<xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-         <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lido:eventType/lido:term = 'Publication')">     
+         <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lower-case(lido:eventType/lido:term) = 'publication')">     
             <xsl:for-each select="lido:eventActor">
 			<xsl:if test="lido:actorInRole/lido:actor/lido:actorID[starts-with(., 'http://') or starts-with(., 'https://')]">
                 <dc:publisher>
@@ -497,7 +500,7 @@
 		<!-- dc:publisher : lido:eventActor with lido:eventType = publication -->
         <!-- dc:publisher Resource dereferenced to prefLabel-->        
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-         <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lido:eventType/lido:term = 'Publication')">     
+         <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lower-case(lido:eventType/lido:term) = 'publication')">     
          <xsl:for-each select="lido:eventActor">
        		<xsl:if test="lido:actorInRole/lido:actor/lido:actorID[starts-with(., 'http://') or starts-with(., 'https://')]">
 				<xsl:variable name="givenID" select="lido:actorInRole/lido:actor/lido:actorID[1]/text()" />
@@ -526,7 +529,7 @@
 		
 		<!-- dc:publisher Literal-->  
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lido:eventType/lido:term = 'Publication')">     
+        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lower-case(lido:eventType/lido:term) = 'publication')">     
         <xsl:if test="not(lido:eventActor/lido:actorInRole/lido:actor/lido:actorID)"> <!-- FILTER ACTOR NAME -->
             <xsl:for-each select="lido:eventActor[lido:displayActorInRole or lido:actorInRole/lido:actor/lido:nameActorSet/lido:appellationValue[@lido:pref='preferred' or not(@lido:pref)]]">
                 <dc:publisher>
@@ -620,11 +623,14 @@
 		
         <!-- dc:subject : lido:subjectActor -->
         <!-- dc:subject Resource-->
-        <xsl:for-each select="lido:descriptiveMetadata/lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject/lido:subjectActor/lido:actor/lido:actorID[starts-with(., 'http://') or starts-with(., 'https://')]">
+        <xsl:for-each select="lido:descriptiveMetadata/lido:objectRelationWrap/lido:subjectWrap/lido:subjectSet/lido:subject/lido:subjectActor/lido:actor">
             <dc:subject>
+            	<xsl:if test="lido:actorID[starts-with(., 'http://') or starts-with(., 'https://')]">
 				<xsl:attribute name="rdf:resource">
-					<xsl:value-of select="."/>
+					<xsl:value-of select="lido:actorID"/>
 				</xsl:attribute>
+		</xsl:if>
+                <xsl:value-of select="lido:nameActorSet/lido:appellationValue"/>				
             </dc:subject>
 		</xsl:for-each>
         <!-- dc:subject Resource-->
@@ -716,7 +722,7 @@
 							<xsl:value-of select= "lido:place/lido:namePlaceSet//lido:appellationValue[@lido:pref='preferred' or not(@lido:pref)][1]/text()" />
 						</dc:subject>
 				</xsl:otherwise>
-			</xsl:choose>	
+			</xsl:choose>
         </xsl:for-each>
         <!-- dc:subject Literal-->
         
@@ -820,8 +826,8 @@
     				</xsl:if>
                     <xsl:value-of select="."/>
                 </dc:type>
-			</xsl:for-each>
-
+                        </xsl:for-each>
+                        
         </xsl:for-each>
         <!-- dc:type Literal-->
    
@@ -844,7 +850,7 @@
    		<!-- dcterms:created : lido:eventDate with lido:eventType = production or creation or designing -->
    		<!-- dcterms:created -->
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lido:eventType/lido:term = 'Production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lido:eventType/lido:term = 'Creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lido:eventType/lido:term = 'Designing')">
+        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00007') or (lower-case(lido:eventType/lido:term) = 'production') or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00012') or (lower-case(lido:eventType/lido:term) = 'creation')  or (lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00224') or (lower-case(lido:eventType/lido:term) = 'designing')">
         <xsl:for-each select="lido:eventDate">
             <xsl:if test="lido:date/lido:earliestDate | lido:displayDate">
             <dcterms:created>
@@ -947,7 +953,7 @@
    		<!-- dcterms:issued : lido:eventDate with lido:eventType = publication -->
    		<!-- dcterms:issued -->
         <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event">
-        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lido:eventType/lido:term = 'Publication')">
+        <xsl:if test="(lido:eventType/lido:conceptID = 'http://terminology.lido-schema.org/lido00228') or (lower-case(lido:eventType/lido:term) = 'publication')">
         <xsl:for-each select="lido:eventDate">
             <xsl:if test="lido:date/lido:earliestDate | lido:displayDate">
             <dcterms:issued>
@@ -1110,7 +1116,7 @@
         <edm:WebResource>
             <xsl:attribute name="rdf:about">
             <xsl:for-each select="lido:resourceRepresentation/lido:linkResource[starts-with(., 'http://') or starts-with(., 'https://')]">
-            	<xsl:sort select="(../lido:resourceMeasurementsSet[lido:measurementType = 'height']/lido:measurementValue) * (../lido:resourceMeasurementsSet[lido:measurementType = 'width']/lido:measurementValue)" data-type="number" order="descending"/>
+            	<xsl:sort select="(../lido:resourceMeasurementsSet[lido:measurementType = 'height']/number(lido:measurementValue)) * (../lido:resourceMeasurementsSet[lido:measurementType = 'width']/number(lido:measurementValue))" data-type="number" order="descending"/>
                 <xsl:if test="position() = 1">
                   <xsl:value-of select="."/>
                 </xsl:if>
@@ -1367,8 +1373,8 @@
        <!-- edm:isShownBy -->          
 
        <!-- edm:object : lido:resourceRepresentation / @lido:type=image_thumb -->    
-        <xsl:for-each select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation[not(@lido:type='image_master')]/lido:linkResource[starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'http://') or starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'https://')]">
-			<xsl:sort select="(../lido:resourceMeasurementsSet[lido:measurementType = 'height']/lido:measurementValue) * (../lido:resourceMeasurementsSet[lido:measurementType = 'width']/lido:measurementValue)" data-type="number" order="descending"/>
+     <xsl:for-each select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation[not(@lido:type='image_master')]/lido:linkResource[starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'http://') or starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'https://')]">
+			<xsl:sort select="(../lido:resourceMeasurementsSet[lido:measurementType = 'height']/ number(lido:measurementValue)) * (../lido:resourceMeasurementsSet[lido:measurementType = 'width']/number(lido:measurementValue))" data-type="number" order="descending"/>
           <xsl:if test="position() = 1">
 			<edm:object>
 				<xsl:attribute name="rdf:resource">
