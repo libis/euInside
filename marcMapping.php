@@ -1,163 +1,35 @@
 <?php
 
+require_once("marcRecord.php");
+require_once("edmRecord.php");
+require_once("marcDataField.php");
+
 class marcMapping {
+    private $aggregatorEDMValues = array();
 
-    function copyMapping($existingXML, $existingElementPath, $edmElement, $xmlEDM, $edmRecordIds){
-
-        $dom = $this->loadXML($existingXML);
-
-        $params = $this->findElements($existingElementPath, $dom);
-        $tagCode = $this->findTagCode($existingElementPath);
-        $i = 0;
-        foreach ($params as $param) {       //iterates for each record
-            if ($existingElementPath === 'marc001')
-                $nodeValue = $param->nodeValue;
-            else
-                $nodeValue = $this->findElementValue($param, $tagCode);
-
-            $elementFound = $this->concernedRecord($param->getNodePath());
-            if(isset($nodeValue, $elementFound)){
-                $this->addXMLNode($xmlEDM, $edmElement,  $edmRecordIds[$elementFound-1], $nodeValue);
-                $i++;
-            }
-
-        }
-    }
-
-    function appendMapping($existingXML, $existingElementPath, $edmElement, $xmlEDM, $edmRecordIds, $appendText){
-        $dom = $this->loadXML($existingXML);
-
-        $params = $this->findElements($existingElementPath, $dom);
-        $tagCode = $this->findTagCode($existingElementPath);
-
-        $i = 0;
-        foreach ($params as $param) {       //iterates for each record
-            $nodeValue = $this->findElementValue($param, $tagCode);
-
-            $elementFound = $this->concernedRecord($param->getNodePath());
-            if(isset($nodeValue, $elementFound)){
-                $this->addXMLNode($xmlEDM, $edmElement,  $edmRecordIds[$elementFound-1], $nodeValue. ' '.$appendText);
-                $i++;
-            }
-
-        }
-    }
-
-    function putMapping($edmElement, $xmlEDM, $edmRecordIds, $valueToPut){
-        $changedValueToPut = str_replace('||', ',', $valueToPut);
-        foreach($edmRecordIds as $edmRecord){
-            $this->addXMLNode($xmlEDM, $edmElement,  $edmRecord, $changedValueToPut);
-        }
-    }
-
-    function replaceMapping($existingXML, $existingElementPath, $edmElement, $xmlEDM, $edmRecordIds, $replace, $replaceBy){
-        $dom = $this->loadXML($existingXML);
-        $params = $this->findElements($existingElementPath, $dom);
-        $tagCode = $this->findTagCode($existingElementPath);
-
-        $i = 0;
-        foreach ($params as $param) {       //iterates for each record
-            $nodeValue = $this->findElementValue($param, $tagCode);
-
-            $elementFound = $this->concernedRecord($param->getNodePath());
-            if(isset($nodeValue, $elementFound)){
-                $replacedValue = str_replace($replace, $replaceBy, $nodeValue);
-                $this->addXMLNode($xmlEDM, $edmElement,  $edmRecordIds[$elementFound-1], $replacedValue);
-                $i++;
-            }
-        }
-    }
-
-    function splitMapping($existingXML, $existingElementPath, $edmElements, $xmlEDM, $edmRecordIds, $splitBy){
-        $dom = $this->loadXML($existingXML);
-        if($splitBy == '') $splitBy = ' ';
-        $elements = explode(';', $edmElements);
-
-        $params = $this->findElements($existingElementPath, $dom);
-        $tagCode = $this->findTagCode($existingElementPath);
-
-        $i = 0;
-        foreach ($params as $param) {       //iterates for each record
-            $nodeValue = $this->findElementValue($param, $tagCode);
-
-            $elementFound = $this->concernedRecord($param->getNodePath());
-            if(isset($nodeValue, $elementFound)){
-                $splitData = explode($splitBy, $nodeValue);  // split first found element
-                foreach($splitData as $item){
-                    for($j = 0; $j<sizeof($elements); $j++)
-                        $this->addXMLNode($xmlEDM, $elements[$j],  $edmRecordIds[$elementFound-1], $item);
-                }
-                $i++;
-            }
-        }
-    }
-
-    function limitMapping($existingXML, $existingElementPath, $edmElement, $xmlEDM, $edmRecordIds, $limitTo){
-        $dom = $this->loadXML($existingXML);
-        $params = $this->findElements($existingElementPath, $dom);
-        $tagCode = $this->findTagCode($existingElementPath);
-
-        $i = 0;
-        foreach ($params as $param) {       //iterates for each record
-            $nodeValue = $this->findElementValue($param, $tagCode);
-
-            $elementFound = $this->concernedRecord($param->getNodePath());
-            if(isset($nodeValue, $elementFound)){
-                $limited = substr($nodeValue, 0, $limitTo);
-                $this->addXMLNode($xmlEDM, $edmElement,  $edmRecordIds[$elementFound-1], $limited);
-                $i++;
-            }
-        }
-    }
-
-
-    function combineMapping($existingXML, $existingElementsPath, $edmElement, $xmlEDM, $edmRecordIds){
-        $dom = $this->loadXML($existingXML);
-        $edmRecordCounter = 1;
-        foreach($edmRecordIds as $edmRecord){
-            $elements = explode(';', $existingElementsPath);
-            $combinedValue = '';
-            $firstValue = true;
-            foreach($elements as $element){
-                $params = $this->findElements($element, $dom);
-                $tagCode = $this->findTagCode($element);
-                foreach ($params as $param) {       //iterates for each record
-                    $nodeValue = $this->findElementValue($param, $tagCode);
-
-                    $elementFound = $this->concernedRecord($param->getNodePath());
-                    if(isset($nodeValue, $elementFound)){
-
-                        if($elementFound == $edmRecordCounter){
-                            if($firstValue === true){
-                                $combinedValue .= $nodeValue;
-                                $firstValue = false;
-                            }
-                            else{
-                                $combinedValue .= ' ' . $nodeValue;
-                            }
-                        }
-                    }
-                }
-            }
-            $this->addXMLNode($xmlEDM, $edmElement,  $edmRecord, $combinedValue);
-            $edmRecordCounter ++;
-        }
-    }
-
-    function concernedRecord($nodePath){
-        preg_match_all('/\d+/', $nodePath, $recordFoundIn);
-        if(isset($recordFoundIn[0][0]))
-            return $recordFoundIn[0][0];
-    }
-
-    function loadXML($xmlFile){
+    function loadXML($xmlFile){     //old: LINKED WITH IF
         $dom = new DomDocument;
         $dom->preserveWhiteSpace = FALSE;
         $dom->load($xmlFile);
         return $dom;
     }
 
-    function findElements($existingElementPath,$dom){
+    function nodeValue($existingXML, $existingElementPath){     //old: LINKED WITH IF
+        $dom = $this->loadXML($existingXML);
+        $params = $this->findElements($existingElementPath, $dom);
+        $tagCode = $this->findTagCode($existingElementPath);
+
+        $foundValues = array();
+
+        foreach ($params as $param) {       //iterates for each record
+            $nodeValue = $this->findElementValue($param, $tagCode);
+            if(isset($nodeValue))
+                $foundValues[] = $nodeValue;
+        }
+        return $foundValues;
+    }
+
+    function findElements($existingElementPath,$dom){     //old: LINKED WITH IF
         $marcCode = explode('marc',$existingElementPath);
         if(isset($marcCode[1])){
             if($marcCode[1] === '001')  //controlefiled
@@ -167,7 +39,7 @@ class marcMapping {
         }
     }
 
-    function findElementValue($param, $tagCode){
+    function findElementValue($param, $tagCode){       //old: LINKED WITH IF
         if(isset($tagCode[0])){
             if ($param->getAttribute('tag') === $tagCode[0])
             {
@@ -190,7 +62,7 @@ class marcMapping {
 
     }
 
-    function findTagCode($existingElementPath){
+    function findTagCode($existingElementPath){     //old: LINKED WITH IF
         if(strlen($existingElementPath) === 7){
             $tag = substr($existingElementPath,-3);
             return array($tag);
@@ -216,231 +88,391 @@ class marcMapping {
         return $xmlFile;
     }
 
-    function addXMLNode($xmlFile, $appendElement, $edmRecordId, $value){
+    public function edmRecord($marcRecord, $mappingRules){
+        $edmRecord =  new edmRecord();
+        $id = $this->edmRecordId();         //generate id for edm record
 
-        $domDoc = new DOMDocument();
+        $edmRecord->providedCHO->providedCHOId = $id;
+        $edmRecord->aggregation->aggrigatedCHO = $id;
+        $edmRecord->aggregation->aggregationId = $id.'-aggregation';
 
-        $domDoc->formatOutput = true;
-        $domDoc->preserveWhiteSpace = false;
+        //for each rule
+        $recordEmpty = true;
+        foreach($mappingRules as $rule){
+            $rule->edmElement = str_replace("\r\n",'', $rule->edmElement);
 
-        $domDoc->load($xmlFile);
-
-        $appendElement = str_replace(array("\r","\n"), '', $appendElement); //remove any empty line at the end of the element name
-
-        $childNode = $domDoc->createElement($appendElement);        //create node element
-        $nodeValue = $domDoc->createTextNode($value);               //create value item
-
-
-        $params = $domDoc->getElementsByTagName('ProvidedCHO');
-        foreach ($params as $param) {
-
-            if($edmRecordId == $param->getAttribute('rdf:about')){
-
-                if($appendElement == 'edm:object' || $appendElement == 'edm:isShownBy' || $appendElement == 'edm:isShownAt'
-                    || $appendElement == 'edm:dataProvider' || $appendElement == 'edm:provider'){
-
-                    $value = str_replace('&','&amp;', $value);
-
-                    //add web resource if isshownby or isshownat
-                    if($appendElement == 'edm:isShownBy' || $appendElement == 'edm:isShownAt'){
-                        $this->addWebResource($domDoc, $param->parentNode, $value);
+            switch($rule->command){
+                case 'COPY':
+                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                    if(isset($value)){
+                        $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
+                        $recordEmpty = false;
                     }
+                    break;
 
-                    //add web resource in ore:Aggregation element
-                    $aggregators = $domDoc->getElementsByTagName('Aggregation');
-                    foreach($aggregators as $aggregator){
-                        if($aggregator->getAttribute('rdf:about') == $edmRecordId.'-aggregation')
-                        {
+                case 'APPEND':
+                    $append_value = "";
+                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                    if(isset($value)){
 
-                            if($appendElement == 'edm:isShownBy' || $appendElement == 'edm:isShownAt'){
-                                //add isShownBy/isShownAt: first occurrence is only added in isShownBy/isShownAt
-                                //subsequent occurrences are put in hasView node in aggregator
-                                if($appendElement == 'edm:isShownBy'){
-                                    $aggObject = $aggregator->getElementsByTagName('isShownBy');
-                                    if($aggObject->length == 0)
-                                        $this->addAggNode($aggregator, $childNode, $nodeValue);
-                                    else
-                                        $this->addHasView($domDoc, $aggregator, $value);
-                                }
-
-                                if($appendElement == 'edm:isShownAt'){
-                                    $aggObject = $aggregator->getElementsByTagName('isShownAt');
-                                    if($aggObject->length == 0)
-                                        $this->addAggNode($aggregator, $childNode, $nodeValue);
-                                    else
-                                        $this->addHasView($domDoc, $aggregator, $value);
-                                }
-
-                                //first image to edm:object in aggregationi.e. if edm:object does not exist, add it and asign value to it
-                                $edmObject = $aggregator->getElementsByTagName('object');
-                                if($edmObject->length == 0){
-                                    $objectNode = $domDoc->createElement('edm:object');
-                                    $objectValue = $domDoc->createTextNode($value);
-                                    $object = $aggregator->appendChild($objectNode);
-                                    $object->appendChild($objectValue);
+                        if(is_array($value)){
+                            foreach($value as $item){
+                                if(isset($rule->fields['appendtext'])){
+                                    $append_value = $item.' '.$rule->fields['appendtext'];
+                                    $edmRecord->addRecordValue($rule->edmElement, $append_value, $rule->marcElement);
+                                    $recordEmpty = false;
                                 }
                             }
                         }
+                        else{
+                            if(isset($rule->fields['appendtext'])){
+                                $append_value = $value.' '.$rule->fields['appendtext'];
+                                $edmRecord->addRecordValue($rule->edmElement, $append_value, $rule->marcElement);
+                                $recordEmpty = false;
+                            }
+                        }
+
                     }
+                    break;
 
-                }else{
-                    if($appendElement ==  'dc:rights'){ // add dc rights to webresources
-                        $this->addWebResourceChild($domDoc, $param->parentNode, null, $appendElement, $value);
-                    }else{
-                        $child = $param->appendChild($childNode);                   //add newley created node to root or the given node
-                        $child->appendChild($nodeValue);                            //assign value to the newly created node element
+                case 'SPLIT':
+                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                    $edmElements = explode(';', $rule->edmElement);
+                    if(isset($value)){
+                        if(isset($rule->fields['splitby']) && strlen($rule->fields['splitby']) > 0)
+                            $splitBy = $rule->fields['splitby'];
+                        else
+                            $splitBy = ' ';
+                        $splitValue = explode($splitBy, $value);
+                        $counter = 0;
+                        foreach($splitValue as $item){
+                            if(isset($edmElements[$counter])){
+                                $edmRecord->addRecordValue($edmElements[$counter], $item, $rule->marcElement);
+                                $recordEmpty = false;
+                            }
+                            $counter++;
+                        }
                     }
+                    break;
 
-                }
+                case 'COMBINE':
+                    $marcElements = explode(';', $rule->marcElement);
+                    $combinedValue = '';
+                    $firstElement = true;
+                    foreach($marcElements as $marcElement){
+                        $value = $marcRecord->getValueByMarcCode($marcElement);
+                        if(isset($value[0])){
+                            if($firstElement){
+                                $combinedValue = $value[0];
+                                $firstElement = false;
+                            }
+                            else
+                                $combinedValue .=' '. $value[0];
+                        }
+                    }
+                    if(strlen($combinedValue) > 0){
+                        $edmRecord->addRecordValue($rule->edmElement, $combinedValue, $rule->marcElement);
+                        $recordEmpty = false;
+                    }
+                    break;
 
-            }
+                case 'LIMIT':
+                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                    if(isset($value)){
+                        if(isset($rule->fields['limitto']) && is_numeric($rule->fields['limitto']))
+                            $value = substr($value, 0, $rule->fields['limitto']);
+
+                        $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
+                        $recordEmpty = false;
+                    }
+                    break;
+
+                case 'PUT':
+
+                    if(isset($rule->fields['puttext']) && strlen($rule->fields['puttext']) > 0){
+                        $valuetoPut = str_replace('||', ',', $rule->fields['puttext']);
+                        $edmRecord->addRecordValue($rule->edmElement, $valuetoPut, $rule->marcElement);
+                        $recordEmpty = false;
+                    }
+                    break;
+
+                case 'REPLACE':
+                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                    if(isset($value)){
+                        if(isset($rule->fields['replace']) && isset($rule->fields['replaceby']))
+                            $value = str_replace($rule->fields['replace'], $rule->fields['replaceby'], $value);
+
+                        $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
+                        $recordEmpty = false;
+                    }
+                    break;
+
+
+
+            }//switch end
         }
-        $domDoc->save($xmlFile);
-    }
-	
-    function addHasView($domDoc, $aggregator, $value){
-        $aggNode = $domDoc->createElement('edm:hasView');
-        $attAggNode = $domDoc->createAttribute('rdf:resource');
-        $attAggNode->value = $value;
-        $aggNode->appendChild($attAggNode);
-        $aggregator->appendChild($aggNode);
-    }
 
-    function addAggNode($aggregator, $childNode, $nodeValue){
-        $aggregationNode = $aggregator->appendChild($childNode);
-        $aggregationNode->appendChild($nodeValue);
-    }
-	
-    function addWebResource($domDoc, $rdfNode, $value){
-
-        $resourceNode = $domDoc->createElement('edm:WebResource');           //create resource element
-        $attResource = $domDoc->createAttribute('rdf:about');                //create resource attribute
-        $attResource->value = $value;                                       //assigne value to resource
-        $resourceNode->appendChild($attResource);                           //add attribute to resource element
-        $rdfNode->appendChild($resourceNode);                               //add resource element to root
-    }
-
-    function addWebResourceChild($domDoc, $rdfNode, $webResouceNodeId, $child, $value){
-
-        $childNode = $domDoc->createElement($child);                //create node element
-        $nodeValue = $domDoc->createTextNode($value);               //create value item
-
-        $webResources = $rdfNode->getElementsByTagName('WebResource');
-        if(!isset($webResouceNodeId)){
-
-            foreach($webResources as $webResource){
-                $webResourceNode = $webResource->appendChild($childNode);
-                $webResourceNode->appendChild($nodeValue);
-            }
-        }
-    }
-
-    function initEDMRecord($existingXML, $xmlEDM){
-
-        $dom = new DomDocument;
-        $dom->preserveWhiteSpace = FALSE;
-        $dom->load($existingXML);
-
-        $domDoc = new DOMDocument();
-        $domDoc->load($xmlEDM);
-
-        $edmRecordID = array();
-
-        $params = $dom->getElementsByTagName('record');
-        for($i=0; $i<$params->length; $i++){
-            $edmRecordID[] = $this->edmRecordId();
-
-            $rootNode = $domDoc->documentElement;
-
-            $rdfNode = $domDoc->createElementNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','rdf:RDF');
-
-            $attDc = $domDoc->createAttribute('xmlns:dc');
-            $attDc->value = 'http://purl.org/dc/elements/1.1/';
-            $rdfNode->appendChild($attDc);
-
-            $attDcTerms = $domDoc->createAttribute('xmlns:dcterms');
-            $attDcTerms->value = 'http://purl.org/dc/terms/';
-            $rdfNode->appendChild($attDcTerms);
-
-            $attEdm = $domDoc->createAttribute('xmlns:edm');
-            $attEdm->value = 'http://www.europeana.eu/schemas/edm/';
-            $rdfNode->appendChild($attEdm);
-
-            $attEnrichment = $domDoc->createAttribute('xmlns:enrichment');
-            $attEnrichment->value = 'http://www.europeana.eu/schemas/edm/enrichment/';
-            $rdfNode->appendChild($attEnrichment);
-
-            $attOre = $domDoc->createAttribute('xmlns:ore');
-            $attOre->value = 'http://www.openarchives.org/ore/terms/';
-            $rdfNode->appendChild($attOre);
-
-            $attOwl = $domDoc->createAttribute('xmlns:owl');
-            $attOwl->value = 'http://www.w3.org/2002/07/owl#';
-            $rdfNode->appendChild($attOwl);
-
-            $attSkos = $domDoc->createAttribute('xmlns:skos');
-            $attSkos->value = 'http://www.w3.org/2004/02/skos/core#';
-            $rdfNode->appendChild($attSkos);
-
-            $attWgs = $domDoc->createAttribute('xmlns:wgs84');
-            $attWgs->value = 'http://www.w3.org/2003/01/geo/wgs84_pos#';
-            $rdfNode->appendChild($attWgs);
-
-            $attXsi = $domDoc->createAttribute('xmlns:xsi');
-            $attXsi->value = 'http://www.w3.org/2001/XMLSchema-instance';
-            $rdfNode->appendChild($attXsi);
-
-            $childNode = $domDoc->createElement('edm:ProvidedCHO'); //create node element
-            $attAbout = $domDoc->createAttribute('rdf:about');
-            $attAboutText = $domDoc->createTextNode($edmRecordID[$i]);
-            $attAbout->appendChild($attAboutText);
-            $childNode->appendChild($attAbout);
-
-            $rdfNode->appendChild($childNode);
-            $rootNode->appendChild($rdfNode);   //append edm record to root element
-
-            $this->createAggregationNode($domDoc, $rdfNode, $edmRecordID[$i]);
-
-            $domDoc->save($xmlEDM);
-        }
-        return $edmRecordID;
-    }
-
-    function createAggregationNode($domDoc, $rootNode, $edmRecordID){
-        $aggrigationNode = $domDoc->createElement('ore:Aggregation'); //create Aggregation element
-        $attAggAbout = $domDoc->createAttribute('rdf:about');
-        $attAggAboutText = $domDoc->createTextNode($edmRecordID.'-aggregation');
-        $attAggAbout->appendChild($attAggAboutText);
-        $aggrigationNode->appendChild($attAggAbout);
-
-        $aggCHONode = $domDoc->createElement('edm:aggregatedCHO');          //create aggregatedCHO element
-        $attAggCHO = $domDoc->createAttribute('rdf:about');                 //create aggregatedCHO attribute
-        $attAggCHO->value = $edmRecordID;                                   //assigne value to attribute
-        $aggCHONode->appendChild($attAggCHO);                               //add attribute to aggregatedCHO element
-        $aggrigationNode->appendChild($aggCHONode);
-
-        $rootNode->appendChild($aggrigationNode); //append aggrigation node to root element
-
+        if(!$recordEmpty)
+            return $edmRecord;
     }
 
     function edmRecordId(){
         return md5(uniqid(rand(), true));
     }
 
-    function nodeValue($existingXML, $existingElementPath){
-        $dom = $this->loadXML($existingXML);
-        $params = $this->findElements($existingElementPath, $dom);
-        $tagCode = $this->findTagCode($existingElementPath);
+    public function getMarcRecords($marcXMLFile){
+        $records = array();
+        $xmlRecords = simplexml_load_file($marcXMLFile);
+        foreach($xmlRecords->record as $item){
+            $marcRecord = new marcRecord();
+            if(isset($item->leader))
+                $marcRecord->leader = (string)$item->leader;
 
-        $foundValues = array();
+            if(isset($item->controlefield)){
+                $marcRecord->controlField = (string)$item->controlefield;
+                $marcRecord->controlFieldTag = '001';
+            }
 
-        foreach ($params as $param) {       //iterates for each record
-            $nodeValue = $this->findElementValue($param, $tagCode);
-            if(isset($nodeValue))
-                $foundValues[] = $nodeValue;
+            if(isset($item->datafield)){
+                foreach($item->datafield as $subItem){
+                    $tempDataField= new marcDataField();
+
+                    $attributes = $subItem->attributes();
+
+                    if(isset($attributes->tag))
+                        $tempDataField->tag = (string)$attributes->tag;
+
+                    if(isset($attributes->ind1))
+                        $tempDataField->ind1 = (string)$attributes->ind1;
+
+                    if(isset($attributes->ind2))
+                        $tempDataField->ind2 = (string)$attributes->ind2;
+
+                    $subNode = $subItem->subfield;
+                    if(isset($subNode)){
+                        $tempDataField->subField->value = (string)$subNode;
+                        $tempDataField->subField->code = (string)$subNode->attributes();
+                    }
+
+                    $marcRecord->addDataField($tempDataField);
+                    unset($tempDataField);
+                }
+            }
+            $records[]=$marcRecord;
+            unset($marcRecord);
         }
-        return $foundValues;
+
+        return $records;
     }
 
+    function initEDMRDF($domDoc, $edmXMLFile){
+        $rdfNode = $domDoc->createElementNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','rdf:RDF');
+
+        $attDc = $domDoc->createAttribute('xmlns:dc');
+        $attDc->value = 'http://purl.org/dc/elements/1.1/';
+        $rdfNode->appendChild($attDc);
+
+        $attDcTerms = $domDoc->createAttribute('xmlns:dcterms');
+        $attDcTerms->value = 'http://purl.org/dc/terms/';
+        $rdfNode->appendChild($attDcTerms);
+
+        $attEdm = $domDoc->createAttribute('xmlns:edm');
+        $attEdm->value = 'http://www.europeana.eu/schemas/edm/';
+        $rdfNode->appendChild($attEdm);
+
+        $attEnrichment = $domDoc->createAttribute('xmlns:enrichment');
+        $attEnrichment->value = 'http://www.europeana.eu/schemas/edm/enrichment/';
+        $rdfNode->appendChild($attEnrichment);
+
+        $attOre = $domDoc->createAttribute('xmlns:ore');
+        $attOre->value = 'http://www.openarchives.org/ore/terms/';
+        $rdfNode->appendChild($attOre);
+
+        $attOwl = $domDoc->createAttribute('xmlns:owl');
+        $attOwl->value = 'http://www.w3.org/2002/07/owl#';
+        $rdfNode->appendChild($attOwl);
+
+        $attSkos = $domDoc->createAttribute('xmlns:skos');
+        $attSkos->value = 'http://www.w3.org/2004/02/skos/core#';
+        $rdfNode->appendChild($attSkos);
+
+        $attWgs = $domDoc->createAttribute('xmlns:wgs84');
+        $attWgs->value = 'http://www.w3.org/2003/01/geo/wgs84_pos#';
+        $rdfNode->appendChild($attWgs);
+
+        $attXsi = $domDoc->createAttribute('xmlns:xsi');
+        $attXsi->value = 'http://www.w3.org/2001/XMLSchema-instance';
+        $rdfNode->appendChild($attXsi);
+
+        return $rdfNode;
+
+
+    }
+
+    function writeEDMRecord($domDoc, $edmXMLFile, $edmRecord){
+        $rootNode = $domDoc->documentElement;
+
+        $rdfNode = $this->initEDMRDF($domDoc, $edmXMLFile);
+
+        //add provided CHO elements
+        $providedCHONode = $this->addProvidedCHO($domDoc, $edmRecord->providedCHO);
+        $rdfNode->appendChild($providedCHONode);
+
+        //add aggregation elements
+        $aggregatioNode = $this->addAggregation($domDoc, $edmRecord->aggregation);
+        $rdfNode->appendChild($aggregatioNode);
+
+        //add webresource elements
+        foreach($edmRecord->webResources->webResourceId as $resource){
+            $webResourceNodes = $this->addWebResources($domDoc, $resource, $edmRecord->webResources->fields);
+
+            foreach($webResourceNodes as $resourceNode){
+
+                $rdfNode->appendChild($resourceNode);
+            }
+        }
+        $rootNode->appendChild($rdfNode);   //append edm record to root element
+    }
+
+    public function addProvidedCHO($domDoc, $providedCHO){
+        $providedCHONode = $domDoc->createElement('edm:ProvidedCHO');
+        $attAbout = $domDoc->createAttribute('rdf:about');
+        $attAboutText = $domDoc->createTextNode($providedCHO->providedCHOId);
+        $attAbout->appendChild($attAboutText);
+        $providedCHONode->appendChild($attAbout);
+        foreach($providedCHO->fields as $element => $values){
+            if(isset($element)){
+                foreach($values as $item){
+
+                    $isAttribute = false;
+                    if($element === 'edm:currentLocation')  //value of these elements goes in attribute section
+                        $isAttribute = true;
+
+                    if(!is_array($item)){
+                        if($isAttribute)
+                            $this->addRecordNodeAttribute($domDoc, $providedCHONode, 'rdf:resource', $element, $item);
+                        else
+                            $this->addRecordNode($domDoc, $providedCHONode, $element, $item);
+                    }
+                    else{
+                        foreach($item as $value){
+                            if($isAttribute)
+                                $this->addRecordNodeAttribute($domDoc, $providedCHONode, 'rdf:resource', $element, $value);
+                            else
+                                $this->addRecordNode($domDoc, $providedCHONode, $element, $value);
+                        }
+                    }
+                }
+            }
+        }
+        return $providedCHONode;
+    }
+
+    public function addAggregation($domDoc, $aggregation){
+        $aggrigationNode = $domDoc->createElement('ore:Aggregation');       //create Aggregation element
+        $attAggAbout = $domDoc->createAttribute('rdf:about');
+        $attAggAboutText = $domDoc->createTextNode($aggregation->aggregationId);
+        $attAggAbout->appendChild($attAggAboutText);
+        $aggrigationNode->appendChild($attAggAbout);
+
+        $aggCHONode = $domDoc->createElement('edm:aggregatedCHO');          //create aggregatedCHO element
+        $attAggCHO = $domDoc->createAttribute('rdf:resource');                 //create aggregatedCHO attribute
+        $attAggCHO->value = $aggregation->aggrigatedCHO;                    //assigne value to attribute
+        $aggCHONode->appendChild($attAggCHO);                               //add attribute to aggregatedCHO element
+        $aggrigationNode->appendChild($aggCHONode);
+
+        foreach($aggregation->fields as $element => $values){
+            $isAttribute = false;
+            if($element === 'edm:isShownBy' || $element === 'edm:isShownAt' || $element === 'edm:rights'
+                || $element === 'edm:object')   //value of these elements goes in attribute section
+                $isAttribute = true;
+
+            if(!is_array($values)){
+
+                if($isAttribute)
+                    $this->addRecordNodeAttribute($domDoc, $aggrigationNode, 'rdf:resource', $element, $values);
+                else
+                    $this->addRecordNode($domDoc, $aggrigationNode, $element, $values);
+            }
+            else{
+                foreach($values as $item){
+                    if(!is_array($item)){
+                        if($isAttribute)
+                            $this->addRecordNodeAttribute($domDoc, $aggrigationNode, 'rdf:resource', $element, $item);
+                        else
+                            $this->addRecordNode($domDoc, $aggrigationNode, $element, $item);
+
+                    }
+                    else{
+                        foreach($item as $key => $value){
+                            foreach($value as $subValue){
+                                if($key === 'resource'){
+                                    $this->addRecordNodeAttribute($domDoc, $aggrigationNode, 'rdf:resource', $element, $subValue);
+                                }
+                                else{
+                                    if($isAttribute)
+                                        $this->addRecordNodeAttribute($domDoc, $aggrigationNode, 'rdf:resource', $element, $subValue);
+                                    else
+                                        $this->addRecordNode($domDoc, $aggrigationNode, $element, $subValue);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $aggrigationNode;
+    }
+
+    public function addRecordNode($domDoc,$addTo,$element,$value){
+        $childNode = $domDoc->createElement($element);               //create node element
+        $nodeValue = $domDoc->createTextNode($value);               //create value item
+        $subNode = $addTo->appendChild($childNode);
+        $subNode->appendChild($nodeValue);
+    }
+
+    public function addRecordNodeAttribute($domDoc, $addTo, $attribute, $element, $value){
+        $childNode = $domDoc->createElement($element);
+        $nodeAttribute = $domDoc->createAttribute($attribute);
+        $attValue = $domDoc->createTextNode($value);
+        $nodeAttribute->appendChild($attValue);
+        $childNode->appendChild($nodeAttribute);
+        $addTo->appendChild($childNode);
+    }
+
+    public function addWebResources($domDoc, $resource, $subFields){
+        $webResourceNodes = array();
+        if(is_array($resource)){
+            foreach($resource as $item){
+                $webResourceNode = $domDoc->createElement('edm:WebResource');
+                $attAbout = $domDoc->createAttribute('rdf:about');
+                $attAboutText = $domDoc->createTextNode($item);
+                $attAbout->appendChild($attAboutText);
+                $webResourceNode->appendChild($attAbout);
+
+                if(isset($subFields)){
+                    if(is_array($subFields)){
+                        foreach($subFields as $key => $values){
+                            if(!is_array($values)){
+                                $this->addRecordNode($domDoc, $webResourceNode, $key, $values);
+                            }
+                            else{
+                                foreach($values as $value){
+                                    foreach($value as $subValue){
+                                        $this->addRecordNode($domDoc, $webResourceNode, $key, $subValue);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $webResourceNodes[] = $webResourceNode;
+            }
+        }
+
+        return $webResourceNodes;
+    }
 
 }

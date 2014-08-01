@@ -2,12 +2,17 @@
 	require_once("util/dmtdatafiles.php");
     require_once("lidoMapping.php");
     require_once("marcMapping.php");
+    require_once("mappingRules.php");
 
 	class service{
 		public $MINIMUM_PATH_ITEMS = 4;
 		
 		private	$inputDataFile;
 		private $outputDataFile;
+
+        private $marcRecords;
+        private $edmRecords;
+        private $mappingCommands = array();
 
 		public function _construct(){			 
 			 self::__set('inputDataFile', new DataFile  ());  
@@ -49,14 +54,6 @@
                         break;
                  }
          }
-
-		function validRequest($path){
-			//There should be minimum 4 items in the GET request.
-			if (sizeof($path) == $this -> MINIMUM_PATH_ITEMS) 
-				return true;
-			else
-				return false;			
-		}
 
         /*
          * GET REQUESTS
@@ -137,58 +134,9 @@
          * PUT REQUESTS
          */
 
-		function dmtDirectory($fileContent, $fileName, $fileType, $title){
-			$filePath = dirname(__FILE__)."/files/".strtoupper($title).round(microtime(true) * 1000);
-			if (!file_exists($filePath)) {
-				mkdir($filePath);
-			}
-			$file = $filePath."/".$fileName;
-			file_put_contents($file, $fileContent);
-			
-			
-			$iFile = new DataFile();  
-			$iFile->filePath = $filePath;  
-			$iFile->fileName = $fileName; 
-			
-			$isZip = zip_open($file);			
-			if (is_resource($isZip)) {
-				zip_close($isZip); 
-				$iFile->fileType = "application/zip"; 
-			}else 			
-				$iFile->fileType = $fileType; 
 
-            $this->changeRequestStatus($iFile->filePath.'/status',1);
-
-            return $iFile;
-			
-		}
-
-		function dmtTransformer($dataFile, $rulesFile){
-            $transformedFile = new DataFile();
-
-            $transformedFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
-            $transformedFile->filePath = $dataFile -> filePath;
-            $transformedFile->fileType = $dataFile -> fileType;
-
-            if(false !== ($f = @fopen($transformedFile->filePath."/".$transformedFile->fileName, 'w')))
-			{
-                $cSourceXML = $dataFile->filePath."/".$dataFile->fileName;
-                $cSourceXSLT = $rulesFile->filePath."/".$rulesFile->fileName;
-                $cOutputXML = $transformedFile->filePath."/".$transformedFile->fileName;
-                $saxonJar = dirname(__FILE__).'/util/saxon9he.jar';
-
-                $command = 'java -jar '.$saxonJar.' -s:'.$cSourceXML.' -xsl:'.$cSourceXSLT.' -o:'.$cOutputXML;
-
-                $javaDirectory ='C:\\PrOgRaM fIlEs\\Java\\jdk1.7.0_17\\bin';
-                chdir($javaDirectory);
-
-                exec($command);
-			}
-            return $transformedFile;
-		}
-
+        ////Record Transformation: content processing
         function recordTransformation($recordFile, $mappingFile){
-
             $this->inputDataFile =$recordFile;
             $success = false;
 
@@ -251,6 +199,30 @@
             return $receipt;
         }
 
+        ////Record Transformation: applying XSLT
+        function dmtTransformer($dataFile, $rulesFile){
+            $transformedFile = new DataFile();
+
+            $transformedFile->fileName = "Transformed_".substr($dataFile -> fileName, 0,strrpos($dataFile -> fileName,'.')).'.xml';
+            $transformedFile->filePath = $dataFile -> filePath;
+            $transformedFile->fileType = $dataFile -> fileType;
+
+            if(false !== ($f = @fopen($transformedFile->filePath."/".$transformedFile->fileName, 'w')))
+            {
+                $cSourceXML = $dataFile->filePath."/".$dataFile->fileName;
+                $cSourceXSLT = $rulesFile->filePath."/".$rulesFile->fileName;
+                $cOutputXML = $transformedFile->filePath."/".$transformedFile->fileName;
+                $saxonJar = dirname(__FILE__).'/util/saxon9he.jar';
+
+                $command = 'java -jar '.$saxonJar.' -s:'.$cSourceXML.' -xsl:'.$cSourceXSLT.' -o:'.$cOutputXML;
+
+                $javaDirectory ='C:\\PrOgRaM fIlEs\\Java\\jdk1.7.0_17\\bin';
+                chdir($javaDirectory);
+
+                exec($command);
+            }
+            return $transformedFile;
+        }
 
         function normalizeRules($rulesFile){
 
@@ -266,9 +238,9 @@
                     file_put_contents($rulesFile,$changed);
                 }
             }
-
         }
 
+        ////Record Mapping: content processing
         function recordMapping($rulesFileContent, $rulesFileName, $recordFile, $sourceFormat, $targetFormat){
 
             $success = false;
@@ -302,7 +274,16 @@
                             $edmXMLFileName = "Transformed_".$i.".xml";
 
                         $edmXMLFile = $transformationPath."/".$edmXMLFileName;
-                        $success = $this->generateLIDOEDMFile($edmXMLFile, $extractedFile, $rulesFile);
+//                        $success = $this->generateLIDOEDMFile($edmXMLFile, $extractedFile, $rulesFile);
+
+                        //support for records in zip for both lido and marc to edm
+                        if($sourceFormat == 'LIDO' && $targetFormat == 'EDM')
+                            $success = $this->generateLIDOEDMFile($edmXMLFile, $extractedFile, $rulesFile);
+
+                        if($sourceFormat == 'MARC' && $targetFormat == 'EDM'){
+                            $success = $this->generateMARCEDMFile($edmXMLFile, $extractedFile, $rulesFile);
+                        }
+
                         unlink($extractedFile);
                     }
                     $zip->close();
@@ -331,12 +312,16 @@
                 $edmXMLFileName = "Transformed_" .$fileName[0].".xml";
                 $edmXMLFile =  $recordFile->filePath."/".$edmXMLFileName;
 
+//                $edmXMLFile2 =  $recordFile->filePath."/nm".$edmXMLFileName;
+
                 $resultFile = $edmXMLFileName;
                 if($sourceFormat == 'LIDO' && $targetFormat == 'EDM')
                     $success = $this->generateLIDOEDMFile($edmXMLFile, $sourceFilePath, $rulesFile);
 
-                if($sourceFormat == 'MARC' && $targetFormat == 'EDM')
-                    $success = $this->generateMARCEDMFile($edmXMLFile, $sourceFilePath, $rulesFile);
+                if($sourceFormat == 'MARC' && $targetFormat == 'EDM'){
+                   $success = $this->generateMARCEDMFile($edmXMLFile, $sourceFilePath, $rulesFile);
+                }
+
             }
 
             $statusFile = $recordFile->filePath.'/status.txt';
@@ -351,6 +336,7 @@
             return $receipt;
         }
 
+        ////Lido Mapping: lido to edm
         function generateLIDOEDMFile($newXMLFile, $sourceFilePath, $rulesFile){
 
             $lidoMapping =  new lidoMapping();
@@ -364,7 +350,7 @@
             if (($handle = fopen($rulesFile, "r")) !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 
-                    $this->mappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
+                    $this->lidoMappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
                     $row++;
                 }
                 fclose($handle);
@@ -372,9 +358,8 @@
             return true;
         }
 
-
-        function mappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle){
-
+        ////Lido Mapping: parsing commands for lido mapping
+        function lidoMappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle){
             $lidoMapping =  new lidoMapping();
             switch(strtoupper($data[0])){
                 case 'COPY':
@@ -421,7 +406,7 @@
                    // $commandData = $this->newConditionParser($sourceFilePath, $conditionData);
                     ///***
                     $commandData = $this->conditionParser($sourceFilePath, $conditionData, 'LIDO');
-                    $this->mappingCommandParser($commandData, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
+                    $this->lidoMappingCommandParser($commandData, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
 
                     break;
 
@@ -430,71 +415,7 @@
             }
         }
 
-////////********
-    function newConditionParser($sourceFilePath, $conditionData){
-
-        $numberofLines = sizeof($conditionData);
-        for($i = 0; $i< $numberofLines; $i++){
-            $currentLine = $conditionData[$i];
-
-            $ifPosition = strpos($currentLine,'IF');
-            if($ifPosition !== false){
-                if($numberofLines == 1){
-//                    file_put_contents('C:/xampp/htdocs/euInside/files/dmttest45001.txt',' only if: '.$currentLine."\n",FILE_APPEND);
-                }
-                else{
-                    //one else
-                    $nextLine = $conditionData[$i+1];
-                    $elsePosition = strpos($nextLine,'ELSE');
-                    if($elsePosition !== false){
-                        if(strlen($nextLine)==4)
-                            file_put_contents('C:/xampp/htdocs/euInside/files/dmttest45001.txt',' if with one else: '.$conditionData[$i]."\n",FILE_APPEND);
-                        if(strlen($nextLine)>5)
-                            file_put_contents('C:/xampp/htdocs/euInside/files/dmttest45001.txt',' if with else and else has more: '.$conditionData[$i]."\n",FILE_APPEND);
-                    }
-                    //else has internal structure
-                }
-
-
-            }
-
-        }
-
-
-
- /*       $ifCondition = $conditionData[0];
-
-        $ifPosition = strpos($ifCondition,'IF');
-
-        if($ifPosition === false) return; //IF condition not found
-
-        $ifData = explode('DO', str_replace(array( '[', ']' ), '', substr($ifCondition, $ifPosition+2)));
-        $ifConditionPart = explode(',', $ifData[0]);
-        $ifDoPart = explode(',', str_replace(array( '(', ')' ), '', $ifData[1]));
-
-        $result = $this->conditionIF($sourceFilePath, $ifConditionPart);
-
-        if($result == 1){ //condition positive
-            return $ifDoPart;
-        }
-        elseif($result == 2 && isset($conditionData[1])){ //condition negative
-            $elseCondition = $conditionData[1];
-
-            $elsePosition = strpos($elseCondition,'ELSE');
-            $elseData = explode('DO', str_replace(array( '[', ']' ), '', substr($elseCondition, $elsePosition+4)));
-            //here support for nested IF ELSE can be extended
-            // $elseConditionPart = explode(',', $elseData[0]);//is not neeed for single ELSE condition (non nested)
-            $elseDoPart = explode(',', str_replace(array( '(', ')' ), '', $elseData[1]));
-
-            foreach($elseData as $dd)
-
-                return $elseDoPart;
-        }
-        else{
-        }*/
-    }
-///////*********
-
+        ////Mapping: parsing if condition
         function conditionParser($sourceFilePath, $conditionData, $format){     //for all formats
             $ifCondition = $conditionData[0];
             $ifPosition = strpos($ifCondition,'IF');
@@ -542,6 +463,7 @@
 
         }
 
+        ////Mapping: lido if conditions
         function conditionIFLIDO($sourceFilePath, $ifData){
             $lidoMapping =  new lidoMapping();
 
@@ -567,7 +489,186 @@
             return 0; //invalid condition type
         }
 
-		function removeDirectory($dir) {
+        function changeRequestStatus($filePaht, $status){
+            file_put_contents($filePaht, $status);
+
+        }
+
+        ////MARC Mapping: marc to edm
+        function generateMARCEDMFile($edmXMLFile, $sourceFilePath, $rulesFile){
+            $marcMapping =  new marcMapping();
+            $marcMapping->initEDMXML($edmXMLFile);
+
+            $this->normalizeRules($rulesFile);
+            $this->marcRecords = $marcMapping->getMarcRecords($sourceFilePath); //marc records
+
+            $row = 1;
+            if (($handle = fopen($rulesFile, "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    $this->marcMappingCommandParser($data, $sourceFilePath, $row, $handle);    //mapping rules
+                    $row++;
+                }
+                fclose($handle);
+            }
+            $domDoc = new DOMDocument();
+            $domDoc->load($edmXMLFile);
+
+			$edmRecords = array();
+			$t1 = round(microtime(true) * 1000);
+
+            foreach($this->marcRecords as $marcRecord){
+                $edmRecords [] = $marcMapping->edmRecord($marcRecord, $this->mappingCommands);
+            }
+
+			$t2 = round(microtime(true) * 1000);
+
+			foreach($edmRecords as $item)
+			{
+                    $marcMapping->writeEDMRecord($domDoc, $edmXMLFile, $item);
+			}
+			$t3 = round(microtime(true) * 1000);			
+            $domDoc->save($edmXMLFile);
+
+            $t4 = round(microtime(true) * 1000);
+            file_put_contents(realpath(dirname(__FILE__)).'/test/timelog3.txt', '1: '.(($t2-$t1)/1000)."s\n", FILE_APPEND);
+            file_put_contents(realpath(dirname(__FILE__)).'/test/timelog3.txt', '2: '.(($t3-$t2)/1000)."s\n", FILE_APPEND);
+            file_put_contents(realpath(dirname(__FILE__)).'/test/timelog3.txt', '3: '.(($t4-$t3)/1000)."s\n", FILE_APPEND);
+
+            return true;
+        }
+
+        ////Marc Mapping: parsing commands for marc mapping
+        function marcMappingCommandParser($data, $sourceFilePath, $row, $handle){
+            $mappingRule = new mappingRules();
+            switch(strtoupper($data[0])){
+                case 'COPY':
+                    $mappingRule->command = 'COPY';
+                    $mappingRule->marcElement = $data[1];
+                    $mappingRule->edmElement = $data[2];
+                    $mappingRule->fields = null;
+                    break;
+
+                case 'APPEND':
+                    $mappingRule->command = 'APPEND';
+                    $mappingRule->marcElement = $data[1];
+                    $mappingRule->edmElement = $data[3];
+                    $mappingRule->fields['appendtext'] = $data[2];
+                    break;
+
+                case 'SPLIT':
+                    $mappingRule->command = 'SPLIT';
+                    $mappingRule->marcElement = $data[1];
+                    $mappingRule->edmElement = $data[3];
+                    $mappingRule->fields['splitby'] = $data[2];
+                    break;
+
+                case 'COMBINE':
+                    $mappingRule->command = 'COMBINE';
+                    $mappingRule->marcElement = $data[1];
+                    $mappingRule->edmElement = $data[2];
+                    $mappingRule->fields = null;
+                    break;
+
+                case 'LIMIT':
+                    $mappingRule->command = 'LIMIT';
+                    $mappingRule->marcElement = $data[1];
+                    $mappingRule->edmElement = $data[3];
+                    $mappingRule->fields['limitto'] = $data[2];
+                    break;
+
+                case 'PUT':
+                    $mappingRule->command = 'PUT';
+                    $mappingRule->marcElement = null;
+                    $mappingRule->edmElement = $data[2];
+                    $mappingRule->fields['puttext'] = $data[1];
+                    break;
+
+                case 'REPLACE':
+                    $mappingRule->command = 'REPLACE';
+                    $mappingRule->marcElement = $data[1];
+                    $mappingRule->edmElement = $data[4];
+                    $mappingRule->fields['replace'] = $data[2];
+                    $mappingRule->fields['replaceby'] = $data[3];
+                    break;
+
+                case 'CONDITION':
+                    $conditionData = array();
+                    for($i=$row; $i<1000; $i++){
+                        $lineData = fgets($handle);
+                        if (strpos($lineData,"}")!== false)
+                            break;
+                        $conditionData[] = $lineData;
+                    }
+                    $commandData = $this->conditionParser($sourceFilePath, $conditionData, 'MARC');
+                    $this->marcMappingCommandParser($commandData, $sourceFilePath, $row, $handle);
+                    break;
+
+                default:
+                    break;
+            }
+
+            if(isset($mappingRule->command))
+                $this->mappingCommands[] = $mappingRule;
+            unset($mappingRule);
+
+        }
+
+        ////Mapping: lido if conditions
+        function conditionIFMARC($sourceFilePath, $ifData){
+            $marcMapping =  new marcMapping();
+            $conditionType = strtoupper($ifData[1]); //e.g EQUAL
+            $conditionValue =  $ifData[2];
+            $conditionValue =  trim(str_replace('||', ',', $conditionValue),'"');
+            $foundNodeValues = $marcMapping->nodeValue($sourceFilePath, $ifData[0]);
+            switch($conditionType){
+                case 'EQUALS':
+                    foreach ($foundNodeValues as $foundValue) {
+                        if($foundValue == $conditionValue)
+                            return 1;  //values are equal
+                    }
+                    return 2;//values are not equal
+                    break;
+            }
+            return 0; //invalid condition type
+        }
+
+        // Check request validity
+        function validRequest($path){
+            //There should be minimum 4 items in the GET request.
+            if (sizeof($path) == $this -> MINIMUM_PATH_ITEMS)
+                return true;
+            else
+                return false;
+        }
+
+        // Request Directory: creation
+        function dmtDirectory($fileContent, $fileName, $fileType, $title){
+            $filePath = dirname(__FILE__)."/files/".strtoupper($title).round(microtime(true) * 1000);
+            if (!file_exists($filePath)) {
+                mkdir($filePath);
+            }
+            $file = $filePath."/".$fileName;
+            file_put_contents($file, $fileContent);
+
+
+            $iFile = new DataFile();
+            $iFile->filePath = $filePath;
+            $iFile->fileName = $fileName;
+
+            $isZip = zip_open($file);
+            if (is_resource($isZip)) {
+                zip_close($isZip);
+                $iFile->fileType = "application/zip";
+            }else
+                $iFile->fileType = $fileType;
+
+            $this->changeRequestStatus($iFile->filePath.'/status',1);
+
+            return $iFile;
+        }
+
+        // Request Directory: deletion
+        function removeDirectory($dir) {
             $dir_content = scandir($dir);
             if($dir_content !== FALSE){
                 foreach ($dir_content as $entry)
@@ -584,108 +685,7 @@
                 }
             }
             rmdir($dir);
-		}
-
-        function changeRequestStatus($filePaht, $status){
-            file_put_contents($filePaht, $status);
-
         }
-
-
-    /****
-     * MARC Transformation
-     */
-    function generateMARCEDMFile($newXMLFile, $sourceFilePath, $rulesFile){
-        $marcMapping =  new marcMapping();
-
-        $marcMapping->initEDMXML($newXMLFile);
-        $edmRecordIds = $marcMapping->initEDMRecord($sourceFilePath, $newXMLFile);
-
-        $this->normalizeRules($rulesFile);
-
-        $row = 1;
-        if (($handle = fopen($rulesFile, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-
-                $this->marcMappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
-                $row++;
-            }
-            fclose($handle);
-        }
-        return true;
-    }
-
-    function marcMappingCommandParser($data, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle){
-        $marcMapping =  new marcMapping();
-        switch(strtoupper($data[0])){
-            case 'COPY':
-                $marcMapping->copyMapping($sourceFilePath, $data[1], $data[2], $newXMLFile, $edmRecordIds);
-                break;
-
-            case 'APPEND':
-                $marcMapping->appendMapping($sourceFilePath, $data[1], $data[3], $newXMLFile, $edmRecordIds, $data[2]);
-                break;
-
-            case 'SPLIT':
-                $marcMapping->splitMapping($sourceFilePath, $data[1], $data[3], $newXMLFile, $edmRecordIds, $data[2]);
-                break;
-
-            case 'COMBINE':
-                $marcMapping->combineMapping($sourceFilePath, $data[1], $data[2], $newXMLFile, $edmRecordIds);
-                break;
-
-            case 'LIMIT':
-                $marcMapping->limitMapping($sourceFilePath, $data[1], $data[3], $newXMLFile, $edmRecordIds, $data[2]);
-                break;
-
-            case 'PUT':
-                $marcMapping->putMapping($data[2], $newXMLFile, $edmRecordIds, $data[1]);
-                break;
-
-            case 'REPLACE':
-                $marcMapping->replaceMapping($sourceFilePath, $data[1], $data[4], $newXMLFile, $edmRecordIds, $data[2], $data[3]);
-                break;
-
-            case 'SKIP':        //do not add against skip
-                break;
-
-            case 'CONDITION':
-
-                $conditionData = array();
-                for($i=$row; $i<1000; $i++){
-                    $lineData = fgets($handle);
-                    if (strpos($lineData,"}")!== false)
-                        break;
-                    $conditionData[] = $lineData;
-                }
-                $commandData = $this->conditionParser($sourceFilePath, $conditionData, 'MARC');
-                $this->marcMappingCommandParser($commandData, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
-
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    function conditionIFMARC($sourceFilePath, $ifData){
-        $marcMapping =  new marcMapping();
-        $conditionType = strtoupper($ifData[1]); //e.g EQUAL
-        $conditionValue =  $ifData[2];
-        $conditionValue =  trim(str_replace('||', ',', $conditionValue),'"');
-        $foundNodeValues = $marcMapping->nodeValue($sourceFilePath, $ifData[0]);
-        switch($conditionType){
-            case 'EQUALS':
-                foreach ($foundNodeValues as $foundValue) {
-                    if($foundValue == $conditionValue)
-                        return 1;  //values are equal
-                }
-                return 2;//values are not equal
-                break;
-        }
-        return 0; //invalid condition type
-    }
-
 
 	}
 ?>
