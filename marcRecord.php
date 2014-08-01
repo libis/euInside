@@ -7,7 +7,7 @@
 class marcRecord {
     public $edm;
     public $leader;
-    public $dataField = [];
+    public $dataField = array();
     public $controlField;
     public $controlFieldTag;
 
