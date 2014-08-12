@@ -1,0 +1,37 @@
+COPY,marc001,dc:identifier
+COPY,marc035a,dc:identifier
+COPY,marc041a,dc:language
+COPY,marc340a,dcterms:medium
+COPY,marc340b,dcterms:extent
+COPY,marc243a,dcterms:alternative
+COPY,marc246a,dcterms:alternative
+COPY,marc250a,dcterms:alternative
+COMBINE,marc245a;marc245b,dc:title
+COPY,marc245c,dc:creator
+COPY,marc245h,dc:type
+COPY,marc260b,dc:publisher
+CONDITION,{
+IF[marc260a,NOT EQUALS,"",DO(APPEND,marc260a,dc:publisher)]
+}
+COPY,marc260f,dc:publisher
+CONDITION,{
+IF[marc260e,NOT EQUALS,"",DO(APPEND,marc260e,dc:publisher)]
+}
+COPY,marc260c,dcterms:issued
+COPY,marc260g,dcterms:created
+COMBINE,marc300a;marc300f,dcterms:extent
+COPY,marc300c,dcterms:extent
+COPY,marc655a,dc:type
+COPY,marc500a,dc:description
+COMBINE,marc773a;marc773g,dcterms:isPartOf
+COPY,marc653a,dc:subject
+COPY,marc600a,dc:subject
+COPY,marc610a,dc:subject
+COPY,marc700a,dc:contributor
+COPY,marc710a,dc:contributor
+COPY,marc711a,dc:contributor
+COPY,marc852a;marc852b,edm:dataProvider
+COPY,marc856u,edm:isShownBy
+COMBINE,marc506a;marc506d,dc:rights
+COMBINE,marc540a;marc540d,dc:rights
+PUT,"http://www.europeana.eu/rights/rr-f/",edm:rights
