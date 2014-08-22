@@ -135,6 +135,34 @@ class marcMapping {
                     }
                     break;
 
+                case 'PREPEND':
+                    $append_value = "";
+                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                    if(isset($value)){
+
+                        if(is_array($value)){
+                            foreach($value as $item){
+                                if(isset($rule->fields['appendtext'])){
+
+                                    $prpend_value = (strlen($rule->fields['appendtext']) > 0) ?
+                                        $rule->fields['appendtext'] . ' '.$item : $item;
+                                    $edmRecord->addRecordValue($rule->edmElement, $prpend_value, $rule->marcElement);
+                                    $recordEmpty = false;
+                                }
+                            }
+                        }
+                        else{
+                            if(isset($rule->fields['appendtext'])){
+
+                                $prpend_value = (strlen($rule->fields['appendtext']) > 0) ?
+                                    $rule->fields['appendtext'].' '. $value : $value;
+                                $edmRecord->addRecordValue($rule->edmElement, $prpend_value, $rule->marcElement);
+                                $recordEmpty = false;
+                            }
+                        }
+                    }
+                    break;
+
                 case 'SPLIT':
                     $value = $marcRecord->getValueByMarcCode($rule->marcElement);
                     $edmElements = explode(';', $rule->edmElement);
@@ -159,16 +187,26 @@ class marcMapping {
                     $marcElements = explode(';', $rule->marcElement);
                     $combinedValue = '';
                     $firstElement = true;
+
+                    $totalElements = sizeof($marcElements);
+                    $elementCounter = 0;
                     foreach($marcElements as $marcElement){
                         $value = $marcRecord->getValueByMarcCode($marcElement);
-                        if(isset($value[0])){
+                        if(isset($value[0]) && strlen($value[0])>0){
+                            if($elementCounter === $totalElements-1){
+                                $elementValue = $rule->fields['separatorstart']. $value[0]. $rule->fields['separatorend'];
+                            }
+                            else
+                                $elementValue = $value[0];
+
                             if($firstElement){
-                                $combinedValue = $value[0];
+                                $combinedValue = $elementValue;
                                 $firstElement = false;
                             }
                             else
-                                $combinedValue .=' '. $value[0];
+                                $combinedValue .=' '. $elementValue;
                         }
+                        $elementCounter++;
                     }
                     if(strlen($combinedValue) > 0){
                         $edmRecord->addRecordValue($rule->edmElement, $combinedValue, $rule->marcElement);
@@ -188,7 +226,6 @@ class marcMapping {
                     break;
 
                 case 'PUT':
-
                     if(isset($rule->fields['puttext']) && strlen($rule->fields['puttext']) > 0){
                         $valuetoPut = str_replace('||', ',', $rule->fields['puttext']);
                         $edmRecord->addRecordValue($rule->edmElement, $valuetoPut, $rule->marcElement);

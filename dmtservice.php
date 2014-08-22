@@ -530,9 +530,6 @@
             $domDoc->save($edmXMLFile);
 
             $t4 = round(microtime(true) * 1000);
-            file_put_contents(realpath(dirname(__FILE__)).'/test/timelog3.txt', '1: '.(($t2-$t1)/1000)."s\n", FILE_APPEND);
-            file_put_contents(realpath(dirname(__FILE__)).'/test/timelog3.txt', '2: '.(($t3-$t2)/1000)."s\n", FILE_APPEND);
-            file_put_contents(realpath(dirname(__FILE__)).'/test/timelog3.txt', '3: '.(($t4-$t3)/1000)."s\n", FILE_APPEND);
 
             return true;
         }
@@ -555,6 +552,13 @@
                     $mappingRule->fields['appendtext'] = $data[2];
                     break;
 
+                case 'PREPEND':
+                    $mappingRule->command = 'PREPEND';
+                    $mappingRule->marcElement = $data[2];
+                    $mappingRule->edmElement = $data[3];
+                    $mappingRule->fields['appendtext'] = $data[1];
+                    break;
+
                 case 'SPLIT':
                     $mappingRule->command = 'SPLIT';
                     $mappingRule->marcElement = $data[1];
@@ -564,9 +568,10 @@
 
                 case 'COMBINE':
                     $mappingRule->command = 'COMBINE';
-                    $mappingRule->marcElement = $data[1];
-                    $mappingRule->edmElement = $data[2];
-                    $mappingRule->fields = null;
+                    $mappingRule->marcElement = $data[2];
+                    $mappingRule->edmElement = $data[4];
+                    $mappingRule->fields['separatorstart'] = $data[1];
+                    $mappingRule->fields['separatorend']   = $data[3];
                     break;
 
                 case 'LIMIT':
