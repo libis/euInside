@@ -312,8 +312,6 @@
                 $edmXMLFileName = "Transformed_" .$fileName[0].".xml";
                 $edmXMLFile =  $recordFile->filePath."/".$edmXMLFileName;
 
-//                $edmXMLFile2 =  $recordFile->filePath."/nm".$edmXMLFileName;
-
                 $resultFile = $edmXMLFileName;
                 if($sourceFormat == 'LIDO' && $targetFormat == 'EDM')
                     $success = $this->generateLIDOEDMFile($edmXMLFile, $sourceFilePath, $rulesFile);
@@ -321,7 +319,6 @@
                 if($sourceFormat == 'MARC' && $targetFormat == 'EDM'){
                    $success = $this->generateMARCEDMFile($edmXMLFile, $sourceFilePath, $rulesFile);
                 }
-
             }
 
             $statusFile = $recordFile->filePath.'/status.txt';
@@ -394,7 +391,6 @@
                     break;
 
                 case 'CONDITION':
-
                     $conditionData = array();
                     for($i=$row; $i<1000; $i++){
                         $lineData = fgets($handle);
@@ -402,12 +398,8 @@
                             break;
                         $conditionData[] = $lineData;
                     }
-                    ///****
-                   // $commandData = $this->newConditionParser($sourceFilePath, $conditionData);
-                    ///***
                     $commandData = $this->conditionParser($sourceFilePath, $conditionData, 'LIDO');
                     $this->lidoMappingCommandParser($commandData, $sourceFilePath, $newXMLFile, $edmRecordIds, $row, $handle);
-
                     break;
 
                 default:
@@ -429,10 +421,6 @@
             switch($format){
                 case 'LIDO':
                     $result = $this->conditionIFLIDO($sourceFilePath, $ifConditionPart);
-                    break;
-
-                case 'MARC':
-                    $result = $this->conditionIFMARC($sourceFilePath, $ifConditionPart);
                     break;
 
                 default:
@@ -510,11 +498,13 @@
                 }
                 fclose($handle);
             }
+
             $domDoc = new DOMDocument();
             $domDoc->load($edmXMLFile);
 
 			$edmRecords = array();
 			$t1 = round(microtime(true) * 1000);
+
 
             foreach($this->marcRecords as $marcRecord){
                 $edmRecords [] = $marcMapping->edmRecord($marcRecord, $this->mappingCommands);
@@ -604,37 +594,18 @@
                             break;
                         $conditionData[] = $lineData;
                     }
-                    $commandData = $this->conditionParser($sourceFilePath, $conditionData, 'MARC');
-                    $this->marcMappingCommandParser($commandData, $sourceFilePath, $row, $handle);
+
+                    $mappingRule->command = 'CONDITION';
+                    $mappingRule->fields['conditions'] = $conditionData;
                     break;
 
                 default:
                     break;
             }
-
             if(isset($mappingRule->command))
                 $this->mappingCommands[] = $mappingRule;
             unset($mappingRule);
 
-        }
-
-        ////Mapping: lido if conditions
-        function conditionIFMARC($sourceFilePath, $ifData){
-            $marcMapping =  new marcMapping();
-            $conditionType = strtoupper($ifData[1]); //e.g EQUAL
-            $conditionValue =  $ifData[2];
-            $conditionValue =  trim(str_replace('||', ',', $conditionValue),'"');
-            $foundNodeValues = $marcMapping->nodeValue($sourceFilePath, $ifData[0]);
-            switch($conditionType){
-                case 'EQUALS':
-                    foreach ($foundNodeValues as $foundValue) {
-                        if($foundValue == $conditionValue)
-                            return 1;  //values are equal
-                    }
-                    return 2;//values are not equal
-                    break;
-            }
-            return 0; //invalid condition type
         }
 
         // Check request validity

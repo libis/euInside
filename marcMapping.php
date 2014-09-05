@@ -1,11 +1,9 @@
 <?php
-
 require_once("marcRecord.php");
 require_once("edmRecord.php");
 require_once("marcDataField.php");
 
 class marcMapping {
-    private $aggregatorEDMValues = array();
 
     function loadXML($xmlFile){     //old: LINKED WITH IF
         $dom = new DomDocument;
@@ -101,156 +99,288 @@ class marcMapping {
         foreach($mappingRules as $rule){
             $rule->edmElement = str_replace("\r\n",'', $rule->edmElement);
 
-            switch($rule->command){
-                case 'COPY':
-                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
-                    if(isset($value)){
-                        $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
-                        $recordEmpty = false;
-                    }
-                    break;
+            if($rule->command === 'CONDITION'){
+                if(isset($rule->fields['conditions']) && sizeof($rule->fields['conditions']) > 0){
+                    $elseCondition = isset($rule->fields['conditions'][1])? $rule->fields['conditions'][1] : null;
+                    $conditionRule = $this->conditionParser($marcRecord, $rule->fields['conditions'][0], $elseCondition);
+                    if(isset($conditionRule))
+                        $this->executeCommand($marcRecord, $edmRecord, $conditionRule, $recordEmpty);
+                }
+            }
+            $this->executeCommand($marcRecord, $edmRecord, $rule, $recordEmpty);
+        }
 
-                case 'APPEND':
-                    $append_value = "";
-                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
-                    if(isset($value)){
+        if(!$recordEmpty)
+            return $edmRecord;
+    }
 
-                        if(is_array($value)){
-                            foreach($value as $item){
-                                if(isset($rule->fields['appendtext'])){
-                                    $append_value = $item.' '.$rule->fields['appendtext'];
-                                    $edmRecord->addRecordValue($rule->edmElement, $append_value, $rule->marcElement);
-                                    $recordEmpty = false;
-                                }
-                            }
-                        }
-                        else{
+    function executeCommand($marcRecord, &$edmRecord, $rule, &$recordEmpty){
+        $rule->edmElement = str_replace("\r\n",'', $rule->edmElement);
+
+        switch($rule->command){
+            case 'COPY':
+                $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                if(isset($value)){
+                    $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
+                    $recordEmpty = false;
+                }
+                break;
+
+            case 'APPEND':
+                $append_value = "";
+                $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                if(isset($value)){
+
+                    if(is_array($value)){
+                        foreach($value as $item){
                             if(isset($rule->fields['appendtext'])){
-                                $append_value = $value.' '.$rule->fields['appendtext'];
+                                $append_value = $item.' '.$rule->fields['appendtext'];
                                 $edmRecord->addRecordValue($rule->edmElement, $append_value, $rule->marcElement);
                                 $recordEmpty = false;
                             }
                         }
-
                     }
-                    break;
-
-                case 'PREPEND':
-                    $append_value = "";
-                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
-                    if(isset($value)){
-
-                        if(is_array($value)){
-                            foreach($value as $item){
-                                if(isset($rule->fields['appendtext'])){
-
-                                    $prpend_value = (strlen($rule->fields['appendtext']) > 0) ?
-                                        $rule->fields['appendtext'] . ' '.$item : $item;
-                                    $edmRecord->addRecordValue($rule->edmElement, $prpend_value, $rule->marcElement);
-                                    $recordEmpty = false;
-                                }
-                            }
+                    else{
+                        if(isset($rule->fields['appendtext'])){
+                            $append_value = $value.' '.$rule->fields['appendtext'];
+                            $edmRecord->addRecordValue($rule->edmElement, $append_value, $rule->marcElement);
+                            $recordEmpty = false;
                         }
-                        else{
+                    }
+                }
+                break;
+
+            case 'PREPEND':
+                $append_value = "";
+                $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                if(isset($value)){
+
+                    if(is_array($value)){
+                        foreach($value as $item){
                             if(isset($rule->fields['appendtext'])){
 
                                 $prpend_value = (strlen($rule->fields['appendtext']) > 0) ?
-                                    $rule->fields['appendtext'].' '. $value : $value;
+                                    $rule->fields['appendtext'] . ' '.$item : $item;
                                 $edmRecord->addRecordValue($rule->edmElement, $prpend_value, $rule->marcElement);
                                 $recordEmpty = false;
                             }
                         }
                     }
-                    break;
+                    else{
+                        if(isset($rule->fields['appendtext'])){
 
-                case 'SPLIT':
-                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
-                    $edmElements = explode(';', $rule->edmElement);
-                    if(isset($value)){
-                        if(isset($rule->fields['splitby']) && strlen($rule->fields['splitby']) > 0)
-                            $splitBy = $rule->fields['splitby'];
+                            $prpend_value = (strlen($rule->fields['appendtext']) > 0) ?
+                                $rule->fields['appendtext'].' '. $value : $value;
+                            $edmRecord->addRecordValue($rule->edmElement, $prpend_value, $rule->marcElement);
+                            $recordEmpty = false;
+                        }
+                    }
+                }
+                break;
+
+            case 'SPLIT':
+                $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                $edmElements = explode(';', $rule->edmElement);
+                if(isset($value)){
+                    if(isset($rule->fields['splitby']) && strlen($rule->fields['splitby']) > 0)
+                        $splitBy = $rule->fields['splitby'];
+                    else
+                        $splitBy = ' ';
+                    $splitValue = explode($splitBy, $value);
+                    $counter = 0;
+                    foreach($splitValue as $item){
+                        if(isset($edmElements[$counter])){
+                            $edmRecord->addRecordValue($edmElements[$counter], $item, $rule->marcElement);
+                            $recordEmpty = false;
+                        }
+                        $counter++;
+                    }
+                }
+                break;
+
+            case 'COMBINE':
+                $marcElements = explode(';', $rule->marcElement);
+                $combinedValue = '';
+                $firstElement = true;
+
+                $totalElements = sizeof($marcElements);
+                $elementCounter = 0;
+                foreach($marcElements as $marcElement){
+                    $value = $marcRecord->getValueByMarcCode($marcElement);
+                    if(isset($value[0]) && strlen($value[0])>0){
+                        if($elementCounter === $totalElements-1){
+                            $elementValue = $rule->fields['separatorstart']. $value[0]. $rule->fields['separatorend'];
+                        }
                         else
-                            $splitBy = ' ';
-                        $splitValue = explode($splitBy, $value);
-                        $counter = 0;
-                        foreach($splitValue as $item){
-                            if(isset($edmElements[$counter])){
-                                $edmRecord->addRecordValue($edmElements[$counter], $item, $rule->marcElement);
-                                $recordEmpty = false;
-                            }
-                            $counter++;
+                            $elementValue = $value[0];
+
+                        if($firstElement){
+                            $combinedValue = $elementValue;
+                            $firstElement = false;
                         }
+                        else
+                            $combinedValue .=' '. $elementValue;
+                    }
+                    $elementCounter++;
+                }
+                if(strlen($combinedValue) > 0){
+                    $edmRecord->addRecordValue($rule->edmElement, $combinedValue, $rule->marcElement);
+                    $recordEmpty = false;
+                }
+                break;
+
+            case 'LIMIT':
+                $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                if(isset($value)){
+                    if(isset($rule->fields['limitto']) && is_numeric($rule->fields['limitto']))
+                        $value = substr($value, 0, $rule->fields['limitto']);
+
+                    $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
+                    $recordEmpty = false;
+                }
+                break;
+
+            case 'PUT':
+                if(isset($rule->fields['puttext']) && strlen($rule->fields['puttext']) > 0){
+                    $valuetoPut = str_replace('||', ',', $rule->fields['puttext']);
+                    $edmRecord->addRecordValue($rule->edmElement, $valuetoPut, $rule->marcElement);
+                    $recordEmpty = false;
+                }
+                break;
+
+            case 'REPLACE':
+                $value = $marcRecord->getValueByMarcCode($rule->marcElement);
+                if(isset($value)){
+                    if(isset($rule->fields['replace']) && isset($rule->fields['replaceby']))
+                        $value = str_replace($rule->fields['replace'], $rule->fields['replaceby'], $value);
+
+                    $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
+                    $recordEmpty = false;
+                }
+                break;
+        }//switch end
+    }
+
+    ////Mapping: parsing if condition
+    function conditionParser($marcRecord, $ifConditionData, $elseConditionData){     //for all formats
+
+        $ifCondition = $ifConditionData;
+        $ifPosition = strpos($ifCondition,'IF');
+        if($ifPosition === false) return; //IF condition not found
+
+        $ifData = explode('DO', str_replace(array( '[', ']' ), '', substr($ifCondition, $ifPosition+2)));
+        $ifConditionPart = explode(',', $ifData[0]);
+        $ifDoPart = str_replace(array( '(', ')' ), '', $ifData[1]);
+
+        $result = $this->conditionIfMarc($marcRecord, $ifConditionPart);
+        if(isset($result)){
+            switch($result){
+                case 1: //condition positive
+                    return $this->getMarcRule($ifDoPart);
+                    break;
+                case 2: //condition negative
+                    if(isset($elseConditionData)){
+                        $elseData = str_replace(array( 'ELSE[', ']' ), '', $elseConditionData);
+                        return $this->getMarcRule($elseData);
                     }
                     break;
-
-                case 'COMBINE':
-                    $marcElements = explode(';', $rule->marcElement);
-                    $combinedValue = '';
-                    $firstElement = true;
-
-                    $totalElements = sizeof($marcElements);
-                    $elementCounter = 0;
-                    foreach($marcElements as $marcElement){
-                        $value = $marcRecord->getValueByMarcCode($marcElement);
-                        if(isset($value[0]) && strlen($value[0])>0){
-                            if($elementCounter === $totalElements-1){
-                                $elementValue = $rule->fields['separatorstart']. $value[0]. $rule->fields['separatorend'];
-                            }
-                            else
-                                $elementValue = $value[0];
-
-                            if($firstElement){
-                                $combinedValue = $elementValue;
-                                $firstElement = false;
-                            }
-                            else
-                                $combinedValue .=' '. $elementValue;
-                        }
-                        $elementCounter++;
-                    }
-                    if(strlen($combinedValue) > 0){
-                        $edmRecord->addRecordValue($rule->edmElement, $combinedValue, $rule->marcElement);
-                        $recordEmpty = false;
-                    }
-                    break;
-
-                case 'LIMIT':
-                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
-                    if(isset($value)){
-                        if(isset($rule->fields['limitto']) && is_numeric($rule->fields['limitto']))
-                            $value = substr($value, 0, $rule->fields['limitto']);
-
-                        $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
-                        $recordEmpty = false;
-                    }
-                    break;
-
-                case 'PUT':
-                    if(isset($rule->fields['puttext']) && strlen($rule->fields['puttext']) > 0){
-                        $valuetoPut = str_replace('||', ',', $rule->fields['puttext']);
-                        $edmRecord->addRecordValue($rule->edmElement, $valuetoPut, $rule->marcElement);
-                        $recordEmpty = false;
-                    }
-                    break;
-
-                case 'REPLACE':
-                    $value = $marcRecord->getValueByMarcCode($rule->marcElement);
-                    if(isset($value)){
-                        if(isset($rule->fields['replace']) && isset($rule->fields['replaceby']))
-                            $value = str_replace($rule->fields['replace'], $rule->fields['replaceby'], $value);
-
-                        $edmRecord->addRecordValue($rule->edmElement, $value, $rule->marcElement);
-                        $recordEmpty = false;
-                    }
-                    break;
-
-
-
-            }//switch end
+            }
         }
+    }
 
-        if(!$recordEmpty)
-            return $edmRecord;
+    function getMarcRule($commandData){
+        $data = explode(',', $commandData);
+        $mappingRule = new mappingRules();
+        switch(strtoupper($data[0])){
+            case 'COPY':
+                $mappingRule->command = 'COPY';
+                $mappingRule->marcElement = $data[1];
+                $mappingRule->edmElement = $data[2];
+                $mappingRule->fields = null;
+                break;
+
+            case 'APPEND':
+                $mappingRule->command = 'APPEND';
+                $mappingRule->marcElement = $data[1];
+                $mappingRule->edmElement = $data[3];
+                $mappingRule->fields['appendtext'] = $data[2];
+                break;
+
+            case 'PREPEND':
+                $mappingRule->command = 'PREPEND';
+                $mappingRule->marcElement = $data[2];
+                $mappingRule->edmElement = $data[3];
+                $mappingRule->fields['appendtext'] = $data[1];
+                break;
+
+            case 'SPLIT':
+                $mappingRule->command = 'SPLIT';
+                $mappingRule->marcElement = $data[1];
+                $mappingRule->edmElement = $data[3];
+                $mappingRule->fields['splitby'] = $data[2];
+                break;
+
+            case 'COMBINE':
+                $mappingRule->command = 'COMBINE';
+                $mappingRule->marcElement = $data[2];
+                $mappingRule->edmElement = $data[4];
+                $mappingRule->fields['separatorstart'] = $data[1];
+                $mappingRule->fields['separatorend']   = $data[3];
+                break;
+
+            case 'LIMIT':
+                $mappingRule->command = 'LIMIT';
+                $mappingRule->marcElement = $data[1];
+                $mappingRule->edmElement = $data[3];
+                $mappingRule->fields['limitto'] = $data[2];
+                break;
+
+            case 'PUT':
+                $mappingRule->command = 'PUT';
+                $mappingRule->marcElement = null;
+                $mappingRule->edmElement = $data[2];
+                $mappingRule->fields['puttext'] = $data[1];
+                break;
+
+            case 'REPLACE':
+                $mappingRule->command = 'REPLACE';
+                $mappingRule->marcElement = $data[1];
+                $mappingRule->edmElement = $data[4];
+                $mappingRule->fields['replace'] = $data[2];
+                $mappingRule->fields['replaceby'] = $data[3];
+                break;
+            default:
+                break;
+        }
+        return $mappingRule;
+    }
+
+    function conditionIfMarc($marcRecord, $ifData){
+        $conditionType = strtoupper($ifData[1]); //e.g EQUAL
+        $conditionValue =  $ifData[2];
+        $conditionValue =  trim(str_replace('||', ',', $conditionValue),'"');
+
+        $elementVaule = $marcRecord->getValueByMarcCode($ifData[0]);
+        if(sizeof($elementVaule) > 0){
+            switch($conditionType){
+                case 'EQUALS':
+                    if(strcmp($conditionValue, $elementVaule[0]) == 0)
+                        return 1;  //values are equal, means condition positive
+                    else
+                        return 2;//values are not equal, condition not positive
+
+                    break;
+
+                case 'NOT EQUAL':
+                    if(strcmp($conditionValue, $elementVaule[0]) != 0)
+                        return 1;  //values are not equal, means condition positive
+                    else
+                        return 2;//values are not equal, condition not positive
+
+                    break;
+            }
+        }
+        return 0; //invalid condition type
     }
 
     function edmRecordId(){
@@ -342,8 +472,6 @@ class marcMapping {
         $rdfNode->appendChild($attXsi);
 
         return $rdfNode;
-
-
     }
 
     function writeEDMRecord($domDoc, $edmXMLFile, $edmRecord){
