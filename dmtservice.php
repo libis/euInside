@@ -3,6 +3,7 @@
     require_once("lidoMapping.php");
     require_once("marcMapping.php");
     require_once("mappingRules.php");
+    require_once("omekaMapping.php");
 
 	class service{
 		public $MINIMUM_PATH_ITEMS = 4;
@@ -113,6 +114,10 @@
 
                         case 'zip':
                             $resultFile -> fileType = 'application/zip';
+                            break;
+
+                        case 'json': 
+                            $resultFile -> fileType = 'application/json';
                             break;
 
                         case 'html': //only for test purposes
@@ -319,6 +324,12 @@
                 if($sourceFormat == 'MARC' && $targetFormat == 'EDM'){
                    $success = $this->generateMARCEDMFile($edmXMLFile, $sourceFilePath, $rulesFile);
                 }
+                if($sourceFormat == 'CAJSON' && $targetFormat == 'OMJSON'){
+                    $omekaMapping = new OmekaMapping();
+                    $resultFile = str_replace(".xml", ".json", $resultFile);
+                    file_put_contents(realpath(dirname(__FILE__)).'/test/omekamapping.txt',print_r($resultFile, true)."\n", FILE_APPEND);
+                    $success = $omekaMapping->generateOmekaRecords($sourceFilePath, $rulesFile, $resultFile);
+                }
             }
 
             $statusFile = $recordFile->filePath.'/status.txt';
@@ -504,7 +515,6 @@
 
 			$edmRecords = array();
 			$t1 = round(microtime(true) * 1000);
-
 
             foreach($this->marcRecords as $marcRecord){
                 $edmRecords [] = $marcMapping->edmRecord($marcRecord, $this->mappingCommands);
