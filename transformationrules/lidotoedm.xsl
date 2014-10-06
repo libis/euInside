@@ -130,7 +130,7 @@
         <xsl:attribute name="rdf:about">
           <xsl:for-each select="lido:lidoRecID">
             <xsl:if test="position() = 1">
-              <xsl:value-of select="concat($edm_providedCHO, $dataProvider,'/',.)"/>
+              <xsl:value-of select="concat($edm_providedCHO, encode-for-uri($dataProvider),'/',.)"/>
             </xsl:if>
           </xsl:for-each>
         </xsl:attribute>
@@ -1289,7 +1289,7 @@
         <xsl:attribute name="rdf:about">
           <xsl:for-each select="lido:lidoRecID">
             <xsl:if test="position() = 1">
-              <xsl:value-of select="concat($ore_Aggregation, $dataProvider,'/',.)"/>
+              <xsl:value-of select="concat($ore_Aggregation, encode-for-uri($dataProvider),'/',.)"/>
             </xsl:if>
           </xsl:for-each>
         </xsl:attribute>
@@ -1299,7 +1299,7 @@
           <xsl:attribute name="rdf:resource">
           <xsl:for-each select="lido:lidoRecID">
               <xsl:if test="position() = 1">
-              <xsl:value-of select="concat($edm_providedCHO, $dataProvider,'/',.)"/>
+              <xsl:value-of select="concat($edm_providedCHO, encode-for-uri($dataProvider),'/',.)"/>
               </xsl:if>
             </xsl:for-each>
           </xsl:attribute>
