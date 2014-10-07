@@ -1,4 +1,6 @@
 <?php
+	date_default_timezone_set("Europe/Brussels");
+	
     require_once('util/KLogger.php');
 	require_once("dmtservice.php");
 	require_once("util/dmtdatafiles.php");
