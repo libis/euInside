@@ -12,20 +12,13 @@ require_once("omekaRecord.php");
 class omekaMapping {
 
     public function generateOmekaRecords($sourceFile, $mappingRulesFile, $resultFile){
-        $mappingRulesFile = '/var/www/html/euInside_new/files/mappingrules.csv'; //TEMPORARY
-
         $pathInfo = pathinfo($sourceFile);
         $resultFile = $pathInfo['dirname'].'/'.$resultFile;
 
         $records = $this->getRecords($sourceFile);
         $mappingRules = $this->getMappingRules($mappingRulesFile);
         $mappeRecords = $this->mappRecords($records, $mappingRules);
-
-        file_put_contents($resultFile.'20', print_r( $records, true)."\r\n", FILE_APPEND);
-        file_put_contents($resultFile.'21', print_r( $mappingRules, true)."\r\n", FILE_APPEND);
-
         file_put_contents($resultFile, json_encode($mappeRecords));
-        file_put_contents('/var/www/html/euInside_new/files/tbr/tempoutputrecord.json', print_r( json_encode($mappeRecords), true)."\r\n", FILE_APPEND);
         return true;
     }
 
@@ -33,38 +26,60 @@ class omekaMapping {
         if(!isset($records,$mappingRules))
             return null;
         $mappedRecords = array();
-        //$counter = 0;
         foreach($records as $item){
-            //if($counter == 0)
-                $mappedRecords[] = $this->applyMappingRules($item, $mappingRules);
-            //$counter++;
+            $mappedRecords[] = $this->applyMappingRules($item, $mappingRules);
         }
         return $mappedRecords;
     }
 
     function applyMappingRules($record, $mappingRules){
         $omekaJsonRecord = new omekaRecord();
-        $omekaJsonRecord->public = true;
-        $omekaJsonRecord->featured = false;
-        $omekaJsonRecord->collection = null;
+
+        $noSourceValueCommands = array("PUT");                                       // rules which do not have source elements
+        $headerElements = array("public", "featured", "item_type", "collection");    // header elements e.g. featured, public
+
 
         foreach($mappingRules as $rule){
             $rule->omekaElement = str_replace("\r\n",'', $rule->omekaElement);
             $rule->caElement = str_replace("\r\n",'', $rule->caElement);
-            if(!array_key_exists($rule->caElement, $record))
+
+            if(!in_array($rule->command, $noSourceValueCommands) && !array_key_exists($rule->caElement, $record))
                 continue;
+
+            $isHeaderElement = false;
+            if(in_array($this->getTargetElement($rule->omekaElement), $headerElements))
+                $isHeaderElement = true;
 
             switch($rule->command){
                 case 'COPY':
                     $value = $record[$rule->caElement];
-                    $this->addElement($omekaJsonRecord, $value, $rule->omekaElement);
+                    $this->addElement($omekaJsonRecord, $value, $rule->omekaElement, $isHeaderElement);
                     break;
+
                 case 'APPEND':
+                    $value = $record[$rule->caElement];
+                    if(isset($rule->fields['appendtext']) && strlen($rule->fields['appendtext']) > 0){
+                        $valuetoAppend = $value.' '.$rule->fields['appendtext'];
+                        $this->addElement($omekaJsonRecord, $valuetoAppend, $rule->omekaElement, $isHeaderElement);
+                    }
+                    break;
+
                 case 'PREPEND':
+                    $value = $record[$rule->caElement];
+                    if(isset($rule->fields['appendtext']) && strlen($rule->fields['appendtext']) > 0){
+                        $valuetoPrepend = $rule->fields['appendtext'].' '.$value;
+                        $this->addElement($omekaJsonRecord, $valuetoPrepend, $rule->omekaElement, $isHeaderElement);
+                    }
+                    break;
                 case 'SPLIT':
                 case 'COMBINE':
                 case 'LIMIT':
                 case 'PUT':
+                    if(isset($rule->fields['puttext']) && strlen($rule->fields['puttext']) > 0){
+                        $valuetoPut = str_replace('||', ',', $rule->fields['puttext']);
+                        $this->addElement($omekaJsonRecord, $valuetoPut, $rule->omekaElement, $isHeaderElement);
+                    }
+                    break;
                 case 'REPLACE':
                     break;
             }
@@ -72,7 +87,36 @@ class omekaMapping {
         return $omekaJsonRecord;
     }
 
-    function addElement(&$omekaJsonRecord, $value, $omekaElement){
+    function getTargetElement($element){
+        $parts = explode("::",$element);
+        if(is_array($parts))
+            return end($parts);
+        else
+            return $element;
+    }
+
+    function addElement(&$omekaJsonRecord, $value, $omekaElement, $isHeaderElement){
+
+        if($isHeaderElement === true){
+            switch($this->getTargetElement($omekaElement)){
+                case 'public':
+                    $omekaJsonRecord->public = $value;
+                    break;
+
+                case 'featured':
+                    $omekaJsonRecord->featured = $value;
+                    break;
+
+                case 'item_type':
+                    $omekaJsonRecord->item_type = $value;
+                    break;
+
+                case 'collection';
+                    $omekaJsonRecord->collection = $value;
+                    break;
+            }
+            return;
+        }
         $valueToAdd = array();
         $isHtml = false;
         if(is_object($value)){  //an object

@@ -9,6 +9,7 @@ class omekaRecord {
     public $featured;
     public $added;
     public $modified;
+    public $item_type;
     public $collection;
     public $element_texts = array();
 } 
