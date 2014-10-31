@@ -27,10 +27,10 @@ class omekaMapping {
 
         $records = $this->getRecords($sourceFile);
         $mappingRules = $this->getMappingRules($mappingRulesFile);
-        $mappeRecords = $this->mappRecords($records, $mappingRules);
+        $mappedRecords = $this->mappRecords($records, $mappingRules);
 
         if(isset($mappedRecords) && sizeof($mappedRecords) > 0)
-            $omekaRecords = json_encode($mappeRecords);
+            $omekaRecords = json_encode($mappedRecords);
 
         file_put_contents($resultFile, $omekaRecords);
 
