@@ -254,7 +254,11 @@
             $rulesFile = $recordFile->filePath."/".$rulesFileName;
             file_put_contents($rulesFile, $rulesFileContent);
 
-            $this->normalizeRules($rulesFile);
+            /**
+             * Disabled normalizeRules. It caused problems while processing CONDITION command. Disable works fine for
+             * EDM mapping as well.
+            */
+			//$this->normalizeRules($rulesFile);
 
             $sourceFilePath = $recordFile->filePath."/".$recordFile->fileName;
 
