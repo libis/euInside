@@ -66,13 +66,8 @@ class omekaMapping {
             return null;
 
         $mappedRecords = array();
-
-        $counter = 0; //////**********ONLY ONE RECORD CHECK 0 1 2
         foreach($records as $item){
-            //if($counter == 3){
-                $mappedRecords[] = $this->applyMappingRules($item, $mappingRules);
-            //}
-
+			$mappedRecords[] = $this->applyMappingRules($item, $mappingRules);
             $counter++;
         }
         return $mappedRecords;

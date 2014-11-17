@@ -308,9 +308,9 @@ class marcMapping {
 
             case 'PREPEND':
                 $mappingRule->command = 'PREPEND';
-                $mappingRule->marcElement = $data[2];
+                $mappingRule->marcElement = $data[1];
                 $mappingRule->edmElement = $data[3];
-                $mappingRule->fields['appendtext'] = $data[1];
+                $mappingRule->fields['appendtext'] = $data[2];
                 break;
 
             case 'SPLIT':
