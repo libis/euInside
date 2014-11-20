@@ -331,7 +331,6 @@
                 if($sourceFormat == 'CAJSON' && $targetFormat == 'OMJSON'){
                     $omekaMapping = new OmekaMapping();
                     $resultFile = str_replace(".xml", ".json", $resultFile);
-                    file_put_contents(realpath(dirname(__FILE__)).'/test/omekamapping.txt',print_r($resultFile, true)."\n", FILE_APPEND);
                     $success = $omekaMapping->generateOmekaRecords($sourceFilePath, $rulesFile, $resultFile);
                 }
             }

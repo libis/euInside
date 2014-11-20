@@ -38,7 +38,6 @@
                 $sourceFormat = strtoupper($_POST['sourceFormat']);
                 $targetFormat = strtoupper($_POST['targetFormat']);
                 //Currently transformation only to EDM is possible, for othr transformations code needs to be modified
-                $targetFormat = 'EDM';
 
                 $contentRecord = "";
                 $nameRecord = "";
