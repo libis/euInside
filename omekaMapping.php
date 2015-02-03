@@ -87,7 +87,7 @@ class omekaMapping {
         $noSourceValueCommands = array("PUT", "COMBINE", "CONDITION");
 
         /** Header elements e.g. featured, public. */
-        $headerElements = array("public", "featured", "item_type", "collection");
+        $headerElements = array("public", "featured", "item_type", "collection", "tags");
 
         foreach($mappingRules as $rule){
             $rule->omekaElement = str_replace("\r\n",'', $rule->omekaElement);
@@ -292,6 +292,10 @@ class omekaMapping {
                 case 'collection';
                     $omekaJsonRecord->collection = $value;
                     break;
+
+                case 'tags';
+                    $omekaJsonRecord->tags = $value;
+                    break;					
             }
             return;
         }
