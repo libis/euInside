@@ -300,7 +300,7 @@ class omekaMapping {
             return;
         }
         $valueToAdd = array();
-        $isHtml = false;
+        $isHtml = true;
 
         if(is_object($value)){  /** An object. */
             $objectValue = $this->objToArray($value);
