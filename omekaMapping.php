@@ -167,6 +167,10 @@ class omekaMapping {
                         $splitBy = $rule->fields['splitby'];
                     else
                         $splitBy = ' ';
+						
+                    // Convert html codes to html characters, and encode before splitting.
+                    $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5);
+					
                     $splitValues = explode($splitBy, $value);
 
                     $omekaElements = explode(';', $rule->omekaElement);
