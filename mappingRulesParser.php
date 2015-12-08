@@ -38,6 +38,13 @@ class mappingRulesParser {
                 $mappingRule->fields['splitby'] = $data[2];
                 break;
 
+            case 'SPLITTOONE':
+                $mappingRule->command = 'SPLITTOONE';
+                $mappingRule->caElement = $data[1];
+                $mappingRule->omekaElement = $data[3];
+                $mappingRule->fields['splitby'] = $data[2];
+                break;
+
             case 'COMBINE':
                 $mappingRule->command = 'COMBINE';
                 $mappingRule->caElement = $data[2];

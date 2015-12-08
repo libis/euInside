@@ -184,6 +184,24 @@ class omekaMapping {
                 }
                 break;
 
+            /** Splits provided value and assigns all splited parts to one field repeatedly. */
+            case 'SPLITTOONE':
+                if(array_key_exists($rule->caElement, $record))
+                    $value = $record[$rule->caElement];
+                if(isset($value)){
+                    if(isset($rule->fields['splitby']) && strlen($rule->fields['splitby']) > 0)
+                        $splitBy = $rule->fields['splitby'];
+                    else
+                        $splitBy = ' ';
+
+                    $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5);
+                    $splitValues = explode($splitBy, $value);
+                    foreach($splitValues as $item){
+                        $this->addElement($omekaJsonRecord, $item, $rule->omekaElement, $isHeaderElement);
+                    }
+                }
+                break;				
+				
             /** Combines values of multiple source fields and assigns it to the target field. */
             case 'COMBINE':
                 $caElements = explode(';', $rule->caElement);
