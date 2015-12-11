@@ -202,6 +202,24 @@ class omekaMapping {
                 }
                 break;				
 				
+            /** Custom command for babtekst to nabucco data sync. Purpose of this command is to get year from the
+             * julianDate field. The value of this field may have differnet formats, however the most common format is:
+             * 31/07/441 BCE. This command should extract 441 from this example value.
+             */
+            case 'GETDATE':
+                if(array_key_exists($rule->caElement, $record))
+                    $value = $record[$rule->caElement];
+
+                $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5);
+
+                // remove the era value (which is at the end of the given value) from the date, in this case remove BCE
+                $value = current(explode(' ', $value));
+                // split based on "/" and get the last value, which should be the required value
+                $value = end(explode("/", $value));
+
+                $this->addElement($omekaJsonRecord, $value, $rule->omekaElement, $isHeaderElement);
+                break;
+				
             /** Combines values of multiple source fields and assigns it to the target field. */
             case 'COMBINE':
                 $caElements = explode(';', $rule->caElement);
