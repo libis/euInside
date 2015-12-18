@@ -45,13 +45,20 @@ class mappingRulesParser {
                 $mappingRule->fields['splitby'] = $data[2];
                 break;
 
+            case 'SPLITTOONEINTERSTITIAL':
+                $mappingRule->command = 'SPLITTOONEINTERSTITIAL';
+                $mappingRule->caElement = $data[1];
+                $mappingRule->omekaElement = $data[3];
+                $mappingRule->fields['splitby'] = $data[2];
+                break;
+
             case 'GETDATE':
                 $mappingRule->command = 'GETDATE';
                 $mappingRule->caElement = $data[1];
                 $mappingRule->omekaElement = $data[2];
                 $mappingRule->fields = null;
                 break;
-				
+
             case 'COMBINE':
                 $mappingRule->command = 'COMBINE';
                 $mappingRule->caElement = $data[2];

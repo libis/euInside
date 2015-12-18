@@ -202,6 +202,37 @@ class omekaMapping {
                 }
                 break;				
 				
+            /** Splits interstitial values and assigns all splited parts to one field repeatedly. Each interstitial value
+             * is a group of subvalues. This command is specifically designed for babtekst nabucco data sync
+             * Example input value: 2296:Buyers$:Debtors$:Adoptive parent$7833:Donors$7836:$91:$7851:Apprentices$:Beneficiaries$:Bride's agents
+             * Required output values:
+             *  2296:Buyers, Debtors, Adoptive parent
+             *  7833:Donors
+             *  7836:
+             *  7851:Apprentices, Beneficiaries, Bride's agents
+             *
+             *  To achieve this following two steps are needed:
+             *  Step1: replace '$:' with ','
+             *  Step2: split by '$' (this delimiter is provided with the command).
+             */
+            case 'SPLITTOONEINTERSTITIAL':
+                if(array_key_exists($rule->caElement, $record))
+                    $value = $record[$rule->caElement];
+                if(isset($value)){
+                    $value = str_replace('$:',',',$value);  //Step1: replace '$:' with ','
+                    if(isset($rule->fields['splitby']) && strlen($rule->fields['splitby']) > 0)
+                        $splitBy = $rule->fields['splitby'];
+                    else
+                        $splitBy = ' ';
+
+                    $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5);
+                    $splitValues = explode($splitBy, $value);   //Step2: split by '$'
+                    foreach($splitValues as $item){
+                        $this->addElement($omekaJsonRecord, $item, $rule->omekaElement, $isHeaderElement);
+                    }
+                }
+                break;
+				
             /** Custom command for babtekst to nabucco data sync. Purpose of this command is to get year from the
              * julianDate field. The value of this field may have differnet formats, however the most common format is:
              * 31/07/441 BCE. This command should extract 441 from this example value.
