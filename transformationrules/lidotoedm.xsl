@@ -1364,10 +1364,8 @@
 
 		<!-- edm:isShownBy : lido:resourceRepresentation / @lido:type=image_master or empty -->        
         <xsl:for-each select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet">
-        	<xsl:if test="position() = 1">
 		<xsl:for-each select="lido:resourceRepresentation[not(@lido:type='image_thumb') or not(@lido:type)]/lido:linkResource[starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'http://') or starts-with(normalize-space(replace(., '%0A|%0D|%A0|%09', '')), 'https://')]">
-			<xsl:if test="position() =count(../../lido:resourceRepresentation[not(@lido:type='image_thumb') or not(@lido:type)])">
-			
+			<xsl:if test="position() = 1">
 			<edm:isShownBy>
 				<xsl:attribute name="rdf:resource">
 					<xsl:value-of select="normalize-space(replace(., '%0A|%0D|%A0|%09', ''))"/>
@@ -1375,7 +1373,6 @@
 			</edm:isShownBy>
 			</xsl:if>
 		</xsl:for-each>
-		</xsl:if>
        </xsl:for-each>
        <!-- edm:isShownBy -->          
 
