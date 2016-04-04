@@ -167,16 +167,19 @@ class omekaMapping {
                         $splitBy = $rule->fields['splitby'];
                     else
                         $splitBy = ' ';
-						
-                    // Convert html codes to html characters, and encode before splitting.
+
+                    //libis_start
+           	    // Convert html codes to html characters.
                     $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5);
-					
+                    //libis_end
+
                     $splitValues = explode($splitBy, $value);
 
                     $omekaElements = explode(';', $rule->omekaElement);
                     $counter = 0;
                     foreach($splitValues as $item){
                         if(isset($omekaElements[$counter])){
+
                             $this->addElement($omekaJsonRecord, $item, $omekaElements[$counter], $isHeaderElement);
                         }
                         $counter++;
@@ -196,12 +199,13 @@ class omekaMapping {
 
                     $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5);
                     $splitValues = explode($splitBy, $value);
+
                     foreach($splitValues as $item){
                         $this->addElement($omekaJsonRecord, $item, $rule->omekaElement, $isHeaderElement);
                     }
                 }
-                break;				
-				
+                break;
+
             /** Splits interstitial values and assigns all splited parts to one field repeatedly. Each interstitial value
              * is a group of subvalues. This command is specifically designed for babtekst nabucco data sync
              * Example input value: 2296:Buyers$:Debtors$:Adoptive parent$7833:Donors$7836:$91:$7851:Apprentices$:Beneficiaries$:Bride's agents
@@ -232,7 +236,7 @@ class omekaMapping {
                     }
                 }
                 break;
-				
+
             /** Custom command for babtekst to nabucco data sync. Purpose of this command is to get year from the
              * julianDate field. The value of this field may have differnet formats, however the most common format is:
              * 31/07/441 BCE. This command should extract 441 from this example value.
@@ -250,7 +254,7 @@ class omekaMapping {
 
                 $this->addElement($omekaJsonRecord, $value, $rule->omekaElement, $isHeaderElement);
                 break;
-				
+
             /** Combines values of multiple source fields and assigns it to the target field. */
             case 'COMBINE':
                 $caElements = explode(';', $rule->caElement);
@@ -366,11 +370,12 @@ class omekaMapping {
 
                 case 'tags';
                     $omekaJsonRecord->tags = $value;
-                    break;					
+                    break;
             }
             return;
         }
         $valueToAdd = array();
+        //$isHtml = false;
         $isHtml = true;
 
         if(is_object($value)){  /** An object. */

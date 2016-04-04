@@ -11,6 +11,6 @@ class omekaRecord {
     public $modified;
     public $item_type;
     public $collection;
-	public $tags;
+    public $tags;
     public $element_texts = array();
 } 

@@ -258,7 +258,7 @@
              * Disabled normalizeRules. It caused problems while processing CONDITION command. Disable works fine for
              * EDM mapping as well.
             */
-			//$this->normalizeRules($rulesFile);
+	    //$this->normalizeRules($rulesFile);
 
             $sourceFilePath = $recordFile->filePath."/".$recordFile->fileName;
 
@@ -332,6 +332,7 @@
                     $omekaMapping = new OmekaMapping();
                     $resultFile = str_replace(".xml", ".json", $resultFile);
                     $success = $omekaMapping->generateOmekaRecords($sourceFilePath, $rulesFile, $resultFile);
+
                 }
             }
 
@@ -632,6 +633,9 @@
 
         // Request Directory: creation
         function dmtDirectory($fileContent, $fileName, $fileType, $title){
+            file_put_contents("tmp/datafile2.txt", print_r($fileName, true)."\r\n", FILE_APPEND);
+            file_put_contents("tmp/datafile2.txt", print_r($fileType, true)."\r\n", FILE_APPEND);
+            file_put_contents("tmp/datafile2.txt", print_r($title, true)."\r\n", FILE_APPEND);
             $filePath = dirname(__FILE__)."/files/".strtoupper($title).round(microtime(true) * 1000);
             if (!file_exists($filePath)) {
                 mkdir($filePath);
